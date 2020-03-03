@@ -1,16 +1,71 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
   <title>Datastore and Firebase Auth Example</title>
   <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  		<!-- <a class="navbar-brand" href="#">Splash</a>
+  		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+   			 <span class="navbar-toggler-icon"></span>
+  		</button>
 
-  <h1>Datastore and Firebase Auth Example</h1>
+  		<a class="navbar-brand" href="#">Test</a>
+  		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+   			 <span class="navbar-toggler-icon"></span>
+  		</button> -->
 
-  <h2>Last 10 visits</h2>
-  {% for time in times %}    <p>{{ time }}</p>
-  {% endfor %}
+  		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+    	<ul class="navbar-nav mr-auto">
+     		<li class="nav-item active">
+        		<a class="nav-link" href="#">Splash<span class="sr-only">(current)</span></a>
+      		</li>
+      		<li class="nav-item">
+       			<a class="nav-link" href="#">Years</a>
+     		</li>
+     		<li class="nav-item">
+       			<a class="nav-link" href="#">Awards</a>
+     		</li>
+     		<li class="nav-item">
+       			<a class="nav-link" href="#">People</a>
+     		</li>
+     		<li class="nav-item">
+       			<a class="nav-link" href="#">Movies</a>
+     		</li>
+     		<li class="nav-item">
+       			<a class="nav-link" href="#">About</a>
+     		</li>
+	        <!-- <li class="nav-item dropdown">
+		        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		          Dropdown
+		        </a>
+		        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+		          <a class="dropdown-item" href="#">Action</a>
+		          <a class="dropdown-item" href="#">Another action</a>
+		          <div class="dropdown-divider"></div>
+		          <a class="dropdown-item" href="#">Something else here</a>
+		        </div>
+	        </li> 
+	        <li class="nav-item">
+	        	<a class="nav-link disabled" href="#">Disabled</a>
+	        </li> -->
+    	</ul> 
+	    <!-- SEARCH BAR
+	    <form class="form-inline my-2 my-lg-0">
+	      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+	      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+	    </form>  -->
+  		</div>
+	</nav>
+	<center>
+		<img src="{{ url_for('static', filename='oscars_logo.png') }}" alt="OSCARS LOGO" width="770" height="443" class="center">
+		<p>
+			Welcome to our 
+oscar		<!-- <img src="/Users/natashalong/Documents/EE461L/EE461L-DatabaseApp/DATABASE_ENGINE/static/oscars_logo.png" alt="OSCARS LOGO" /> -->
+	</center>
+  
 </body>
 </html>
