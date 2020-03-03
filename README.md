@@ -2,21 +2,21 @@
 
 ## Team Members
 * ### Sahil Ashar
-  EID:
+  EID: ssa2324
   <br/>
   Github ID: SahilAshar
 * ### Austin Blanchard
-  EID:
+  EID: aab3958
   <br/>
-  Github ID:
+  Github ID: ablanchard10
 * ### Noah Lisk
   EID:
   <br/>
   Github ID:
 * ### Natasha Long
-  EID:
+  EID: npl326
   <br/>
-  Github ID:
+  Github ID: natashalong
 * ### Carolyn Sheehy
   EID: ces3988
   <br/>
