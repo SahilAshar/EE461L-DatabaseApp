@@ -1,4 +1,8 @@
 # EE461L-DatabaseApp
 
-
-hello world!
+Sahil Ashar
+*EID:
+Austin Blanchard
+Noah Lisk
+Natasha Long
+Carolyn Sheehy
