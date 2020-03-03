@@ -1,8 +1,8 @@
 # EE461L-DatabaseApp
 
 Sahil Ashar
-*EID:
-*Github ID
+  *EID:
+  *Github ID
 Austin Blanchard
 *EID:
 *Github ID
