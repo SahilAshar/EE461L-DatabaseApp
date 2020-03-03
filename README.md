@@ -10,9 +10,9 @@
   <br/>
   Github ID: ablanchard10
 * ### Noah Lisk
-  EID:
+  EID: nrl544
   <br/>
-  Github ID:
+  Github ID: noahlisk
 * ### Natasha Long
   EID: npl326
   <br/>
