@@ -22,49 +22,79 @@
     .example{
       background-color: black;
     }
-      
   </style>
 
 </head>
 <body>
-  <div id="outer">
-    <div>
-      <nav class="navbar navbar-expand-lg">
+  <nav class="navbar navbar-expand-lg">
 
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
-                <a class="nav-link" href="#">Splash<span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="../years">Years</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Awards</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">People</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Movies</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">About</a>
-              </li>
-            </ul> 
-          </div>
-      </nav>
+    <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#supportedContent" aria-controls="supportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="supportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Splash<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Years</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Awards</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">People</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Movies</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">About</a>
+        </li>
+      </ul> 
     </div>
-    <div class="example">
+  </nav>
+    <!-- <div class="example">
       <center>
-        <!-- <img src="{{ url_for('static', filename='oscars_logo.png') }}" alt="OSCARS LOGO" width="770" height="443" class="center"> -->		
+        <img src="{{ url_for('static', filename='oscars_logo.png') }}" alt="OSCARS LOGO" width="770" height="443" class="center"> 
         <img src="C:\Users\klin2\git\EE461L-DatabaseApp\DATABASE_ENGINE\static\oscars_logo_dark.png" alt="OSCARS LOGO" />
           <p class="introduction">
             Welcome to our oscars page!
           </p>
       </center>
+    </div> -->
+
+    <!-- <img src="\Users\natashalong\Documents\EE461L\EE461L-DatabaseApp\DATABASE_ENGINE\static\oscars_logo_dark.png" class="rounded mx-auto d-block" alt="OSCARS LOGO"> 
+
+    <div class="d-flex justify-content-center">
+      <img src="\Users\natashalong\Documents\EE461L\EE461L-DatabaseApp\DATABASE_ENGINE\static\oscars_logo_dark.png" alt="OSCARS LOGO">
     </div>
+-->
+    <p style="text-align: center;">
+      <img src="\Users\natashalong\Documents\EE461L\EE461L-DatabaseApp\DATABASE_ENGINE\static\oscars_logo_dark.png" alt="OSCARS LOGO">
+      <p style="text-align: center;">Welcome to our oscars page!</p>
+            
+          
+    </p>
+<!--
+     <div class="container">
+      <div class="row" id="mainContent" style="text-align: center;">
+        Side column 
+        <img src="C:\Users\klin2\git\EE461L-DatabaseApp\DATABASE_ENGINE\static\oscars_logo_dark.png" alt="OSCARS LOGO" />
+          <img src="\Users\natashalong\Documents\EE461L\EE461L-DatabaseApp\DATABASE_ENGINE\static\oscars_logo_dark.png" />
+          <p class="introduction">
+            Welcome to our oscars page!
+          </p>
+
+        </div>
+      </div>
+    </div> -->
   </div>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   
 </body>
 </html>

@@ -2,5 +2,24 @@ body {
 	background-color: #000000;
     font-family: "helvetica", sans-serif;
     text-align: center;
-  }
+}
+.navbar.navbar-expand-lg{
+  background-color: #0E0E0C ; 
+}
+.nav-link{
+  color: #C2A84A ;
+}
+.introduction{
+  color: #C2A84A ;
+}
+.page-title{
+  color:#C2A84A;
+  font-family: Arial, narrow;
+  text-align: center;
+  font-size: 100px;
+  font-weight: 100;
+}
+#year-num{
+  color: white;
+}
   

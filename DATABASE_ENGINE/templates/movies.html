@@ -55,7 +55,7 @@
         <a class="nav-link" href="#">Splash</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Years<span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="#">Years</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">Awards</a>
@@ -64,7 +64,7 @@
         <a class="nav-link" href="#">People</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Movies</a>
+        <a class="nav-link" href="#">Movies<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">About</a>
@@ -76,21 +76,15 @@
 <body>
   
   <div>
-    <p class="page-title">YEARS</p>
+    <p class="page-title">MOVIES</p>
   </div>
   <div class="container">
     <div class="row">
       <div class="col-md-2" id="heading">
         <!-- is the reference to year obj correct? or should it be post['']
           do we need to create more columns or does flask?-->
-        <img id="year-pic"> {{year['pic']}} </img>
-        <p id="year-num"> {{year['num']}}</p>
-      </div>
-      <div class="col-md-2" style="text-align: center;">
-        <p id="year-num">1995</p>
-      </div>
-      <div class="col-md-2" style="text-align: center;">
-        <p id="year-num">1996</p>
+        <img id="movie-pic"> {{movie['pic']}} </img>
+        <p id="movie-title"> {{movie['title']}}</p>
       </div>
     </div>
   </div>
