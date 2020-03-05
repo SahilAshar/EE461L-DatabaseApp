@@ -3,3 +3,4 @@ __pycache__/
 DATABASE_ENV
 .vscode
 .settings
+.project
