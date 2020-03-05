@@ -43,7 +43,7 @@ def year_root(year=None):
         datetime.datetime(2018, 1, 3, 11, 0, 0),
     ]
 
-    return render_template("index.html", times=dummy_times)
+    return render_template("years.html", year=dummy_times)
 
 
 @app.route("/awards/")
@@ -57,7 +57,7 @@ def award_root():
         datetime.datetime(2018, 1, 3, 11, 0, 0),
     ]
 
-    return render_template("index.html", times=dummy_times)
+    return render_template("awards.html", awards=dummy_times)
 
 
 @app.route("/people/")
@@ -71,7 +71,7 @@ def people_root():
         datetime.datetime(2018, 1, 3, 11, 0, 0),
     ]
 
-    return render_template("index.html", times=dummy_times)
+    return render_template("people.html", people=None)
 
 
 @app.route("/movies/")
@@ -85,7 +85,7 @@ def movies_root():
         datetime.datetime(2018, 1, 3, 11, 0, 0),
     ]
 
-    return render_template("index.html", times=dummy_times)
+    return render_template("movies.html", movie=dummy_times)
 
 
 if __name__ == "__main__":
