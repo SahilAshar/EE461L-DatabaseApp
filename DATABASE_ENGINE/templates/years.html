@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+ 
+    <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+   <!-- local stylesheeht reference -->
+  <link rel="stylesheet" href="../static/style.css" />
+  <!-- <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
+</head>
+
+<body>
+  
+  <nav class="navbar navbar-expand-lg">
+  <a class="navbar-brand" href="#">
+    <img src="C:\Users\klin2\git\EE461L-DatabaseApp\DATABASE_ENGINE\static\oscars_logo_transparent_2.png" alt="OSCARS LOGO" width="120" height="70"/>
+      <!-- <img src="{{ url_for('static', filename='oscars_logo.png') }}" alt="OSCARS LOGO" width="770" height="443" class="center"> -->
+  </a>
+
+  <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#supportedContent" aria-controls="supportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="supportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Splash</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Years<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Awards</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">People</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Movies</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">About</a>
+      </li>
+    </ul> 
+  </div>
+  </nav>
+  <div>
+    <p class="page-title-gold">YEARS</p>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2" id="heading">
+        <!-- is the reference to year obj correct? or should it be post['']
+          do we need to create more columns or does flask?-->
+        <img id="year-pic"> {{year['pic']}} </img>
+        <p id="year-num"> {{year['num']}}</p>
+      </div>
+      <div class="col-md-2" style="text-align: center;">
+        <p id="year-num">1995</p>
+      </div>
+      <div class="col-md-2" style="text-align: center;">
+        <p id="year-num">1996</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  
+</body>
+</html>

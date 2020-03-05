@@ -1,6 +1,67 @@
-body {
-	background-color: #000000;
-    font-family: "helvetica", sans-serif;
-    text-align: center;
-  }
-  
+
+.navbar.navbar-expand-lg{
+  background-color: #0E0E0C ; 
+}
+.nav-link{
+  color: #D5AD6D; /*if no support for background-clip*/
+  background: -webkit-linear-gradient(transparent, transparent),
+  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+  background: -o-linear-gradient(transparent, transparent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 25px;
+  font-weight: normal;
+  text-transform: uppercase;
+}
+.introduction{
+  color: #C2A84A ;
+}
+body{
+  background-color: black;
+}
+#year-num{
+  color: white;
+}
+.row{
+  background-color: black;
+}
+.page-title-gold {
+  color: #D5AD6D; /*if no support for background-clip*/
+  background: -webkit-linear-gradient(transparent, transparent),
+  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+  background: -o-linear-gradient(transparent, transparent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  font-size: 150px;
+  font-weight: 100;
+  text-transform: uppercase;
+}
+
+.listings{
+  text-align: center;
+}
+
+#award-attribute{
+  color: #D5AD6D; /*if no support for background-clip*/
+  background: -webkit-linear-gradient(transparent, transparent),
+  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+  background: -o-linear-gradient(transparent, transparent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 25px;
+  font-weight: normal;
+  text-transform: uppercase;
+}
+#oscars-title{
+  color: #D5AD6D; /*if no support for background-clip*/
+  background: -webkit-linear-gradient(transparent, transparent),
+  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+  background: -o-linear-gradient(transparent, transparent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  font-size: 300px;
+  font-weight: 100;
+  text-transform: uppercase;
+}
