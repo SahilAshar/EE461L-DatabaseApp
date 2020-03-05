@@ -1,62 +1,74 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Datastore and Firebase Auth Example</title>
   <script src="{{ url_for('static', filename='script.js') }}"></script>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <!-- local stylesheeht reference -->
   <link rel="stylesheet" href="../static/style.css" />
   <!-- <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
 
   <style>
-  body{
-    background-image: url('../static/giphy.gif');
-    background-size: cover;
-  }
+    body {
+      background-image: url('../static/giphy.gif');
+      background-size: cover;
+    }
   </style>
 </head>
+
 <body>
 
   <nav class="navbar navbar-expand-lg">
 
-    <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#supportedContent" aria-controls="supportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#supportedContent"
+      aria-controls="supportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="supportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="#">Splash<span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="{{ url_for('root') }}">Splash<span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Years</a>
+          <a class="nav-link" href="{{ url_for('year_root') }}">Years</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Awards</a>
+          <a class="nav-link" href="{{ url_for('award_root') }}">Awards</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">People</a>
+          <a class="nav-link" href="{{ url_for('people_root') }}">People</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Movies</a>
+          <a class="nav-link" href="{{ url_for('movies_root') }}">Movies</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">About</a>
+          <a class="nav-link" href="{{ url_for('about') }}">About</a>
         </li>
-      </ul> 
+      </ul>
     </div>
   </nav>
   <!-- <img src="C:\Users\klin2\git\EE461L-DatabaseApp\DATABASE_ENGINE\static\giphy.gif" alt="OSCARS LOGO" width="120" height="70"/> -->
-    <p style="text-align: center;">
-      <!-- <img src="\Users\natashalong\Documents\EE461L\EE461L-DatabaseApp\DATABASE_ENGINE\static\oscars_logo_dark.png" alt="OSCARS LOGO"> -->
-      <!-- <p id="oscars-title" style="font-size: 150px;">The</p>
+  <p style="text-align: center;">
+    <!-- <img src="\Users\natashalong\Documents\EE461L\EE461L-DatabaseApp\DATABASE_ENGINE\static\oscars_logo_dark.png" alt="OSCARS LOGO"> -->
+    <!-- <p id="oscars-title" style="font-size: 150px;">The</p>
       <p id="oscars-title">Oscars</p> -->
-      <img src="C:\Users\klin2\git\EE461L-DatabaseApp\DATABASE_ENGINE\static\oscars_logo_transparent_2.png" alt="OSCARS LOGO" width="1038" height="542"/>
-    </p>
+    <img src="{{ url_for('static', filename='oscars_logo_transparent.png') }}" alt="OSCARS LOGO" width="1038"
+      height="542" />
+  </p>
 
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+
 </body>
+
 </html>
