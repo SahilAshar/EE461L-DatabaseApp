@@ -19,7 +19,8 @@
   
   <nav class="navbar navbar-expand-lg">
   <a class="navbar-brand" href="#">
-    <img src="..\static\oscars_logo_transparent_2.png" alt="OSCARS LOGO" width="120" height="70"/>
+    <img src="{{ url_for('static', filename='oscars_logo.png') }}" alt="OSCARS LOGO" width="138"
+      height="72" />
       <!-- <img src="{{ url_for('static', filename='oscars_logo.png') }}" alt="OSCARS LOGO" width="770" height="443" class="center"> -->
   </a>
 
@@ -52,7 +53,9 @@
   </nav>
   <!-- need to populate below section -->
   <div>
+    {% for post in posts %}
     <p class="page-title-gold">{{award['title']}}</p>
+    
   </div>
   <br>
   <br>
