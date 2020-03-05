@@ -33,59 +33,61 @@ def about():
 
 
 @app.route("/years/")
-@app.route("/years/<year>/")
-def year_root(year=None):
+def year_root():
     # For the sake of example, use static information to inflate the template.
     # This will be replaced with real information in later steps.
-    dummy_times = [
-        datetime.datetime(2018, 1, 1, 10, 0, 0),
-        datetime.datetime(2018, 1, 2, 10, 30, 0),
-        datetime.datetime(2018, 1, 3, 11, 0, 0),
-    ]
 
-    return render_template("years.html", year=dummy_times)
+    return render_template("years.html", year=None)
+
+
+@app.route("/years/<year>/")
+def year_instance(year):
+
+    year = {"num": year}
+
+    return render_template(
+        "years_instance.html", year=year, award=None, person=None, movies=None
+    )
 
 
 @app.route("/awards/")
-@app.route("/awards/<award>/")
 def award_root():
     # For the sake of example, use static information to inflate the template.
     # This will be replaced with real information in later steps.
-    dummy_times = [
-        datetime.datetime(2018, 1, 1, 10, 0, 0),
-        datetime.datetime(2018, 1, 2, 10, 30, 0),
-        datetime.datetime(2018, 1, 3, 11, 0, 0),
-    ]
 
-    return render_template("awards.html", awards=dummy_times)
+    return render_template("awards.html", awards=None, award=None)
+
+
+@app.route("/awards/<award>/")
+def award_instance(award):
+
+    return render_template("awards_instance.html", posts=None, award=None)
 
 
 @app.route("/people/")
-@app.route("/people/<person>/")
 def people_root():
-    # For the sake of example, use static information to inflate the template.
-    # This will be replaced with real information in later steps.
-    dummy_times = [
-        datetime.datetime(2018, 1, 1, 10, 0, 0),
-        datetime.datetime(2018, 1, 2, 10, 30, 0),
-        datetime.datetime(2018, 1, 3, 11, 0, 0),
-    ]
 
     return render_template("people.html", people=None)
 
 
+@app.route("/people/<person>/")
+def people_instance():
+
+    return render_template("people_instance.html", people=None)
+
+
 @app.route("/movies/")
-@app.route("/movies/<movie>/")
 def movies_root():
+
+    return render_template("movies.html", movie=None)
+
+
+@app.route("/movies/<movie>/")
+def movies_instance():
     # For the sake of example, use static information to inflate the template.
     # This will be replaced with real information in later steps.
-    dummy_times = [
-        datetime.datetime(2018, 1, 1, 10, 0, 0),
-        datetime.datetime(2018, 1, 2, 10, 30, 0),
-        datetime.datetime(2018, 1, 3, 11, 0, 0),
-    ]
 
-    return render_template("movies.html", movie=dummy_times)
+    return render_template("movies_instance.html", movie=None)
 
 
 if __name__ == "__main__":

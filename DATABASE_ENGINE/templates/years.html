@@ -21,8 +21,7 @@
 
   <nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="#">
-      <img src="{{ url_for('static', filename='oscars_logo.png') }}" alt="OSCARS LOGO" width="138"
-      height="72" />
+      <img src="{{ url_for('static', filename='oscars_logo.png') }}" alt="OSCARS LOGO" width="138" height="72" />
       <!-- <img src="{{ url_for('static', filename='oscars_logo.png') }}" alt="OSCARS LOGO" width="770" height="443" class="center"> -->
     </a>
 
@@ -66,7 +65,8 @@
         <p id="year-num"> {{year['num']}}</p>
       </div>
       <div class="col-md-2" style="text-align: center;">
-        <p id="year-num">1995</p>
+        <!-- <p id="year-num">1995</p> -->
+        <a href="/years/1995">1995</a>
       </div>
       <div class="col-md-2" style="text-align: center;">
         <p id="year-num">1996</p>
