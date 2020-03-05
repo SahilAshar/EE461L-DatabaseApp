@@ -15,7 +15,7 @@ def root():
         datetime.datetime(2018, 1, 3, 11, 0, 0),
     ]
 
-    return render_template("index.html", times=dummy_times)
+    return render_template("index.html")
 
 
 @app.route("/about")
@@ -29,7 +29,7 @@ def about():
         datetime.datetime(2018, 1, 3, 11, 0, 0),
     ]
 
-    return render_template("index.html", times=dummy_times)
+    return render_template("about.html")
 
 
 @app.route("/years/")
