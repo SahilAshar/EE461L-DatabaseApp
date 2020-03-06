@@ -18,9 +18,16 @@ class award_winner:
         # gets the year
         li = list(winner_str.split(" | "))
 
+        print(str(li))
+
         # gets the movie and name
         li2 = li[1].split(" in ")
-        li2 = li[1].split(" for ")
+
+        if len(li2) < 2:
+            li2 = li[1].split(" for ")
+
+        print(str(li2))
+
 
         self.name = li2[0]
         self.movie = li2[1]
@@ -61,6 +68,7 @@ def get_best_actor_list():
         # instantiate a new actor, build the actor, append to award list
         for winner in resp_winner_list:
             actor = award_winner()
+            print(winner)
             actor.build_winner(winner)
             best_actor_award.winners.append(actor)
 
@@ -69,6 +77,7 @@ def get_best_actor_list():
         return best_actor_award
     else:
         # print(str(resp_winner_list))
+        print(resp)
         print("edge case")
 
 
