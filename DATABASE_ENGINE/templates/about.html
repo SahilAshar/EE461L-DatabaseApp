@@ -7,8 +7,8 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <!-- local stylesheeht reference -->
-  <link rel="stylesheet" href="../static/style.css" />
-  <!-- <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
+  <!-- <link rel="stylesheet" href="../static/style.css" /> -->
+  <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
   <style>
     body {
@@ -56,18 +56,41 @@
       </ul>
     </div>
   </nav>
-  <!-- <img src="C:\Users\klin2\git\EE461L-DatabaseApp\DATABASE_ENGINE\static\giphy.gif" alt="OSCARS LOGO" width="120" height="70"/> -->
-  <p>Site Description, purpose, users</p>
-  <p>results of using multiple data sources</p>
-  <p>group name</p>
-  <p>Group Members: Sahil Ashar, Austin Blanchard, Noah Lisk, Natasha Long, Carolyn Sheehy</p>
-  
 
-  <div class="container">
+  <p class="page-title-gold">about</p>
+
+  <div class="container" style="background-color: black">
+      <p id="links" style="text-align: center;">Project Information</p>
+      <br>
+      <p id="header4">Site Description, purpose, users</p>
+      <br>
+      <p id="header4"> Results of using multiple data sources</p>
+      <br>
+      <p id="header4"> Group Name: </p>
+      <br>
+      <p id="header4">Group Members: Sahil Ashar, Austin Blanchard, Noah Lisk, Natasha Long, Carolyn Sheehy</p>
+      <br>
+      <p id="header4">Number of commits: {{about['commits']}} </p>
+      <br>
+      <p id="header4">Number of issues: {{about['issues']}} </p>
+      <br>
+      <p id="header4">Number of tests: {{about['tests']}} </p>
+      <br>
+      <p id="header4">data: links to data sources, description of how they were scraped</p>
+      <br>
+      <p id="header4">tools used and how they were used</p>
+      <br>
+      <p id="header4">GitHub Repo: https://github.com/SahilAshar/EE461L-DatabaseApp</p>
+      <br>
+      <br>
+
+    <div style="text-align: center;">
+      <p id="links"> Members</p>
+    </div>
     <div class="row"style="text-align: left;">
       <br>
       <div class="col-md-3" style="text-align: center;">
-        <img src="{{ url_for('static', filename='sahil-ashar.jpg') }}" alt="SAHIL ASHAR" height="300" style="object-fit: cover;" />
+        <img src="{{ url_for('static', filename='sahil-ashar.jpg') }}" alt="SAHIL ASHAR" width="200" style="object-fit: cover;" />
         <p id="header2" style="text-align: center;">Sahil Ashar</p>
       </div>
       <div class="col-md-9">
@@ -83,7 +106,7 @@
     <div class="row" style="text-align: left;">
       <br>
       <div class="col-md-3" style="text-align: center;">
-        <img src="{{ url_for('static', filename='austin-blanchard.jpg') }}" alt="AUSTIN BLANCHARD" height="300" style="object-fit: cover;"/>
+        <img src="{{ url_for('static', filename='austin-blanchard.jpg') }}" alt="AUSTIN BLANCHARD" width="200" style="object-fit: cover;"/>
         <p id="movie-links" >Austin Blanchard</p>
       </div>
       <div class="col-md-9">
@@ -99,7 +122,7 @@
     <div class="row" style="text-align: left;">
       <br>
       <div class="col-md-3" style="text-align: center;">
-        <img src="{{ url_for('static', filename='noah-lisk.jpg') }}" alt="NOAH LISK" height="300" style="object-fit: cover;"/>
+        <img src="{{ url_for('static', filename='noah-lisk.jpg') }}" alt="NOAH LISK" width="200" style="object-fit: cover;"/>
         <br>
         <p id="movie-links">Noah Lisk</p>
       </div>
@@ -116,7 +139,7 @@
     <div class="row" style="text-align: left;">
       <br>
       <div class="col-md-3" style="text-align: center;">
-        <img src="{{ url_for('static', filename='natasha-long.png') }}" alt="NATASHA LONG" height="300" style="object-fit: cover;"/>
+        <img src="{{ url_for('static', filename='natasha-long.png') }}" alt="NATASHA LONG" width="200" style="object-fit: cover;"/>
         <br>
         <p id="movie-links">Natasha Long</p>
       </div>
@@ -133,7 +156,7 @@
     <div class="row" style="text-align: left;">
       <br>
       <div class="col-md-3" style="text-align: center;">
-        <img src="{{ url_for('static', filename='carolyn-sheehy.jpg') }}" alt="CAROLYN SHEEHY" height="300" style="object-fit: cover;"/>
+        <img src="{{ url_for('static', filename='carolyn-sheehy.jpg') }}" alt="CAROLYN SHEEHY" width="200" style="object-fit: cover;"/>
         <br>
         <p id="movie-links">Carolyn Sheehy</p>
       </div>
@@ -148,17 +171,6 @@
     </div>
 
 
-
-
-  <p style="text-align: center;">
-    <p class="page-title-gold">about</p>
-    <p id="header2">Number of commits: {{about['commits']}} </p>
-    <p id="header2">Number of issues: {{about['issues']}} </p>
-    <p id="header2">Number of tests: {{about['tests']}} </p>
-  </p>
-  <p>data: links to data sources, description of how they were scraped</p>
-  <p>tools used and how they were used</p>
-  <p>GitHub Repo: https://github.com/SahilAshar/EE461L-DatabaseApp</p>
 
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

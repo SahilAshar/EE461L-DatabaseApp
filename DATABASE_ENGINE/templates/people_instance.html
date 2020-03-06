@@ -11,8 +11,8 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
    <!-- local stylesheeht reference -->
-  <link rel="stylesheet" href="../static/style.css" />
-  <!-- <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
+  <!-- <link rel="stylesheet" href="../static/style.css" /> -->
+  <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
@@ -55,7 +55,7 @@
   <div style="text-align: center;">
     <!-- how to reference image in tag? -->
     <img src="#" alt="Actor Pic" />
-    <p class="header1">{{people['name']}}</p>
+    <p class="instance-title-gold">{{people['name']}}</p>
     <p class="header2">{{people['birthday']}}</p>
     <p class="header2">{{people['bio']}}</p>
     {% for award in people['awards'] %}

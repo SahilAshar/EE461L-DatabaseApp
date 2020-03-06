@@ -47,9 +47,7 @@ def year_instance(year):
 
     year = {"num": year}
 
-    return render_template(
-        "years_instance.html", year=year, award=None, person=None, movies=None
-    )
+    return render_template("years_instance.html", year=year, award=None, person=None, movies=None)
 
 
 @app.route("/awards/")

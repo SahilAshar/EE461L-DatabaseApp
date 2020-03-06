@@ -19,7 +19,7 @@
 body{
   background-color: black;
 }
-#year-links, #award-links, #movie-links{
+#year-links, #award-links, #movie-links, #links{
   color: #D5AD6D; /*if no support for background-clip*/
   background: -webkit-linear-gradient(transparent, transparent),
   -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
@@ -42,6 +42,19 @@ body{
   -webkit-text-fill-color: transparent;
   text-align: center;
   font-size: 150px;
+  font-weight: 100;
+  text-transform: uppercase;
+}
+
+.instance-title-gold {
+  color: #D5AD6D; /*if no support for background-clip*/
+  background: -webkit-linear-gradient(transparent, transparent),
+  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+  background: -o-linear-gradient(transparent, transparent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  font-size: 100px;
   font-weight: 100;
   text-transform: uppercase;
 }
@@ -92,5 +105,15 @@ body{
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-size: 20px;
+  font-weight: lighter;
+}
+#header4{
+  color: #D5AD6D; /*if no support for background-clip*/
+  background: -webkit-linear-gradient(transparent, transparent),
+  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+  background: -o-linear-gradient(transparent, transparent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 25px;
   font-weight: lighter;
 }
