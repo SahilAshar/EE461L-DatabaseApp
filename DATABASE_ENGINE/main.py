@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 
 @app.route("/")
-@app.rout("/home")
+@app.route("/home")
 def root():
     # For the sake of example, use static information to inflate the template.
     # This will be replaced with real information in later steps.

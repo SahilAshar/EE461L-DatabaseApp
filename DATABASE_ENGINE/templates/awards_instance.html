@@ -31,22 +31,22 @@
   <div class="collapse navbar-collapse" id="supportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Splash</a>
+        <a class="nav-link" href="{{ url_for('root') }}">Splash<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Years<span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{{ url_for('year_root') }}">Years</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Awards</a>
+        <a class="nav-link" href="{{ url_for('award_root') }}">Awards</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">People</a>
+        <a class="nav-link" href="{{ url_for('people_root') }}">People</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Movies</a>
+        <a class="nav-link" href="{{ url_for('movies_root') }}">Movies</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">About</a>
+        <a class="nav-link" href="{{ url_for('about') }}">About</a>
       </li>
     </ul> 
   </div>
@@ -55,14 +55,8 @@
   <div>
     <p class="page-title-gold">{{awards['title']}}</p>
      {% for winner in awards['winners'] %}
-      <p id="header2">{{winner['year']}} -- {% for name in winner['name'] %} name {% endfor %}</p>
+      <p id="header2">{{winner['year']}} -- {{winner['name']}}</p>
     {%endfor%}
-  </div>
-  <br>
-  <br>
-  <div class="listings">
-	  <!-- <p id="award-attribute"> {{award['title']}}</p>
-	  <p id="award-attribute"> {{actor['name']}} -- {{movies['title']}}</p> -->
   </div>
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
