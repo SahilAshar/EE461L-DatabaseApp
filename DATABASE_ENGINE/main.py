@@ -1,7 +1,7 @@
 import datetime
 
 from flask import Flask, render_template
-import build_awards
+import build_awards, build_people
 
 app = Flask(__name__)
 
@@ -47,7 +47,9 @@ def year_instance(year):
 
     year = {"num": year}
 
-    return render_template("years_instance.html", year=year, award=None, person=None, movies=None)
+    return render_template(
+        "years_instance.html", year=year, award=None, person=None, movies=None
+    )
 
 
 @app.route("/awards/")
@@ -63,6 +65,10 @@ def award_instance(award):
 
     if award == "actor-in-a-leading-role":
         awards = build_awards.get_best_actor_list()
+    elif award == "actress-in-a-leading-role":
+        awards = build_awards.get_best_actress_list()
+    elif award == "directing":
+        awards = build_awards.get_best_director_list()
 
     return render_template("awards_instance.html", awards=awards)
 
@@ -74,9 +80,11 @@ def people_root():
 
 
 @app.route("/people/<person>/")
-def people_instance():
+def people_instance(person):
 
-    return render_template("people_instance.html", people=None)
+    people = build_people.get_person_info(person)
+
+    return render_template("people_instance.html", people=people)
 
 
 @app.route("/movies/")
@@ -86,7 +94,7 @@ def movies_root():
 
 
 @app.route("/movies/<movie>/")
-def movies_instance():
+def movies_instance(movie):
     # For the sake of example, use static information to inflate the template.
     # This will be replaced with real information in later steps.
 
