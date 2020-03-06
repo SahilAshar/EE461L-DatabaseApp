@@ -1,7 +1,7 @@
 import datetime
 
 from flask import Flask, render_template
-import build_awards, build_people
+import build_awards, build_people, build_years
 
 app = Flask(__name__)
 
@@ -46,10 +46,9 @@ def year_root():
 def year_instance(year):
 
     year = {"num": year}
+    year_awards = build_years.get_year_info()
 
-    return render_template(
-        "years_instance.html", year=year, award=None, person=None, movies=None
-    )
+    return render_template("years_instance.html", awards=year_award)
 
 
 @app.route("/awards/")
