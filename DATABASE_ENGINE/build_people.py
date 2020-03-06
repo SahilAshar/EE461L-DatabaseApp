@@ -17,8 +17,12 @@ class person:
 
         data_list = list(data_str.split("\n"))
         for data in data_list:
+            print(data)
             data_str_list = list(data.split(" | "))
-            data_dict[data_str_list[0]] = data_str_list[1]
+            if len(data_str_list) == 2:
+                data_dict[data_str_list[0]] = data_str_list[1]
+            else:
+                data_dict[data_str_list[0]] = ""
 
         if data_dict["full name"] == "":
             data_dict["full name"] = query_name.replace("+", " ")
