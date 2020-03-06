@@ -1,11 +1,13 @@
 import datetime
 
 from flask import Flask, render_template
+import build_awards
 
 app = Flask(__name__)
 
 
 @app.route("/")
+@app.rout("/home")
 def root():
     # For the sake of example, use static information to inflate the template.
     # This will be replaced with real information in later steps.
@@ -61,7 +63,10 @@ def award_root():
 @app.route("/awards/<award>/")
 def award_instance(award):
 
-    return render_template("awards_instance.html", posts=None, award=None)
+    if award == "actor-in-a-leading-role":
+        awards = build_awards.get_best_actor_list()
+
+    return render_template("awards_instance.html", awards=awards)
 
 
 @app.route("/people/")

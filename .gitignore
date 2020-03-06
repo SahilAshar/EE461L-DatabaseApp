@@ -4,3 +4,4 @@ DATABASE_ENV
 .vscode
 .settings
 .project
+test/
