@@ -29,7 +29,7 @@ def about():
         datetime.datetime(2018, 1, 3, 11, 0, 0),
     ]
 
-    return render_template("about.html")
+    return render_template("about.html", about=None)
 
 
 @app.route("/years/")
@@ -43,7 +43,7 @@ def year_root(year=None):
         datetime.datetime(2018, 1, 3, 11, 0, 0),
     ]
 
-    return render_template("years.html", year=dummy_times)
+    return render_template("years.html", awards=None)
 
 
 @app.route("/awards/")
@@ -57,7 +57,7 @@ def award_root():
         datetime.datetime(2018, 1, 3, 11, 0, 0),
     ]
 
-    return render_template("awards.html", awards=dummy_times)
+    return render_template("awards.html", awards=None)
 
 
 @app.route("/people/")

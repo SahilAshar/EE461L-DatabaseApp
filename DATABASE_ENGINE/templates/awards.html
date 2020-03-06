@@ -58,14 +58,17 @@
 
   <div>
     <p class="page-title-gold">AWARDS</p>
-    <!-- Pass in list of strings for awards -->
-    {% for award in awards %}
-      <a id="award" href="#">{{award['title']}}</a>
-      {% for award in awards %}
-      <a id="award" href="#">{{award['title']}}</a>
-      
-      {% endfor %}
-    {% endfor %}
+    <div class="row" style="text-align: center;">
+      <div class="col-md-4">
+        <a id="award-links" href="/awards/actor-in-a-leading-role">Actor in a leading Role</a>
+      </div>
+      <div class="col-md-4">
+        <a id="year-links" href="/awards/actress-in-a-leading-role">actress in a leading role</a>
+      </div>
+      <div class="col-md-4">
+        <a id="year-links" href="/awards/directing">Directing</a>
+      </div>
+    </div>
   </div>
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

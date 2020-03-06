@@ -58,8 +58,12 @@
   <br>
   <br>
   <div class="listings">
-	  <p id="award-attribute"> {{award['title']}}</p>
-	  <p id="award-attribute"> {{person['name']}} -- {{movies['title']}}</p>
+    {% for award in awards%}
+  	  <p id="header1"> {{award['title']}}</p>
+      {% for nominee in award['nominees'] %}
+        <p id="header2"> {{nominee['song']}} {{nominee['name']}} -- {{nominee['movie']}}</p>
+      {% endfor %}
+    {% endfor %}
   </div>
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

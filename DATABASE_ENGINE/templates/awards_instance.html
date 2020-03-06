@@ -53,9 +53,10 @@
   </nav>
   <!-- need to populate below section -->
   <div>
-    {% for post in posts %}
-    <p class="page-title-gold">{{award['title']}}</p>
-    
+    <p class="page-title-gold">{{awards['title']}}</p>
+     {% for winner in awards['winners'] %}
+      <p id="header2">{{winner['year']}} -- {% for name in winner['name'] %} name {% endfor %}</p>
+    {%endfor%}
   </div>
   <br>
   <br>
