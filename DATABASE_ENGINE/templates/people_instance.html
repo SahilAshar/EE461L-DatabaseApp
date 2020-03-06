@@ -58,8 +58,13 @@
     <!-- how to reference image in tag? -->
     <img src="#" alt="Actor Pic" />
     <p class="instance-title-gold">{{people['name']}}</p>
-    <p class="header2">{{people['birthday']}}</p>
-    <p class="header2">{{people['bio']}}</p>
+    <p id="header2" style="font-size: 30px; text-decoration: underline;">Birthday</p>
+    <p id="header2">{{people['birthday']}}</p>
+    <br>
+    <p id="header2" style="font-size: 30px; text-decoration: underline;">Biography</p>
+    <p id="header2">{{people['bio']}}</p>
+    <br>
+    <p id="header2" style="font-size: 30px; text-decoration: underline;">AWARDS WON</p>
     {% for award in people['awards'] %}
     <p id="header2">
       {{award['title']}} -- {{award['year']}} -- {{award['movie']}}

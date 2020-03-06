@@ -60,38 +60,50 @@
   <p class="page-title-gold">about</p>
 
   <div class="container" style="background-color: black">
-      <p id="links" style="text-align: center;">Project Information</p>
+      <p id="links" style="text-align: center; text-decoration: underline;">Welcome</p>
+      <p id="header4" style="text-align: center">This site is a place for exploring the past of the Oscars. With this site you can navigate through the years, the people, the movies, and the awards that have made the Oscars what they are today. This site is for all people looking to experience the history of the Oscars. It is meant to provide a simple way of navigating through the Osacars, so thank you for joining us and please enjoy.</p>
       <br>
-      <p id="header4">Welcome. This site is a place for exploring the past of the Oscars. With this site you can navigate through the years, the people, the movies, and the awards that have made the Oscars what they are today. This site is for all people looking to experience the history of the Oscars. It is meant to provide a simple way of navigating through the Osacars, so thank you for joining us and please enjoy.</p>
       <br>
-      <p id="header4"> Results of using multiple data sources</p>
+      <p id="links" style="text-align: center; text-decoration: underline;">Tools Used</p>
+      <p id="header4" style="text-align: center;">In building this website we used multiple different tools to produce an effective user experience, these include:
+      Bootstrap- Bootstrap was used to create formatting for the webpages, create a pleasent design, and implement important features such as the navigation bar.
+      Flask MVC Architecture- This tool was used for many purposes including url routing, displaying the web pages, the webpages communication with google app engine, API calls, and database connections.
+      Git- Git was used consistently throughout the project for team collaboration while working on the many different types of files that we created. It was effective in keeping multiple branches so that different team members could work on seperate parts of the project at the same time.
+      Python Requests- Python Requests was used to make calls to the API and return a JSON stream containing the requested data. This is used to populate the webpage.
+      Text Editors- Each team member used a text editor to edit and create code. These are vital in the development of this page</p>
       <br>
-      <p id="header4"> Group Name: Afternoon-3</p>
       <br>
-      <p id="header4">Group Members: Sahil Ashar, Austin Blanchard, Noah Lisk, Natasha Long, Carolyn Sheehy</p>
+      <p id="links" style="text-align: center; text-decoration: underline;">Results of Using Multiple Data Sources</p>
+      <p id="header4" style="text-align: center;">Every database has a different structure that required parsing the data individually. An interesting result of this is that for each data model, we created unique parsing methods to display the proper data.
+      </p>
       <br>
-      <p id="header4">Number of commits: {{about['commits']}} </p>
       <br>
-      <p id="header4">Number of issues: {{about['issues']}} </p>
+      <p id="links" style="text-align: center; text-decoration: underline;">The Data</p>
+      <p id="header4" style="text-align: center;">We ping APIs for specific information. For example for the Best Actor, Best Actress, or Best Director Award we are sending a similar API call to the WolframAlpha API which returns a list of all best actors, best actresses, or best director along with other data. Then, we parse through the JSON return values, looking for our specific data, and then send objects back to the HTML for Jinja2 to parse.
+      </p>
       <br>
-      <p id="header4">Number of tests: {{about['tests']}} </p>
       <br>
-      <p id="header4">Data: links to data sources, description of how they were scraped</p>
+      <p id="links" style="text-align: center; text-decoration: underline;">Team Stats</p>
+      <p id="header4" style="text-align: center;"> Group Name: Afternoon-3</p>
+      <p id="header4" style="text-align: center;">Number of commits: {{about['commits']}} </p>
+      <p id="header4" style="text-align: center;">Number of issues: {{about['issues']}} </p>
+      <p id="header4" style="text-align: center;">Number of tests: {{about['tests']}} </p>
       <br>
-      <p id="header4">tools used and how they were used</p>
       <br>
-      <p id="header4">GitHub Repo: https://github.com/SahilAshar/EE461L-DatabaseApp</p>
+      <center>
+        <a id="links" style="text-align: center; text-decoration: underline;" href="https://github.com/SahilAshar/EE461L-DatabaseApp">GitHub Repo</a>
+      </center>
       <br>
       <br>
 
     <div style="text-align: center;">
-      <p id="links"> Members</p>
+      <p id="links" style="text-decoration: underline;">Team Members</p>
     </div>
     <div class="row"style="text-align: left;">
       <br>
       <div class="col-md-3" style="text-align: center;">
         <img src="{{ url_for('static', filename='sahil-ashar.jpg') }}" alt="SAHIL ASHAR" width="200" style="object-fit: cover;" />
-        <p id="header2" style="text-align: center;">Sahil Ashar</p>
+        <p id="movie-links" style="text-align: center;">Sahil Ashar</p>
       </div>
       <div class="col-md-9">
         <a id="header3" href="https://sahilashar.com">Bio: website</a>
