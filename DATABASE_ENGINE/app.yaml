@@ -1,5 +1,9 @@
 runtime: python37
 
+
+env_variables:
+  GITHUB_API: 95c993d2101638900386a41f1ece72c6d3fc76fb
+
 handlers:
   # This configures Google App Engine to serve the files in the app's static
   # directory.
