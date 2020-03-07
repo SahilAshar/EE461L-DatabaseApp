@@ -64,7 +64,7 @@ res = requests.get('http://www.omdbapi.com/?apikey=82ddccc8&?t=Green+Book')
 # using username and password
 # g = Github("austin.blanchard@utexas.edu", "G00seman$")
 # or using an access token
-g = Github("95c993d2101638900386a41f1ece72c6d3fc76fb")
+g = Github("")
 # Github Enterprise with custom hostname
 # g = Github(base_url="https://{databaseApp}/api/v3", login_or_token="42fecb005a67ca016a3ef08fc8935d3281269912")
 
@@ -85,19 +85,29 @@ commitdict["natashalong"] = 0
 commitdict["Sahil Ashar"] = 0
 commitdict["Noah Lisk"] = 0
 commitdict["carosheehy"] = 0
-commitdict["Austin_Blanchard"] = 0
-# commitdict["GitHub"] = 0
-for commit in commits:
-    commitdict[commit["commit"]["author"]["name"]] = (
-        commitdict[commit["commit"]["author"]["name"]] + 1
-    )
+commitdict["Austin Blanchard"] = 0
+# for commit in commits:
+# commitdict[commit['commit']['author']['name']] = commitdict[commit['commit']['author']['name']] + 1
+# print(commitdict)
 
-print(commitdict)
 # issues contains total number of issues for team
 issues = requests.get(
     "https://api.github.com/repos/SahilAshar/EE461L-DatabaseApp/issues"
 ).json()
-print(issues[0]["number"])
+print(issues[2])
+
+issuedict = {}
+issuedict["natashalong"] = 0
+issuedict["SahilAshar"] = 0
+issuedict["noahlisk"] = 0
+issuedict["carosheehy"] = 0
+issuedict["ablanchard10"] = 0
+for issue in issues:
+    issuedict[issue["assignee"]["login"]] = issuedict[issue["assignee"]["login"]] + 1
+
+print(issuedict)
+
+
 # going to have to go through issues to find amt for each users
 
 
