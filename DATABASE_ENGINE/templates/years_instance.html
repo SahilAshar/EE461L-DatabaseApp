@@ -55,11 +55,9 @@
   <div>
     <p class="instance-title-gold">{{year['num']}}</p>
   </div>
-  <br>
-  <br>
   <div class="listings">
     {% for award in awards%}
-  	  <p id="header1"> {{award['title']}}</p>
+  	  <p id="header2" style="font-size: 30px; text-decoration: underline;"> {{award['title']}}</p>
       {% for nominee in award['nominees'] %}
         <p id="header2"> {{nominee['song']}} {{nominee['name']}} -- {{nominee['movie']}}</p>
       {% endfor %}
