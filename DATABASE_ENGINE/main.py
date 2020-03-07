@@ -4,6 +4,7 @@ from flask import Flask, render_template
 import build_awards
 import build_people
 import build_years
+import build_about
 
 app = Flask(__name__)
 
@@ -27,13 +28,10 @@ def about():
     # For the sake of example, use static information to inflate the template.
     # This will be replaced with real information in later steps.
 
-    dummy_times = [
-        datetime.datetime(2018, 1, 1, 10, 0, 0),
-        datetime.datetime(2018, 1, 2, 10, 30, 0),
-        datetime.datetime(2018, 1, 3, 11, 0, 0),
-    ]
+    issues_obj = build_about.return_issue_obj()
+    commits_obj = build_about.return_commit_obj()
 
-    return render_template("about.html", about=None)
+    return render_template("about.html", issues=issues_obj, commits=commits_obj)
 
 
 @app.route("/years/")
