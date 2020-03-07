@@ -2,26 +2,24 @@
 <html>
 
 <head>
-  <title>The Oscar Database</title>
   <script src="{{ url_for('static', filename='script.js') }}"></script>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
   <!-- local stylesheeht reference -->
   <!-- <link rel="stylesheet" href="../static/style.css" /> -->
   <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
-  <style>
-    body {
-      background-image: url('../static/giphy.gif');
-      background-size: cover;
-    }
-  </style>
 </head>
 
 <body>
 
   <nav class="navbar navbar-expand-lg">
-
     <a class="navbar-brand" href="#">
       <img src="{{ url_for('static', filename='oscars_logo.png') }}" alt="OSCARS LOGO" width="138" height="72" />
       <!-- <img src="{{ url_for('static', filename='oscars_logo.png') }}" alt="OSCARS LOGO" width="770" height="443" class="center"> -->
@@ -55,14 +53,22 @@
       </ul>
     </div>
   </nav>
-  <!-- <img src="C:\Users\klin2\git\EE461L-DatabaseApp\DATABASE_ENGINE\static\giphy.gif" alt="OSCARS LOGO" width="120" height="70"/> -->
-  <p style="text-align: center;">
-    <!-- <img src="\Users\natashalong\Documents\EE461L\EE461L-DatabaseApp\DATABASE_ENGINE\static\oscars_logo_dark.png" alt="OSCARS LOGO"> -->
-    <!-- <p id="oscars-title" style="font-size: 150px;">The</p>
-      <p id="oscars-title">Oscars</p> -->
-    <img src="{{ url_for('static', filename='oscars_logo.png') }}" class="img-responsive" alt="OSCARS LOGO" width="1038"
-      height="542" />
-  </p>
+  <div>
+    <p class="page-title-gold">YEARS</p>
+  </div>
+  <div class="container">
+    <div class="row" style="text-align: center;">
+      <div class="col-md-4">
+        <a id="year-links" href="/years/1995">1995</a>
+      </div>
+      <div class="col-md-4">
+        <a id="year-links" href="/years/1996">1996</a>
+      </div>
+      <div class="col-md-4">
+        <a id="year-links" href="/years/1997">1997</a>
+      </div>
+    </div>
+  </div>
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
