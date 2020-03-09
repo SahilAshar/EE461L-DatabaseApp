@@ -5,3 +5,4 @@ DATABASE_ENV
 .settings
 .project
 test/
+app.yaml

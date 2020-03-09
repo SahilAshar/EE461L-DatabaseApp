@@ -28,7 +28,6 @@ class award_winner:
 
         print(str(li2))
 
-
         self.name = li2[0]
         self.movie = li2[1]
         self.year = li[0]
