@@ -1,4 +1,6 @@
 Flask==1.1.1
+wheel
+pymongo[tls, srv]
 flask-mongoengine
 requests
 PyGithub

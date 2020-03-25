@@ -3,7 +3,8 @@ import requests
 from github import Github
 
 
-GH_API_KEY = os.environ["GITHUB_API"]
+# GH_API_KEY = os.environ["GITHUB_API"]
+
 
 g = Github(GH_API_KEY)
 # Github Enterprise with custom hostname

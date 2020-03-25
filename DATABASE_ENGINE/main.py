@@ -1,24 +1,34 @@
 import datetime
 
-from flask import Flask, render_template
+from flask import Flask, redirect, render_template, url_for
+from flask_mongoengine import MongoEngine
+
+import build_about
 import build_awards
 import build_people
 import build_years
-import build_about
+
+from controllers.database_controller import initialize_db
+from controllers.people_access_controller import PeopleAccessController
+from controllers.years_controller import YearController
 
 app = Flask(__name__)
+
+app.config["DEBUG"] = True
+app.config["MONGODB_SETTINGS"] = {
+    "db": "omdb",
+    "host": "mongodb+srv://sashar:qwerty12345@cluster0-0jhiw.gcp.mongodb.net/omdb?retryWrites=true&w=majority",
+}
+
+# db = MongoEngine(app)
+
+# Initializing DB separately, best practice for application factories
+initialize_db(app)
 
 
 @app.route("/")
 @app.route("/home")
 def root():
-    # For the sake of example, use static information to inflate the template.
-    # This will be replaced with real information in later steps.
-    dummy_times = [
-        datetime.datetime(2018, 1, 1, 10, 0, 0),
-        datetime.datetime(2018, 1, 2, 10, 30, 0),
-        datetime.datetime(2018, 1, 3, 11, 0, 0),
-    ]
 
     return render_template("index.html")
 
@@ -45,11 +55,19 @@ def year_root():
 @app.route("/years/<year>/")
 def year_instance(year):
 
-    year_dict = {"num": year}
-    year_awards = build_years.get_year_info(year)
-    # year_awards = year.awards
+    y_controller = YearController()
+    year = y_controller.get(year)
 
     return render_template("years_instance.html", year=year_dict, awards=year_awards)
+
+
+@app.route("/years/new/<year>/")
+def new_year(year):
+
+    y_controller = YearController()
+    y_controller.post(year)
+
+    return redirect("/years/" + year + "/")
 
 
 @app.route("/awards/")
@@ -82,9 +100,24 @@ def people_root():
 @app.route("/people/<person>/")
 def people_instance(person):
 
-    people = build_people.get_person_info(person)
+    # people = build_people.get_person_info(person)
+    pa_controller = PeopleAccessController()
+    people = pa_controller.get(person)
 
-    return render_template("people_instance.html", people=people)
+    print(len(people))
+    print(people[0])
+
+    return render_template("people_instance.html", people=people[0])
+
+
+# TODO : This works(?) Need to make this an actual post request
+# But this proves I can create actual controllers that can link
+@app.route("/people/new/<person>/")
+def new_person(person):
+    pa_controller = PeopleAccessController()
+    pa_controller.post(person)
+
+    return redirect("/people/" + person + "/")
 
 
 @app.route("/movies/")
