@@ -1,10 +1,10 @@
 import datetime
 
 from flask import Flask, render_template
-import build_awards
-import build_people
-import build_years
-import build_about
+from DATABASE_ENGINE import build_awards
+from DATABASE_ENGINE import build_people
+from DATABASE_ENGINE import build_years
+from DATABASE_ENGINE import build_about
 
 app = Flask(__name__)
 

@@ -2,3 +2,5 @@ Flask==1.1.1
 flask-mongoengine
 requests
 PyGithub
+pytest
+pytest-flask
