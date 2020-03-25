@@ -10,6 +10,7 @@ import build_years
 
 from controllers.database_controller import initialize_db
 from controllers.people_access_controller import PeopleAccessController
+from controllers.years_controller import YearController
 
 app = Flask(__name__)
 
@@ -54,11 +55,19 @@ def year_root():
 @app.route("/years/<year>/")
 def year_instance(year):
 
-    year_dict = {"num": year}
-    year_awards = build_years.get_year_info(year)
-    # year_awards = year.awards
+    y_controller = YearController()
+    year = y_controller.get(year)
 
     return render_template("years_instance.html", year=year_dict, awards=year_awards)
+
+
+@app.route("/years/new/<year>/")
+def new_year(year):
+
+    y_controller = YearController()
+    y_controller.post(year)
+
+    return redirect("/years/" + year + "/")
 
 
 @app.route("/awards/")
@@ -108,7 +117,7 @@ def new_person(person):
     pa_controller = PeopleAccessController()
     pa_controller.post(person)
 
-    return redirect(url_for("root"))
+    return redirect("/people/" + person + "/")
 
 
 @app.route("/movies/")

@@ -20,7 +20,7 @@ class Award(db.Document):
 
 
 class Person(db.Document):
-    # query_name = db.StringField(required=True)
+    query_name = db.StringField(required=True)
     name = db.StringField()
     dob = db.StringField()
     bio = db.StringField()
@@ -42,7 +42,9 @@ class PeopleAccessController:
 
         # Create initial person document, don't save until full document is built
         actor = Person(
-            name=actor_data_dict["full name"], dob=actor_data_dict["date of birth"]
+            query_name=query_name,
+            name=actor_data_dict["full name"],
+            dob=actor_data_dict["date of birth"],
         )
 
         # Assign bio to actor through API call
@@ -69,13 +71,16 @@ class PeopleAccessController:
 
         # Query all Person documents for names that contain our
         # query_name string. Case insensive.
-        name_list = list(query_name.split("-"))
+        query_name = query_name.replace("-", "+")
+        name_list = list(query_name.split("+"))
 
         # You can only query one value at a time against fields, so you need
         # to query each part of the person's name and slowly narrow down options
-        for i in range(0, len(name_list)):
-            matching_persons = Person.objects(name__icontains=name_list[i])
-        # matching_persons = Person.objects(name__icontains=name)
+
+        # for i in range(0, len(name_list)):
+        #     matching_persons = Person.objects(name__icontains=name_list[i])
+
+        matching_persons = Person.objects(query_name__icontains=query_name)
         # matching_persons = Person.objects(name__icontains="rami malek")
 
         print(len(matching_persons))
