@@ -5,8 +5,10 @@ from github import Github
 #PUT THESE 2 LINES IN BEFORE PUSHING BACK
 #GH_API_KEY = os.environ["GITHUB_API"]
 
-#g = Github(GH_API_KEY)
-g = Github("4a86b1a488f9e1a83ef1123810cbd2fed353bbce")
+# GH_API_KEY = os.environ["GITHUB_API"]
+
+
+g = Github(GH_API_KEY)
 # Github Enterprise with custom hostname
 
 

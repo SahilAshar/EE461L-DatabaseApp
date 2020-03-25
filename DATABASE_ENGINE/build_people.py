@@ -103,5 +103,5 @@ def get_person_info(name):
 
 
 if __name__ == "__main__":
-    get_person_info("bong-joon-ho")
+    # get_person_info("bong-joon-ho")
     get_person_info("rami-malek")

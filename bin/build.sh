@@ -5,7 +5,6 @@ pwd
 
 source env/bin/activate
 
-cd ../DATABASE_ENGINE
 pip install -r requirements.txt
 
 python3 main.py &
