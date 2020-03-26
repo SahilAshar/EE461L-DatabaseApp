@@ -57,7 +57,7 @@ class YearController:
     # Query by year instead, and get all awards associated with that year
     def get(self, query_year):
 
-        matching_years = Year.objects(year__icontains=query_year)
+        matching_years = Year.objects(year__icontains=query_year).get()
 
         return matching_years
 
