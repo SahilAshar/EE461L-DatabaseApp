@@ -10,6 +10,7 @@ from DATABASE_ENGINE.build_years import get_year_info
 from DATABASE_ENGINE.controllers.database_controller import initialize_db
 
 from DATABASE_ENGINE.controllers.people_access_controller import PeopleAccessController
+from DATABASE_ENGINE.controllers.people_access_controller import Person
 
 #python -m pytest tests/    --- to run test from root folder.2..
 
@@ -17,12 +18,6 @@ from DATABASE_ENGINE.controllers.people_access_controller import PeopleAccessCon
 """
 from example_app import create_app
 """
-
-
-@pytest.fixture
-def make_pa_controller():
-    test_pacontroller = PeopleAccessController()
-    return test_pacontroller
 
 
 @pytest.fixture
@@ -36,6 +31,22 @@ def app():
     initialize_db(app)
     return app
 
+
+@pytest.fixture
+def make_pa_controller():
+    test_pacontroller = PeopleAccessController()
+    return test_pacontroller
+
+@pytest.fixture
+def make_person_inst():
+    me = Person(
+        query_name="austin+blanchard",
+        name="austin blanchard",
+        dob="Monday, February 27, 1999 (age: 21 years)",
+        bio="I am lit",
+        awards=["not yet"]
+    )
+    return me
 
 """
 @pytest.fixture(scope='module')

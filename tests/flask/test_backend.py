@@ -1,10 +1,24 @@
+import mongomock as mongomock
+
+#had to install package mongomock for testing post
 
 def test_people_get(app, make_pa_controller):
     list = make_pa_controller.get("rami-malek")
     assert list[0].query_name == "rami+malek"
 
 
-def test_
+#test post by making random person and adding it to db
+#then will have to remove that person to finish test
+def test_people_post(app, make_pa_controller, make_person_inst):
+    collection = mongomock.MongoClient().db.collection
+    test_actor = make_person_inst
+    actors = [dict(first="rami+malek")]
+    for actor in actors:
+        actor['_id'] = collection.insert_one(actor).inserted_id
+    print(str(collection))
+    
+
+
 
 
 
