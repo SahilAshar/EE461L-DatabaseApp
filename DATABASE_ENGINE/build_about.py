@@ -7,8 +7,8 @@ from github import Github
 
 # GH_API_KEY = os.environ["GITHUB_API"]
 
-
-g = Github(GH_API_KEY)
+g = Github("94128dcf9df8987db8fb837b056dfee69563bc9c")
+#g = Github(GH_API_KEY)
 # Github Enterprise with custom hostname
 
 

@@ -19,10 +19,10 @@ app = Flask(__name__)
 app.config["DEBUG"] = True
 app.config["MONGODB_SETTINGS"] = {
     "db": "omdb",
-    "host": "mongodb+srv://sashar:qwerty12345@cluster0-0jhiw.gcp.mongodb.net/omdb?retryWrites=true&w=majority",
+    "host": "mongodb+srv://sashar:qwerty12345@cluster0-0jhiw.gcp.mongodb.net/omdb?retryWrites=true&w=majority"
 }
 
-# db = MongoEngine(app)
+#db = MongoEngine(app)
 
 # Initializing DB separately, best practice for application factories
 initialize_db(app)

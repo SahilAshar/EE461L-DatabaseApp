@@ -2,20 +2,40 @@ import os
 import pytest
 from flask import Flask
 
-from DATABASE_ENGINE.build_about import issues
-from DATABASE_ENGINE.build_about import commits
+#from DATABASE_ENGINE.build_about import issues
+#from DATABASE_ENGINE.build_about import commits
 
 from DATABASE_ENGINE.build_years import get_year_info
-from DATABASE_ENGINE.main import root
+#from DATABASE_ENGINE.main import root
+from DATABASE_ENGINE.controllers.database_controller import initialize_db
+
+from DATABASE_ENGINE.controllers.people_access_controller import PeopleAccessController
+
+#python -m pytest tests/    --- to run test from root folder.2..
 
 
 """
 from example_app import create_app
 """
+
+
+@pytest.fixture
+def make_pa_controller():
+    test_pacontroller = PeopleAccessController()
+    return test_pacontroller
+
+
 @pytest.fixture
 def app():
     app = Flask(__name__)
+    app.config["DEBUG"] = True
+    app.config["MONGODB_SETTINGS"] = {
+        "db": "omdb",
+        "host": "mongodb+srv://sashar:qwerty12345@cluster0-0jhiw.gcp.mongodb.net/omdb?retryWrites=true&w=majority",
+    }
+    initialize_db(app)
     return app
+
 
 """
 @pytest.fixture(scope='module')
@@ -33,14 +53,14 @@ def test_client():
     yield testing_client  # this is where the testing happens!
 
     ctx.pop()
-"""
+
 
 @pytest.fixture()
 def new_issues():
     test_issues = issues()
     return test_issues
 
-"""
+
 @pytest.fixture()
 def new_commits():
     test_commits = commits()
