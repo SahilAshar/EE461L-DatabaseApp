@@ -58,11 +58,15 @@ def year_root():
 def year_instance(year):
 
     y_controller = YearController()
-    year = y_controller.get(year)
+    year_obj = y_controller.get(year)
 
-    return render_template("years_instance.html", year=year_dict, awards=year_awards)
+    return render_template(
+        "years_instance.html", year=year_obj.year, awards=year_obj.awards
+    )
 
 
+# TODO : This works(?) Need to make this an actual post request
+# But this proves I can create actual controllers that can link
 @app.route("/years/new/<year>/")
 def new_year(year):
 
