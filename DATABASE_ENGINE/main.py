@@ -3,14 +3,16 @@ import datetime
 from flask import Flask, redirect, render_template, url_for
 from flask_mongoengine import MongoEngine
 
-import build_about
 import build_awards
-import build_people
-import build_years
-
+from controllers.about_controller import AboutController
 from controllers.database_controller import initialize_db
 from controllers.people_access_controller import PeopleAccessController
 from controllers.years_controller import YearController
+
+# import build_about
+# import build_people
+# import build_years
+
 
 app = Flask(__name__)
 
@@ -35,11 +37,11 @@ def root():
 
 @app.route("/about")
 def about():
-    # For the sake of example, use static information to inflate the template.
-    # This will be replaced with real information in later steps.
 
-    issues_obj = build_about.return_issue_obj()
-    commits_obj = build_about.return_commit_obj()
+    about_controller = AboutController()
+
+    issues_obj = about_controller.return_issue_obj()
+    commits_obj = about_controller.return_commit_obj()
 
     return render_template("about.html", issues=issues_obj, commits=commits_obj)
 
