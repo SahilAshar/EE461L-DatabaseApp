@@ -41,6 +41,12 @@ class AwardController:
 
         return matching_full_awards
 
+    def get_paginated_full_awards(self, page):
+        paginated_awards = FullAward.objects().paginate(page=page, per_page=9)
+
+        return paginated_awards
+
+    # ! Temp function for instance population
     def get_all_award_winners(self):
         all_award_objects = AwardWinner.objects()
 

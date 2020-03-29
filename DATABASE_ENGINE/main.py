@@ -9,8 +9,8 @@ from controllers.database_controller import initialize_db
 from controllers.people_access_controller import PeopleAccessController
 from controllers.years_controller import YearController
 
-from populate_years import PopulateYears
-from populate_people import PopulatePeople
+from populate.populate_years import PopulateYears
+from populate.populate_people import PopulatePeople
 
 app = Flask(__name__)
 
@@ -87,11 +87,14 @@ def populate_years():
 
 
 @app.route("/awards/")
-def award_root():
-    # For the sake of example, use static information to inflate the template.
-    # This will be replaced with real information in later steps.
+@app.route("/awards/page=<page>")
+def award_root(page=1):
 
-    return render_template("awards.html", awards=None)
+    page = int(page)
+    a_controller = AwardController()
+    paginated_awards = a_controller.get_paginated_full_awards(page)
+
+    return render_template("awards.html", paginated_awards=paginated_awards)
 
 
 @app.route("/awards/<award>/")

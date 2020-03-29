@@ -13,7 +13,7 @@ class PopulatePeople:
     def populate(self):
         pa_controller = PeopleAccessController()
 
-        people_f = open("DATABASE_ENGINE/people.txt", "r")
+        people_f = open("DATABASE_ENGINE/populate/people.txt", "r")
 
         people_list = people_f.readlines()
 
