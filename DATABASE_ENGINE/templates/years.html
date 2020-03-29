@@ -74,9 +74,25 @@
   <!-- TODO: Make into a grid instead of a list -->
   <div class="container">
     <ul>
-      {% for year in paginated_years.items %}
+      {% counter = 0 %}
 
-      <li><a id="year-links" href="{{'/years/%s'%year.year }}">{{ year.year }}</a></li>
+      {% for year in paginated_years.items %}
+      {% if counter%3 == 0 %}
+      <div class="row" style="text-align: center;">
+        <div class="col-md-4">
+          <a id="year-links" href="{{'/years/%s'%year.year }}">{{ year.year }}</a>
+        </div>>
+      </div>
+
+      {% else %}
+      <div class="col-md-4">
+        <a id="year-links" href="{{'/years/%s'%year.year }}">{{ year.year }}</a>
+      </div>>
+      {% endif %}
+
+      {% counter += 1 %}
+         
+     <!-- <li><a id="year-links" href="{{'/years/%s'%year.year }}">{{ year.year }}</a></li> -->
 
       {% endfor %}
     </ul>
