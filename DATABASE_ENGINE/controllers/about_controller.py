@@ -5,7 +5,8 @@ from github import Github
 # GH_API_KEY = os.environ["GITHUB_API"]
 
 
-g = Github(GH_API_KEY)
+#g = Github(GH_API_KEY)
+g = Github("538c1833d1e2405fe3a52ecdb6a0e9720a82c7d4")
 # Github Enterprise with custom hostname
 
 
@@ -25,11 +26,11 @@ class commits:
         # contents has total number of commits and also splits them up by day
         contents = repo.get_clones_traffic()
 
-        self.total = contents["count"]
-
         commits = requests.get(
             "https://api.github.com/repos/SahilAshar/EE461L-DatabaseApp/commits"
         ).json()
+
+        self.total = len(commits)
 
         commitdict = {}
         commitdict["natashalong"] = 0

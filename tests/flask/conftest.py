@@ -2,8 +2,11 @@ import os
 import pytest
 from flask import Flask
 
-#from DATABASE_ENGINE.build_about import issues
-#from DATABASE_ENGINE.build_about import commits
+from DATABASE_ENGINE.controllers.about_controller import issues
+from DATABASE_ENGINE.controllers.about_controller import commits
+from DATABASE_ENGINE.controllers.about_controller import AboutController
+
+from DATABASE_ENGINE.controllers.years_controller import YearController
 
 from DATABASE_ENGINE.build_years import get_year_info
 #from DATABASE_ENGINE.main import root
@@ -40,30 +43,13 @@ def make_pa_controller():
 @pytest.fixture
 def make_person_inst():
     me = Person(
-        query_name="austin+blanchard",
-        name="austin blanchard",
-        dob="Monday, February 27, 1999 (age: 21 years)",
-        bio="I am lit",
+        query_name="rami+malek",
+        name="rami malek",
+        dob="Tuesday, May 12, 1981 (age: 38 years)",
+        bio="RAMI SAID MALEK (EGYPTIAN BORN MAY 12, 1981) IS AN AMERICAN ACTOR AND PRODUCER. HIS BREAKTHROUGH ROLE WAS AS COMPUTER HACKER ELLIOT ALDERSON IN THE USA NETWORK TELEVISION SERIES MR. ROBOT (2015-2019), FOR WHICH HE RECEIVED SEVERAL ACCOLADES, INCLUDING THE 2016 PRIMETIME EMMY AWARD FOR OUTSTANDING LEAD ACTOR IN A DRAMA SERIES. IN 2018, HE PORTRAYED ROCK SINGER AND SONGWRITER ...",
         awards=["not yet"]
     )
     return me
-
-"""
-@pytest.fixture(scope='module')
-def test_client():
-    flask_app = create_app('flask_test.cfg')
-
-    # Flask provides a way to test your application by exposing the Werkzeug test Client
-    # and handling the context locals for you.
-    testing_client = flask_app.test_client()
-
-    # Establish an application context before running the tests.
-    ctx = flask_app.app_context()
-    ctx.push()
-
-    yield testing_client  # this is where the testing happens!
-
-    ctx.pop()
 
 
 @pytest.fixture()
@@ -76,7 +62,18 @@ def new_issues():
 def new_commits():
     test_commits = commits()
     return test_commits
-"""
+
+
+@pytest.fixture()
+def make_about_controller():
+    test_abtcontroller = AboutController()
+    return test_abtcontroller
+
+
+@pytest.fixture()
+def make_years_controller():
+    test_yrcontroller = YearController()
+    return test_yrcontroller
 
 
 @pytest.fixture()

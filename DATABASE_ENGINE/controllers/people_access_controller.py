@@ -67,6 +67,9 @@ class PeopleAccessController:
 
         actor.save()
 
+        #for testing
+        return actor
+
     def get(self, query_name):
 
         # Query all Person documents for names that contain our
@@ -174,7 +177,9 @@ class PeopleAccessController:
         for award_str in actor_awards_list:
             award_list.append(self.__build_award_doc(award_str))
 
+        print(str(award_list[0]))
         return award_list
+
 
     def __build_award_doc(self, award_str):
         # build Award document from string
