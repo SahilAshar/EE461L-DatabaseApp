@@ -61,6 +61,13 @@ class YearController:
 
         return matching_years
 
+    # TODO: return list of sorted years
+    # TODO: figure how to increment pages
+    def get_paginated_years(self, page):
+        paginated_years = Year.objects.paginate(page=page, per_page=9)
+
+        return paginated_years
+
     # Makes initial API call and returns a str of all awards
     # associated with a specific year
     def __get_all_year_awards_str(self, year_num):
@@ -74,6 +81,7 @@ class YearController:
             + "&includepodid=Result"
             + "&format=plaintext"
             + "&output=JSON"
+            + "&scantimeout=15.0"
             + "&appid=9U487H-VALXT3HLLQ"
         ).json()
 

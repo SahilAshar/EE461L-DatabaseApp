@@ -3,16 +3,12 @@ import datetime
 from flask import Flask, redirect, render_template, url_for
 from flask_mongoengine import MongoEngine
 
-import build_awards
 from controllers.about_controller import AboutController
+from controllers.awards_controller import AwardController
 from controllers.database_controller import initialize_db
 from controllers.people_access_controller import PeopleAccessController
 from controllers.years_controller import YearController
-
-# import build_about
-# import build_people
-# import build_years
-
+from populate_years import PopulateYears
 
 app = Flask(__name__)
 
@@ -21,8 +17,6 @@ app.config["MONGODB_SETTINGS"] = {
     "db": "omdb",
     "host": "mongodb+srv://sashar:qwerty12345@cluster0-0jhiw.gcp.mongodb.net/omdb?retryWrites=true&w=majority",
 }
-
-# db = MongoEngine(app)
 
 # Initializing DB separately, best practice for application factories
 initialize_db(app)
@@ -47,11 +41,12 @@ def about():
 
 
 @app.route("/years/")
-def year_root():
-    # For the sake of example, use static information to inflate the template.
-    # This will be replaced with real information in later steps.
+def year_root(page=1):
 
-    return render_template("years.html", year=None)
+    y_controller = YearController()
+    paginated_years = y_controller.get_paginated_years(page)
+
+    return render_template("years.html", paginated_years=paginated_years)
 
 
 @app.route("/years/<year>/")
@@ -76,6 +71,16 @@ def new_year(year):
     return redirect("/years/" + year + "/")
 
 
+# ! Temporary, do not use in production
+@app.route("/years/populate")
+def populate_years():
+
+    y = PopulateYears()
+    y.populate()
+
+    return redirect("/years/")
+
+
 @app.route("/awards/")
 def award_root():
     # For the sake of example, use static information to inflate the template.
@@ -87,14 +92,20 @@ def award_root():
 @app.route("/awards/<award>/")
 def award_instance(award):
 
-    if award == "actor-in-a-leading-role":
-        awards = build_awards.get_best_actor_list()
-    elif award == "actress-in-a-leading-role":
-        awards = build_awards.get_best_actress_list()
-    elif award == "directing":
-        awards = build_awards.get_best_director_list()
+    a_controller = AwardController()
+    awards = a_controller.get(award)
 
     return render_template("awards_instance.html", awards=awards)
+
+
+# TODO : This works(?) Need to make this an actual post request
+# But this proves I can create actual controllers that can link
+@app.route("/awards/new/update-all")
+def update_all_awards():
+    a_controller = AwardController()
+    a_controller.post()
+
+    return redirect("/awards/")
 
 
 @app.route("/people/")
