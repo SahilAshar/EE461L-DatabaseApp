@@ -2,11 +2,14 @@ import os
 import requests
 from github import Github
 
+# TODO: Uncomment this line before placing in production!
 # GH_API_KEY = os.environ["GITHUB_API"]
 
 
-#g = Github(GH_API_KEY)
-g = Github("538c1833d1e2405fe3a52ecdb6a0e9720a82c7d4")
+# g = Github("538c1833d1e2405fe3a52ecdb6a0e9720a82c7d4")
+
+g = Github(GH_API_KEY)
+
 # Github Enterprise with custom hostname
 
 
