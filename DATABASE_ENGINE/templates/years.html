@@ -69,6 +69,9 @@
       </div>
     </div>
   </div> -->
+  
+  <!-- ! ALL PAGINATION CODE -->
+  <!-- TODO: Make into a grid instead of a list -->
   <div class="container">
     <ul>
       {% for year in paginated_years.items %}
@@ -78,14 +81,16 @@
       {% endfor %}
     </ul>
   </div>
-  
+
+  <!-- ! ALL PAGINATION NAVIGATION CODE-->
+  <!-- TODO: Format page number appearances -->
   {# Macro for creating navigation links #}
   {% macro render_navigation(pagination, endpoint) %}
   <div class=pagination>
   {% for page in pagination.iter_pages() %}
     {% if page %}
       {% if page != pagination.page %}
-        <a href="{{ url_for(endpoint, page=page) }}">{{ page }}</a>
+        <a id="year-links" href="{{ url_for(endpoint, page=page) }}">{{ page }}</a>
       {% else %}
         <strong>{{ page }}</strong>
       {% endif %}
@@ -94,9 +99,11 @@
     {% endif %}
   {% endfor %}
   </div>
-{% endmacro %}
+  {% endmacro %}
 
-{{ render_navigation(paginated_years, 'year_root') }} 
+  {{ render_navigation(paginated_years, 'year_root') }}
+  <!-- ! END ALL PAGINATION NAVIGATION CODE-->
+  <!-- ! END ALL PAGINATION CODE --> 
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

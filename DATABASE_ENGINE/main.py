@@ -8,7 +8,9 @@ from controllers.awards_controller import AwardController
 from controllers.database_controller import initialize_db
 from controllers.people_access_controller import PeopleAccessController
 from controllers.years_controller import YearController
-from populate_years import PopulateYears
+
+from populate.populate_years import PopulateYears
+from populate.populate_people import PopulatePeople
 
 app = Flask(__name__)
 
@@ -40,9 +42,12 @@ def about():
     return render_template("about.html", issues=issues_obj, commits=commits_obj)
 
 
+# TODO: this is a janky way of handling pagination, pls fix @Sahil
 @app.route("/years/")
+@app.route("/years/page=<page>")
 def year_root(page=1):
 
+    page = int(page)
     y_controller = YearController()
     paginated_years = y_controller.get_paginated_years(page)
 
@@ -82,11 +87,14 @@ def populate_years():
 
 
 @app.route("/awards/")
-def award_root():
-    # For the sake of example, use static information to inflate the template.
-    # This will be replaced with real information in later steps.
+@app.route("/awards/page=<page>")
+def award_root(page=1):
 
-    return render_template("awards.html", awards=None)
+    page = int(page)
+    a_controller = AwardController()
+    paginated_awards = a_controller.get_paginated_full_awards(page)
+
+    return render_template("awards.html", paginated_awards=paginated_awards)
 
 
 @app.route("/awards/<award>/")
@@ -108,10 +116,16 @@ def update_all_awards():
     return redirect("/awards/")
 
 
+# TODO: this is a janky way of handling pagination, pls fix @Sahil
 @app.route("/people/")
-def people_root():
+@app.route("/people/page=<page>")
+def people_root(page=1):
 
-    return render_template("people.html", people=None)
+    page = int(page)
+    pa_controller = PeopleAccessController()
+    paginated_people = pa_controller.get_paginated_people(page)
+
+    return render_template("people.html", paginated_people=paginated_people)
 
 
 @app.route("/people/<person>/")
@@ -135,6 +149,18 @@ def new_person(person):
     pa_controller.post(person)
 
     return redirect("/people/" + person + "/")
+
+
+# ! Temporary, do not use in production
+@app.route("/people/populate")
+def populate_people():
+
+    p = PopulatePeople()
+
+    # p.print_names()
+    p.populate()
+
+    return redirect("/people/")
 
 
 @app.route("/movies/")

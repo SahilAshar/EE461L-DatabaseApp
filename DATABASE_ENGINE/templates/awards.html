@@ -58,7 +58,7 @@
 
   <div>
     <p class="page-title-gold">AWARDS</p>
-    <div class="row" style="text-align: center;">
+    <!-- <div class="row" style="text-align: center;">
       <div class="col-md-4">
         <a id="award-links" href="/awards/actor-in-a-leading-role">Actor in a leading Role</a>
       </div>
@@ -68,8 +68,43 @@
       <div class="col-md-4">
         <a id="year-links" href="/awards/directing">Directing</a>
       </div>
-    </div>
+    </div> -->
   </div>
+
+  <!-- ! ALL PAGINATION CODE -->
+  <!-- TODO: Make into a grid instead of a list -->
+  <div class="container">
+    <ul>
+      {% for award in paginated_awards.items %}
+
+      <li><a id="movie-links" href="{{'/awards/%s'%award.query_title }}">{{ award.title }}</a></li>
+
+      {% endfor %}
+    </ul>
+  </div>
+
+  <!-- ! ALL PAGINATION NAVIGATION CODE-->
+  <!-- TODO: Format page number appearances -->
+  {# Macro for creating navigation links #}
+  {% macro render_navigation(pagination, endpoint) %}
+  <div class=pagination>
+  {% for page in pagination.iter_pages() %}
+    {% if page %}
+      {% if page != pagination.page %}
+        <a id="movie-links" href="{{ url_for(endpoint, page=page) }}">{{ page }}</a>
+      {% else %}
+        <strong>{{ page }}</strong>
+      {% endif %}
+    {% else %}
+      <span class=ellipsis>…</span>
+    {% endif %}
+  {% endfor %}
+  </div>
+  {% endmacro %}
+
+  {{ render_navigation(paginated_awards, 'award_root') }}
+  <!-- ! END ALL PAGINATION NAVIGATION CODE-->
+  <!-- ! END ALL PAGINATION CODE --> 
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
