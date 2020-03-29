@@ -41,6 +41,11 @@ class AwardController:
 
         return matching_full_awards
 
+    def get_all_award_winners(self):
+        all_award_objects = AwardWinner.objects()
+
+        return all_award_objects
+
     def __get_best_picture_info(self):
 
         best_picture_json = requests.get(

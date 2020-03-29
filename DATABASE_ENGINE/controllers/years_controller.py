@@ -61,10 +61,8 @@ class YearController:
 
         return matching_years
 
-    # TODO: return list of sorted years
-    # TODO: figure how to increment pages
     def get_paginated_years(self, page):
-        paginated_years = Year.objects.paginate(page=page, per_page=9)
+        paginated_years = Year.objects.order_by("year").paginate(page=page, per_page=9)
 
         return paginated_years
 
