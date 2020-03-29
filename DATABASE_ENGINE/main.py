@@ -3,14 +3,14 @@ import datetime
 from flask import Flask, redirect, render_template, url_for
 from flask_mongoengine import MongoEngine
 
-import build_about
-import build_awards
-import build_people
-import build_years
-
+from controllers.about_controller import AboutController
+from controllers.awards_controller import AwardController
 from controllers.database_controller import initialize_db
 from controllers.people_access_controller import PeopleAccessController
 from controllers.years_controller import YearController
+
+from populate.populate_years import PopulateYears
+from populate.populate_people import PopulatePeople
 
 app = Flask(__name__)
 
@@ -19,8 +19,6 @@ app.config["MONGODB_SETTINGS"] = {
     "db": "omdb",
     "host": "mongodb+srv://sashar:qwerty12345@cluster0-0jhiw.gcp.mongodb.net/omdb?retryWrites=true&w=majority",
 }
-
-# db = MongoEngine(app)
 
 # Initializing DB separately, best practice for application factories
 initialize_db(app)
@@ -35,32 +33,40 @@ def root():
 
 @app.route("/about")
 def about():
-    # For the sake of example, use static information to inflate the template.
-    # This will be replaced with real information in later steps.
 
-    issues_obj = build_about.return_issue_obj()
-    commits_obj = build_about.return_commit_obj()
+    about_controller = AboutController()
+
+    issues_obj = about_controller.return_issue_obj()
+    commits_obj = about_controller.return_commit_obj()
 
     return render_template("about.html", issues=issues_obj, commits=commits_obj)
 
 
+# TODO: this is a janky way of handling pagination, pls fix @Sahil
 @app.route("/years/")
-def year_root():
-    # For the sake of example, use static information to inflate the template.
-    # This will be replaced with real information in later steps.
+@app.route("/years/page=<page>")
+def year_root(page=1):
 
-    return render_template("years.html", year=None)
+    page = int(page)
+    y_controller = YearController()
+    paginated_years = y_controller.get_paginated_years(page)
+
+    return render_template("years.html", paginated_years=paginated_years)
 
 
 @app.route("/years/<year>/")
 def year_instance(year):
 
     y_controller = YearController()
-    year = y_controller.get(year)
+    year_obj = y_controller.get(year)
 
-    return render_template("years_instance.html", year=year_dict, awards=year_awards)
+    return render_template(
+        "years_instance.html", year=year_obj.year, awards=year_obj.awards
+    )
 
 
+# TODO : This works(?) Need to make this an actual post request
+# But this proves I can create actual controllers that can link
 @app.route("/years/new/<year>/")
 def new_year(year):
 
@@ -70,31 +76,56 @@ def new_year(year):
     return redirect("/years/" + year + "/")
 
 
-@app.route("/awards/")
-def award_root():
-    # For the sake of example, use static information to inflate the template.
-    # This will be replaced with real information in later steps.
+# ! Temporary, do not use in production
+@app.route("/years/populate")
+def populate_years():
 
-    return render_template("awards.html", awards=None)
+    y = PopulateYears()
+    y.populate()
+
+    return redirect("/years/")
+
+
+@app.route("/awards/")
+@app.route("/awards/page=<page>")
+def award_root(page=1):
+
+    page = int(page)
+    a_controller = AwardController()
+    paginated_awards = a_controller.get_paginated_full_awards(page)
+
+    return render_template("awards.html", paginated_awards=paginated_awards)
 
 
 @app.route("/awards/<award>/")
 def award_instance(award):
 
-    if award == "actor-in-a-leading-role":
-        awards = build_awards.get_best_actor_list()
-    elif award == "actress-in-a-leading-role":
-        awards = build_awards.get_best_actress_list()
-    elif award == "directing":
-        awards = build_awards.get_best_director_list()
+    a_controller = AwardController()
+    awards = a_controller.get(award)
 
     return render_template("awards_instance.html", awards=awards)
 
 
-@app.route("/people/")
-def people_root():
+# TODO : This works(?) Need to make this an actual post request
+# But this proves I can create actual controllers that can link
+@app.route("/awards/new/update-all")
+def update_all_awards():
+    a_controller = AwardController()
+    a_controller.post()
 
-    return render_template("people.html", people=None)
+    return redirect("/awards/")
+
+
+# TODO: this is a janky way of handling pagination, pls fix @Sahil
+@app.route("/people/")
+@app.route("/people/page=<page>")
+def people_root(page=1):
+
+    page = int(page)
+    pa_controller = PeopleAccessController()
+    paginated_people = pa_controller.get_paginated_people(page)
+
+    return render_template("people.html", paginated_people=paginated_people)
 
 
 @app.route("/people/<person>/")
@@ -118,6 +149,18 @@ def new_person(person):
     pa_controller.post(person)
 
     return redirect("/people/" + person + "/")
+
+
+# ! Temporary, do not use in production
+@app.route("/people/populate")
+def populate_people():
+
+    p = PopulatePeople()
+
+    # p.print_names()
+    p.populate()
+
+    return redirect("/people/")
 
 
 @app.route("/movies/")

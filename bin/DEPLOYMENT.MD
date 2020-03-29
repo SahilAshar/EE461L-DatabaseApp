@@ -1,7 +1,7 @@
 # Deployment Instructions
 
 ## First Steps
-* First, make run this command: `chmod u+x setup.sh build.sh deploy.sh`
+* First, make run this command: `chmod u+x bin/setup.sh bin/build.sh bin/deploy.sh`
 
 * Then run: `./bin/setup.sh`
 * This makes the scripts runnable and creates a local deployment environment. 
