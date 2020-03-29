@@ -9,4 +9,4 @@
 ## To Build Locally
 * First, navigate back to the root directory `EE461L-DatabaseApp/`
 * Run: `./bin/build.sh`
-* If you have the appropriate dependencies (i.e. python3 and venv)
+* If you have the appropriate dependencies (i.e. python3 and venv)/Users/natashalong/Documents/EE461L/EE461L-DatabaseApp/bin/DEPLOYMENT.MD
