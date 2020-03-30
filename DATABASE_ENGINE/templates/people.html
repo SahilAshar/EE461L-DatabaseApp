@@ -80,14 +80,12 @@
 
   <!-- ! ALL PAGINATION CODE -->
   <!-- TODO: Make into a grid instead of a list -->
-  <div class="container">
-    <ul>
-      {% for person in paginated_people.items %}
-
-      <li><a id="movie-links" href="{{'/people/%s'%person.query_name }}">{{ person.name }}</a></li>
-
-      {% endfor %}
-    </ul>
+  <div class="grid-container">
+    {% for person in paginated_people.items %}
+      <div class="grid-item">
+        <a id="movie-links" href="{{'/people/%s'%person.query_name }}">{{ person.name }}</a>
+      </div>
+    {% endfor %}
   </div>
 
   <!-- ! ALL PAGINATION NAVIGATION CODE-->
