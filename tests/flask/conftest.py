@@ -8,9 +8,9 @@ from DATABASE_ENGINE.controllers.about_controller import AboutController
 
 from DATABASE_ENGINE.controllers.years_controller import YearController
 
-from DATABASE_ENGINE.build_years import get_year_info
-#from DATABASE_ENGINE.main import root
 from DATABASE_ENGINE.controllers.database_controller import initialize_db
+
+from DATABASE_ENGINE.controllers.awards_controller import AwardController
 
 from DATABASE_ENGINE.controllers.people_access_controller import PeopleAccessController
 from DATABASE_ENGINE.controllers.people_access_controller import Person
@@ -34,12 +34,13 @@ def app():
     initialize_db(app)
     return app
 
-
+# make people controller
 @pytest.fixture
 def make_pa_controller():
     test_pacontroller = PeopleAccessController()
     return test_pacontroller
 
+# rami malek Person object for testing
 @pytest.fixture
 def make_person_inst():
     me = Person(
@@ -51,7 +52,7 @@ def make_person_inst():
     )
     return me
 
-
+#make stuff to test about
 @pytest.fixture()
 def new_issues():
     test_issues = issues()
@@ -70,17 +71,16 @@ def make_about_controller():
     return test_abtcontroller
 
 
+# make years controller
 @pytest.fixture()
 def make_years_controller():
     test_yrcontroller = YearController()
     return test_yrcontroller
 
 
+# make awards controller
 @pytest.fixture()
-def awards_for_1995():
-    awards = get_year_info(1995)
-    print(awards[0].nominees)
-    return awards
-
-
+def make_awards_controller():
+    test_awardcontroller = AwardController()
+    return test_awardcontroller
 
