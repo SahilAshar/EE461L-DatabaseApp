@@ -1,9 +1,7 @@
 import requests
 
-# import mongoengine as me
-# from mongoengine import *
-
 from .database_controller import db
+
 
 """
     Design Choices
