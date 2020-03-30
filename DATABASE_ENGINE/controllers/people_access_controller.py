@@ -1,9 +1,7 @@
 import requests
 
-# import mongoengine as me
-# from mongoengine import *
-
 from .database_controller import db
+
 
 """
     Design Choices
@@ -67,12 +65,14 @@ class PeopleAccessController:
 
         actor.save()
 
+        # ! USED ONLY FOR TESTING
+        return actor
+
     def get(self, query_name):
 
         # Query all Person documents for names that contain our
         # query_name string. Case insensive.
         query_name = query_name.replace("-", "+")
-        name_list = list(query_name.split("+"))
 
         # You can only query one value at a time against fields, so you need
         # to query each part of the person's name and slowly narrow down options
@@ -81,14 +81,18 @@ class PeopleAccessController:
         #     matching_persons = Person.objects(name__icontains=name_list[i])
 
         matching_persons = Person.objects(query_name__icontains=query_name)
-        # matching_persons = Person.objects(name__icontains="rami malek")
 
-        print(len(matching_persons))
+        # print(len(matching_persons))
 
-        for person in matching_persons:
-            print(person.name)
+        # for person in matching_persons:
+        #     print(person.name)
 
         return matching_persons
+
+    def get_paginated_people(self, page):
+        paginated_people = Person.objects.paginate(page=page, per_page=9)
+
+        return paginated_people
 
     def __get_actor_data_str(self, query_name):
 
@@ -174,6 +178,7 @@ class PeopleAccessController:
         for award_str in actor_awards_list:
             award_list.append(self.__build_award_doc(award_str))
 
+        print(str(award_list[0]))
         return award_list
 
     def __build_award_doc(self, award_str):
