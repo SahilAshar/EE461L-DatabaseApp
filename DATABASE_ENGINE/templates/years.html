@@ -72,14 +72,13 @@
   
   <!-- ! ALL PAGINATION CODE -->
   <!-- TODO: Make into a grid instead of a list -->
-  <div class="container">
-    <ul>
-      {% for year in paginated_years.items %}
 
-      <li><a id="year-links" href="{{'/years/%s'%year.year }}">{{ year.year }}</a></li>
-
-      {% endfor %}
-    </ul>
+  <div class="grid-container">
+    {% for year in paginated_years.items %}
+      <div class="grid-item">
+        <a id="year-links" href="{{'/years/%s'%year.year }}">{{ year.year }}</a>
+      </div>
+    {% endfor %}
   </div>
 
   <!-- ! ALL PAGINATION NAVIGATION CODE-->

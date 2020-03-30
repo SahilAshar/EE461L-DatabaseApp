@@ -73,14 +73,12 @@
 
   <!-- ! ALL PAGINATION CODE -->
   <!-- TODO: Make into a grid instead of a list -->
-  <div class="container">
-    <ul>
-      {% for award in paginated_awards.items %}
-
-      <li><a id="movie-links" href="{{'/awards/%s'%award.query_title }}">{{ award.title }}</a></li>
-
-      {% endfor %}
-    </ul>
+  <div class="grid-container">
+    {% for award in paginated_awards.items %}
+      <div class="grid-item">
+        <a id="year-links" href="{{'/awards/%s'%award.query_title }}">{{ award.title }}</a>
+      </div>
+    {% endfor %}
   </div>
 
   <!-- ! ALL PAGINATION NAVIGATION CODE-->
