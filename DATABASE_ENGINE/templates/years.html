@@ -89,9 +89,9 @@
   {% for page in pagination.iter_pages() %}
     {% if page %}
       {% if page != pagination.page %}
-        <a id="year-links" href="{{ url_for(endpoint, page=page) }}">{{ page }}</a>
+        <a id="page-numbers" href="{{ url_for(endpoint, page=page) }}">{{ page }}</a>
       {% else %}
-        <strong>{{ page }}</strong>
+        <strong id="selected-page">{{ page }}</strong>
       {% endif %}
     {% else %}
       <span class=ellipsis>…</span>
