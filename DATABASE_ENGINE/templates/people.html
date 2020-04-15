@@ -11,12 +11,12 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-  <!-- local stylesheeht reference -->
+  <!-- Local Stylesheeht Reference -->
   <!-- <link rel="stylesheet" href="../static/style.css" /> -->
   <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
 </head>
-
+<!-- Navbar Code -->
 <nav class="navbar navbar-expand-lg">
 
   <a class="navbar-brand" href="#">
@@ -52,44 +52,32 @@
     </ul>
   </div>
 </nav>
+<!-- End Navbar Code -->
 
 <body>
 
   <div>
-    <p class="page-title-gold">PEOPLE</p>
+    <p class="model-title">PEOPLE</p>
   </div>
-  <!-- <div class="container">
-    <div class="row" style="text-align: center;">
-      <div class="col-md-4" id="heading">
-        <img src="{{ url_for('static', filename='bong-joon-ho.jpg') }}" alt="BONG JOON HO" height="200" style="object-fit: cover;" />
-        <br>
-        <a id="movie-links" href="/people/bong-joon-ho">Bong Joon Ho</a>
-      </div>
-      <div class="col-md-4" id="heading">
-        <img src="{{ url_for('static', filename='janet-gaynor.jpg') }}" alt="Janet Gaynor" height="200" style="object-fit: cover;"/>
-        <br>
-        <a id="movie-links" href="/people/janet-gaynor">Janet Gaynor</a>
-      </div>
-      <div class="col-md-4" id="heading">
-        <img src="{{ url_for('static', filename='rami-malek.jpg') }}" height="200" style="object-fit: cover;"/>
-        <br>
-        <a id="movie-links" href="/people/rami-malek">Rami Malek</a>
-      </div>
-    </div>
-  </div> -->
 
-  <!-- ! ALL PAGINATION CODE -->
-  <!-- TODO: Make into a grid instead of a list -->
+  <!-- Grid Code -->
   <div class="grid-container">
     {% for person in paginated_people.items %}
       <div class="grid-item">
-        <a id="movie-links" href="{{'/people/%s'%person.query_name }}">{{ person.name }}</a>
+        <div class="card" style="width: 30rem; height: 35rem;" >
+          <!-- We will replace image below with image of each actor -->
+          <img class="card-img-top" src="../static/bong-joon-ho.jpg" alt="Card image cap">
+          <div class="card-body" >
+            <a class="card-title" href="{{'/people/%s'%person.query_name }}">{{ person.name }}</a>
+            <p class="card-text">Add attributes here: DOB, Classification (Actor, Director, etc.)</p>
+          </div>
+        </div>
       </div>
     {% endfor %}
   </div>
+  <!-- End Grid Code -->
 
-  <!-- ! ALL PAGINATION NAVIGATION CODE-->
-  <!-- TODO: Format page number appearances -->
+  <!-- Pagination Navigation Code-->
   {# Macro for creating navigation links #}
   {% macro render_navigation(pagination, endpoint) %}
   <div class=pagination>
@@ -108,8 +96,7 @@
   {% endmacro %}
 
   {{ render_navigation(paginated_people, 'people_root') }}
-  <!-- ! END ALL PAGINATION NAVIGATION CODE-->
-  <!-- ! END ALL PAGINATION CODE --> 
+  <!-- End Pagination Code --> 
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
