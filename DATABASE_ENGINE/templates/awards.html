@@ -17,12 +17,12 @@
   <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
+<!-- Navbar Code -->
 <nav class="navbar navbar-expand-lg">
 
   <a class="navbar-brand" href="#">
     <img src="{{ url_for('static', filename='oscars_logo.png') }}" alt="OSCARS LOGO" width="138"
       height="72" />
-    <!-- <img src="{{ url_for('static', filename='oscars_logo.png') }}" alt="OSCARS LOGO" width="770" height="443" class="center"> -->
   </a>
 
   <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#supportedContent"
@@ -53,36 +53,35 @@
     </ul>
   </div>
 </nav>
+<!-- End Navbar Code -->
 
 <body>
 
+  <!-- Model Title -->
   <div>
     <p class="model-title">AWARDS</p>
-    <!-- <div class="row" style="text-align: center;">
-      <div class="col-md-4">
-        <a id="award-links" href="/awards/actor-in-a-leading-role">Actor in a leading Role</a>
-      </div>
-      <div class="col-md-4">
-        <a id="year-links" href="/awards/actress-in-a-leading-role">actress in a leading role</a>
-      </div>
-      <div class="col-md-4">
-        <a id="year-links" href="/awards/directing">Directing</a>
-      </div>
-    </div> -->
   </div>
+  <!-- End Model Title -->
 
-  <!-- ! ALL PAGINATION CODE -->
-  <!-- TODO: Make into a grid instead of a list -->
+  <!-- Grid Code -->
   <div class="grid-container">
     {% for award in paginated_awards.items %}
       <div class="grid-item">
-        <a id="year-links" href="{{'/awards/%s'%award.query_title }}">{{ award.title }}</a>
+        <div class="card">
+          <!-- We will replace image below with image of each host or find the oscars loco per year? -->
+          <img class="card-img-top" src="../static/oscars_logo.png" alt="Card image cap">
+            <a class="card-title" href="{{'/awards/%s'%award.query_title }}">{{ award.title }}</a>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item bg-transparent">Most Recent Recipient: {{award.winners[0]['name']}} - {{award.winners[0]['year']}}</li>
+              <li class="list-group-item bg-transparent">First Recipient: {{award.winners[-1]['name']}} - {{award.winners[-1]['year']}}</li>
+            </ul>
+        </div>
       </div>
     {% endfor %}
   </div>
+  <!-- End Grid Code -->
 
-  <!-- ! ALL PAGINATION NAVIGATION CODE-->
-  <!-- TODO: Format page number appearances -->
+  <!-- Pagination Navigation Code-->
   {# Macro for creating navigation links #}
   {% macro render_navigation(pagination, endpoint) %}
   <div class=pagination>
@@ -101,8 +100,7 @@
   {% endmacro %}
 
   {{ render_navigation(paginated_awards, 'award_root') }}
-  <!-- ! END ALL PAGINATION NAVIGATION CODE-->
-  <!-- ! END ALL PAGINATION CODE --> 
+  <!-- End Pagination Navigation Code-->
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
