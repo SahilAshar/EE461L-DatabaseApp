@@ -19,10 +19,10 @@
 
 <body>
 
+  <!-- Navbad Code -->
   <nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="#">
       <img src="{{ url_for('static', filename='oscars_logo.png') }}" alt="OSCARS LOGO" width="138" height="72" />
-      <!-- <img src="{{ url_for('static', filename='oscars_logo.png') }}" alt="OSCARS LOGO" width="770" height="443" class="center"> -->
     </a>
 
     <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#supportedContent"
@@ -53,7 +53,8 @@
       </ul>
     </div>
   </nav>
-  <!-- need to populate below section -->
+  <!-- End Navbar Code -->
+
   <div style="text-align: center;">
     <!-- how to reference image in tag? -->
     <img src="{{people['image_link']}}" alt="Actor Pic" />
@@ -61,12 +62,12 @@
     <p id="header2" style="font-size: 30px; text-decoration: underline;">Birthday</p>
     <p id="header2">{{people['dob']}}</p>
     <br>
-    <p id="header2" style="font-size: 30px; text-decoration: underline;">Biography</p>
-    <p id="header2">{{people['bio']}}</p>
+    <p id="instance-attribute">Biography</p>
+    <p id="instance-content">{{people['bio']}}</p>
     <br>
-    <p id="header2" style="font-size: 30px; text-decoration: underline;">AWARDS WON</p>
+    <p id="instance-attribute">AWARDS WON</p>
     {% for award in people['awards'] %}
-    <p id="header2">
+    <p id="instance-awards">
       {{award['title']}} -- {{award['year']}} -- {{award['movie']}}
     </p>
     {% endfor %}
