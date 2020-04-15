@@ -33,7 +33,7 @@ body{
 .row{
   background-color: black;
 }
-.page-title-gold {
+.model-title{
   color: #D5AD6D; /*if no support for background-clip*/
   background: -webkit-linear-gradient(transparent, transparent),
   -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
@@ -41,8 +41,8 @@ body{
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-align: center;
-  font-size: 150px;
-  font-weight: 100;
+  font-size: 175px;
+  font-weight: lighter;
   text-transform: uppercase;
 }
 
@@ -116,21 +116,28 @@ body{
   -webkit-text-fill-color: transparent;
   font-size: 25px;
   font-weight: lighter;
+  text-align: center;
 }
+
+/* GRID CSS */
 .grid-container {
   display: grid;
   grid-template-columns: auto auto auto;
   background-color: black;
   padding: 10px;
+  justify-items: center;
+  align-items: center;
 }
 .grid-item {
   background-color: black;
   border: 1px solid black;
   padding: 20px;
   font-size: 30px;
-  text-align: center;
+  justify-items: center;
+  align-items: center;
 }
 
+/* PAGINATION CSS */
 #page-numbers{
   color: #D5AD6D; /*if no support for background-clip*/
   background: -webkit-linear-gradient(transparent, transparent),
@@ -155,3 +162,25 @@ body{
   text-align: center;
   text-decoration: underline;
 }
+
+/* CARD CSS */
+.card{
+  color: #D5AD6D; /*if no support for background-clip*/
+  background: -webkit-linear-gradient(transparent, transparent),
+  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+  background: -o-linear-gradient(transparent, transparent);
+  text-align: center;
+  width: 29%;
+  flex-wrap: wrap;
+  flex: initial; 
+}
+
+.card-title{
+  color:black;
+  text-transform: uppercase;
+}
+
+.card-text{
+  color: black;
+}
+
