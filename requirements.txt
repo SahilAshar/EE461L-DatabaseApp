@@ -4,3 +4,5 @@ pymongo[tls, srv]
 flask-mongoengine
 requests
 PyGithub
+pytest
+pytest-flask
