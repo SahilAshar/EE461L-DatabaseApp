@@ -55,22 +55,24 @@
 <!-- End Navbar Code -->
 
 <body>
-
+  <!-- Model Title -->
   <div>
     <p class="model-title">PEOPLE</p>
   </div>
+  <!-- End Model Title -->
 
   <!-- Grid Code -->
   <div class="grid-container">
     {% for person in paginated_people.items %}
       <div class="grid-item">
-        <div class="card" style="width: 30rem; height: 35rem;" >
+        <div class="card" >
           <!-- We will replace image below with image of each actor -->
           <img class="card-img-top" src="../static/bong-joon-ho.jpg" alt="Card image cap">
-          <div class="card-body" >
             <a class="card-title" href="{{'/people/%s'%person.query_name }}">{{ person.name }}</a>
-            <p class="card-text">Add attributes here: DOB, Classification (Actor, Director, etc.)</p>
-          </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item bg-transparent">Date of Birth: {{person.dob.split("(")[0]}}</li>
+              <li class="list-group-item bg-transparent">person position (actor, director, etc.)</li>
+            </ul>
         </div>
       </div>
     {% endfor %}
@@ -96,7 +98,7 @@
   {% endmacro %}
 
   {{ render_navigation(paginated_people, 'people_root') }}
-  <!-- End Pagination Code --> 
+  <!-- End Pagination Navigation Code --> 
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
