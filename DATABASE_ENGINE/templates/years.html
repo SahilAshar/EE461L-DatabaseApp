@@ -69,7 +69,7 @@
           <div class="card">
             <!-- We will replace image below with image of each host or find the oscars loco per year? -->
             <img class="card-img-top" src="../static/oscars_logo.png" alt="Card image cap">
-              <a class="card-title" href="{{'/years/%s'%year.year }}">{{ year.year }}</a>
+              <a class="card-title" href="{{'/years/%s'%year.query_ceremony }}">{{ year.ceremony_name }}</a>
               <ul class="list-group list-group-flush">
                 <li class="list-group-item bg-transparent">Having the name of the host for that year</li>
                 <li class="list-group-item bg-transparent">Venue for that year</li>
@@ -80,6 +80,7 @@
     </div>
   </div>
   <!-- End Grid Code -->
+
 
   <!-- Pagination Navigation Code-->
   {# Macro for creating navigation links #}
