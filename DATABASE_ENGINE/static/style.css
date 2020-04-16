@@ -15,7 +15,7 @@ body{
 
 /* NAVBAR AND LINKS*/
 .navbar.navbar-expand-lg{
-  background-color: #0E0E0C ; 
+  background-color: #0E0E0C ;
 }
 .nav-link{
   color: #D5AD6D; /*if no support for background-clip*/
@@ -176,14 +176,14 @@ body{
 
 .card-title{
   color:black;
-  font-size: 25px;
+  font-size: 30px;
   font-weight: 350;
   text-transform: uppercase;
 }
 
 .list-group-item{
   color: black;
-  font-size: 25px;
+  font-size: 20px;
   font-weight: 200;
 }
 

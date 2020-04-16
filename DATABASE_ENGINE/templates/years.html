@@ -71,7 +71,7 @@
             <a class="card-title" href="{{'/years/%s'%year.year }}">{{ year.year }}</a>
             <ul class="list-group list-group-flush">
               <li class="list-group-item bg-transparent">Having the name of the host for that year</li>
-              <li class="list-group-item bg-transparent">What is another attribute for year?</li>
+              <li class="list-group-item bg-transparent">Venue for that year</li>
             </ul>
         </div>
       </div>
@@ -82,18 +82,24 @@
   <!-- Pagination Navigation Code-->
   {# Macro for creating navigation links #}
   {% macro render_navigation(pagination, endpoint) %}
-  <div class=pagination id="center-block"> 
-  {% for page in pagination.iter_pages() %}
-    {% if page %}
-      {% if page != pagination.page %}
-        <a id="page-numbers" href="{{ url_for(endpoint, page=page) }}">{{ page }}</a>
-      {% else %}
-        <strong id="selected-page">{{ page }}</strong>
+  <div class=pagination id="center-block">
+    {% if pagination.page != 1%}
+      <a id="page-numbers" href="{{ url_for(endpoint, page=pagination.page-1) }}">previous</a>
+    {% endif%}
+      {% for page in pagination.iter_pages() %}
+        {% if page %}
+          {% if page != pagination.page %}
+            <a id="page-numbers" href="{{ url_for(endpoint, page=page) }}">{{ page }}</a>
+          {% else %}
+            <strong id="selected-page">{{ page }}</strong>
+          {% endif %}
+        {% else %}
+          <span class=ellipsis>…</span>
+        {% endif %} 
+      {% endfor %}
+      {% if pagination.page != pagination.pages %}
+        <a id="page-numbers" href="{{ url_for(endpoint, page=pagination.page+1) }}">next</a>
       {% endif %}
-    {% else %}
-      <span class=ellipsis>…</span>
-    {% endif %}
-  {% endfor %}
   </div>
   {% endmacro %}
 
