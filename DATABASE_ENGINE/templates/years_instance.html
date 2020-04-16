@@ -53,22 +53,44 @@
   </nav>
   <!-- End Navbar Code -->
 
-  <!-- Instance Title -->
-  <div>
-    <img src="{{ year['image_link'] }}" alt="Ceremony Pic" />
-    <p class="instance-title-gold">{{ year['ceremony_name'] }}</p>
-    <p class="header2">{{ year['ceremony_summary'] }}</p>
-  </div>
-  <div class="listings">
-    <!-- <img src="{{year['image_link']}}" alt="Actor Pic" /> -->
-    {% for award in awards%}
-  	  <p id="header2" style="font-size: 30px; text-decoration: underline;"> {{award['title']}}</p>
-      {% for nominee in award['nominees'] %}
-        <p id="header2"> {{nominee['song']}} {{nominee['name']}} -- {{nominee['movie']}}</p>
-      {% endfor %}
-    {% endfor %}
+  <!-- Content -->
+  <div style="text-align: center; "></div>
+    <div id="center-block">
+      <p class="instance-title">{{year['ceremony_name']}}</p>
+    </div>
+    <br>
+    <div id="center-block">
+      <img id="img-format" src="{{year['image_link']}}" alt="Ceremony Pic" />
+    </div>
+    <br>
+    <br>
+    <div id="center-block-content">
+      <p id="instance-content">{{ year['ceremony_summary'] }}</p>
+    </div>
+    <br>
+    <div id="center-block">
+      <p id="instance-attribute">Awards Won</p>
     </div>
   </div>
+  <!-- End Content -->
+
+  <!-- Grid Code -->
+  <div id="center-block">
+    <div class="row" id="instance-grid" style="width: 80%;">
+      {% for award in awards%}
+        <div class="col" id="instance-grid-awards">{{award['title']}}</div>
+        {% for nominee in award['nominees'] %}
+          <div class="col" id="instance-grid-recipient">{{nominee['song']}} {{nominee['name']}} -- {{nominee['movie']}}</div>
+        {% endfor %}
+        <div class="w-100"></div>
+      {% endfor %}
+    </div>
+  </div>
+  <!-- End Grid Code -->
+
+  <br>
+  <br>
+  <br>
 
   <!-- End Grid Code -->
 

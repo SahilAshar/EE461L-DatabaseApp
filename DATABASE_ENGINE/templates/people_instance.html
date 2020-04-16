@@ -55,12 +55,23 @@
   </nav>
   <!-- End Navbar Code -->
 
-  <div style="text-align: center;">
-    <!-- how to reference image in tag? -->
-    <img src="{{people['image_link']}}" alt="Actor Pic" width="360" height="480"/>
-    <p class="instance-title-gold">{{people['name']}}</p>
-    <p id="header2" style="font-size: 30px; text-decoration: underline;">Birthday</p>
-    <p id="header2">{{people['dob']}}</p>
+  <!-- Content -->
+  <div style="text-align: center; ">
+    <div id="center-block">
+      <p class="instance-title">{{people['name']}}</p>
+    </div>
+    <br>
+    <div id="center-block">
+      <img src="{{people['image_link']}}" alt="Actor Pic" width="360" height="480"/>
+    </div>
+    <br>
+    <br>
+    <div id="center-block">
+      <p id="instance-attribute">Birthday</p>
+    </div>
+    <div id="center-block-content">
+      <p id="instance-content">{{people['dob'].split("(")[0]}}</p>
+    </div>
     <br>
     <div id="center-block">
       <p id="instance-attribute">Biography</p>
