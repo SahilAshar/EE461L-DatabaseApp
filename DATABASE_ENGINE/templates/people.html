@@ -62,21 +62,23 @@
   <!-- End Model Title -->
 
   <!-- Grid Code -->
-  <div class="grid-container">
-    {% for person in paginated_people.items %}
-      <div class="grid-item">
-        <div class="card" >
-          <!-- We will replace image below with image of each actor -->
-          <img class="card-img-top" src="{{ url_for('static', filename='bong-joon-ho.jpg') }}" alt="Card image cap">
-            <a class="card-title" href="{{'/people/%s'%person.query_name }}">{{ person.name }}</a>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item bg-transparent">Date of Birth: {{person.dob.split("(")[0]}}</li>
-              <li class="list-group-item bg-transparent">person position (actor, director, etc.)</li>
-            </ul>
+  <div id="center-block">
+    <div class="grid-container">
+      {% for person in paginated_people.items %}
+        <div class="grid-item">
+          <div class="card" >
+            <!-- We will replace image below with image of each actor -->
+            <img class="card-img-top" src="{{ url_for('static', filename='bong-joon-ho.jpg') }}" alt="Card image cap">
+              <a class="card-title" href="{{'/people/%s'%person.query_name }}">{{ person.name }}</a>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item bg-transparent">Date of Birth: {{person.dob.split("(")[0]}}</li>
+                <li class="list-group-item bg-transparent">person position (actor, director, etc.)</li>
+              </ul>
+          </div>
         </div>
-      </div>
-    {% endfor %}
-  </div>
+      {% endfor %}
+    </div>
+</div>
   <!-- End Grid Code -->
 
   <!-- Pagination Navigation Code-->
