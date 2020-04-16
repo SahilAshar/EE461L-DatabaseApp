@@ -4,7 +4,6 @@ from github import Github
 
 # TODO: Uncomment this line before placing in production!
 # GH_API_KEY = os.environ["GITHUB_API"]
-
 g = Github(GH_API_KEY)
 
 # Github Enterprise with custom hostname
