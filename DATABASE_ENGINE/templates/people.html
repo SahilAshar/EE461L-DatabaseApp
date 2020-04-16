@@ -81,7 +81,23 @@
 </div>
   <!-- End Grid Code -->
 
+<<<<<<< HEAD
   <!-- Pagination Navigation Code-->
+=======
+  <!-- ! ALL PAGINATION CODE -->
+  <!-- TODO: Make into a grid instead of a list -->
+  <div class="grid-container">
+    {% for person in paginated_people.items %}
+      <div class="grid-item">
+        <img src="{{ person.image_link }}" alt="Actor Pic" />
+        <a id="movie-links" href="{{'/people/%s'%person.query_name }}">{{ person.name }}</a>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- ! ALL PAGINATION NAVIGATION CODE-->
+  <!-- TODO: Format page number appearances -->
+>>>>>>> sahil-backend-dev
   {# Macro for creating navigation links #}
   {% macro render_navigation(pagination, endpoint) %}
   <div class=pagination id="center-block">

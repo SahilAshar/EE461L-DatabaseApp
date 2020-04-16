@@ -10,12 +10,6 @@ from controllers.database_controller import initialize_db
 from controllers.people_access_controller import PeopleAccessController
 from controllers.years_controller import YearController
 
-
-# import build_about
-# import build_people
-# import build_years
-
-
 from populate.populate_years import PopulateYears
 from populate.populate_people import PopulatePeople
 
@@ -89,7 +83,11 @@ def new_year(year):
 def populate_years():
 
     y = PopulateYears()
-    y.populate()
+
+    # y.get_wiki_image_link()
+    # y.print_ordinal_numbers()
+    # y.populate()
+    y.populate_wiki_images()
 
     return redirect("/years/")
 

@@ -61,6 +61,7 @@
   </div>
   <!-- End Model Title -->
 
+<<<<<<< HEAD
   <!-- Grid Code -->
   <div id="center-block">
     <div class="grid-container">
@@ -78,6 +79,14 @@
         </div>
       {% endfor %}
     </div>
+=======
+  <div class="grid-container">
+    {% for year in paginated_years.items %}
+      <div class="grid-item">
+        <a id="year-links" href="{{'/years/%s'%year.query_ceremony }}">{{ year.ceremony_name }}</a>
+      </div>
+    {% endfor %}
+>>>>>>> sahil-backend-dev
   </div>
   <!-- End Grid Code -->
 
