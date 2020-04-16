@@ -5,6 +5,13 @@
   justify-content: center;
 }
 
+#center-block-content{
+  display: flex; 
+  justify-content: center;
+  text-align: justify;
+  text-align-last: center;
+}
+
 body{
   background-color: black;
   margin: 0;
@@ -14,6 +21,11 @@ body{
 
 .row{
   background-color: black;
+}
+
+#img-format{
+  height: 350px;
+  width: 300px;
 }
 
 /* NAVBAR AND LINKS*/
@@ -180,20 +192,27 @@ body{
   flex-wrap: wrap;
   flex: initial; 
   width: 25rem; 
-  height: 30rem;
+  height: 40rem;
 }
 
 .card-title{
   color:black;
-  font-size: 20px;
+  font-size: 30px;
   font-weight: 350;
   text-transform: uppercase;
+  padding-top: 10px;
 }
 
 .list-group-item{
   color: black;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 250;
+}
+
+.card-img-top{
+  width: 300px;
+  height: 350px;
+  padding-bottom: 20px;
 }
 
 /* USED IN ABOUT AND MOVIES_INSTANCE */

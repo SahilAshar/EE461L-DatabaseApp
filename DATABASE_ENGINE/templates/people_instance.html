@@ -55,35 +55,36 @@
   </nav>
   <!-- End Navbar Code -->
 
+  <!-- Content -->
   <div style="text-align: center; ">
-
-    <p class="instance-title">{{people['name']}}</p>
-    <!-- We will replace image below with image of the actor and adjust dimensions -->
-    <img src="{{ url_for('static', filename='bong-joon-ho.jpg') }}" alt="Actor Pic" width="400" height="350">
-
-    <br>
-  <!-- need to populate below section -->
-  <div style="text-align: center;">
-    <!-- how to reference image in tag? -->
-    <p class="instance-title-gold">{{people['name']}}</p>
-
-    <img src="{{people['image_link']}}" alt="Actor Pic" />
-
-    <br>
-    <br>
-
-    <p id="instance-attribute">Birthday</p>
     <div id="center-block">
+      <p class="instance-title">{{people['name']}}</p>
+    </div>
+    <br>
+    <div id="center-block">
+      <img id="img-format" src="{{people['image_link']}}" alt="Actor Pic" />
+    </div>
+    <br>
+    <br>
+    <div id="center-block">
+      <p id="instance-attribute">Birthday</p>
+    </div>
+    <div id="center-block-content">
       <p id="instance-content">{{people['dob'].split("(")[0]}}</p>
     </div>
     <br>
-    <p id="instance-attribute">Biography</p>
     <div id="center-block">
+      <p id="instance-attribute">Biography</p>
+    </div>
+    <div id="center-block-content">
       <p id="instance-content">{{people['bio']}}</p>
     </div>
     <br>
-    <p id="instance-attribute">Associated Awards</p>
+    <div id="center-block">
+      <p id="instance-attribute">Associated Awards</p>
+    </div>
   </div>
+  <!-- End Content -->
 
   <!-- Grid Code -->
   <div id="center-block">
