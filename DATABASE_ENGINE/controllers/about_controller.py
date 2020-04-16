@@ -36,6 +36,7 @@ class commits:
         commitdict["natashalong"] = 0
         commitdict["Sahil Ashar"] = 0
         commitdict["Noah Lisk"] = 0
+        commitdict["Noah"] = 0
         commitdict["carosheehy"] = 0
         commitdict["Austin_Blanchard"] = 0
         for commit in commits:
@@ -46,7 +47,7 @@ class commits:
 
         self.natashalong = commitdict["natashalong"]
         self.Sahil_Ashar = commitdict["Sahil Ashar"]
-        self.Noah_Lisk = commitdict["Noah Lisk"]
+        self.Noah_Lisk = commitdict["Noah Lisk"] + commitdict["Noah"]
         self.carosheehy = commitdict["carosheehy"]
         self.ablanchard10 = commitdict["Austin_Blanchard"]
 

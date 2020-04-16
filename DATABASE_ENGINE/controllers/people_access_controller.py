@@ -1,6 +1,8 @@
 import requests
+import os
+import logging
 
-from .database_controller import db
+from .database_controller import db, upload_blob
 
 
 """
@@ -8,6 +10,8 @@ from .database_controller import db
         - Seperates functions that make API calls and functions that parse
         strings for specifc values within a string
 """
+
+LOGGER = logging.getLogger(__name__)
 
 
 class Award(db.Document):
@@ -22,6 +26,7 @@ class Person(db.Document):
     name = db.StringField()
     dob = db.StringField()
     bio = db.StringField()
+    image_link = db.StringField()
     awards = db.ListField(db.ReferenceField(Award))
 
 
@@ -35,6 +40,13 @@ class PeopleAccessController:
         # Return a string, delimited by \n, that gives actor name and DOB
         actor_data_str = self.__get_actor_data_str(query_name)
 
+        # Return a wikimedia link to an actor's image
+        actor_image_str = self.__get_image_link_str(query_name)
+
+        actor_wikimedia_link = self.__get_and_store_actor_image(
+            query_name, actor_image_str
+        )
+
         # Return a dict with actor name and DOB, parsed from actor_data_str
         actor_data_dict = self.__build_actor_data_dict(actor_data_str, query_name)
 
@@ -43,6 +55,7 @@ class PeopleAccessController:
             query_name=query_name,
             name=actor_data_dict["full name"],
             dob=actor_data_dict["date of birth"],
+            image_link=actor_wikimedia_link,
         )
 
         # Assign bio to actor through API call
@@ -101,6 +114,7 @@ class PeopleAccessController:
             + query_name
             + "&includepodid=BasicInformation:PeopleData"
             + "&format=plaintext"
+            + "&scantimeout=15.0"
             + "&output=JSON"
             + "&appid=9U487H-VALXT3HLLQ"
         ).json()
@@ -136,6 +150,7 @@ class PeopleAccessController:
             + query_name
             + "&includepodid=WikipediaSummary:PeopleData"
             + "&format=plaintext"
+            + "&scantimeout=15.0"
             + "&output=JSON"
             + "&appid=9U487H-VALXT3HLLQ"
         ).json()
@@ -204,6 +219,58 @@ class PeopleAccessController:
         new_award.save()
 
         return new_award
+
+    def __get_image_link_str(self, query_name):
+
+        try:
+            actor_image_json = requests.get(
+                "https://api.wolframalpha.com/v2/query?input="
+                + query_name
+                + "&includepodid=Image:PeopleData"
+                + "&format=plaintext"
+                + "&scantimeout=15.0"
+                + "&output=JSON"
+                + "&appid=9U487H-VALXT3HLLQ"
+            ).json()
+
+            actor_image_str = actor_image_json["queryresult"]["pods"][0]["subpods"][0][
+                "imagesource"
+            ]
+
+            return actor_image_str
+
+        except Exception as e:
+            message = f"Error: {e}"
+            LOGGER.exception(message)
+            return ""
+
+    def __get_and_store_actor_image(self, query_name, actor_wikimedia_link):
+        print(actor_wikimedia_link)
+
+        try:
+            if query_name == "":
+                raise KeyError
+
+            file_name = actor_wikimedia_link.split("File:")[1]
+
+            print(file_name)
+
+            os.system(
+                "download_from_Wikimedia_Commons "
+                + "'"
+                + file_name
+                + "'"
+                + " --output ./temp/ --width 300"
+            )
+
+            upload_blob("people-images", "./temp/" + file_name + "", query_name)
+
+            return "https://storage.googleapis.com/people-images/" + query_name
+
+        except Exception as e:
+            message = f"Error: {e}"
+            LOGGER.exception(message)
+            return ""
 
 
 if __name__ == "__main__":

@@ -6,3 +6,6 @@ DATABASE_ENV
 .project
 test/
 app.yaml
+temp/
+databaseengine-547b3fb48d91.json
+.gcloudignore
