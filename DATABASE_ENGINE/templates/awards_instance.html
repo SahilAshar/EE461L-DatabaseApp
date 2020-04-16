@@ -51,13 +51,29 @@
   </nav>
   <!-- End Navbar Code -->
 
-  <!-- need to populate below section -->
+  <!-- Instance Title -->
   <div>
-    <p class="instance-title">{{awards['title']}}</p>
-    {% for winner in awards['winners'] %}
-      <p id="header2">{{winner['year']}} -- {{winner['name']}}</p>
-    {%endfor%}
+   <p class="instance-title">{{awards['title']}}</p>
   </div>
+  <!-- End Instance Title -->
+
+  <br>
+
+  <!-- Grid Code -->
+  <div id="center-block">
+    <div class="row" id="instance-grid" style="width: 60%;">
+      {% for winner in awards['winners'] %}
+        <div class="col" id="instance-grid-awards">{{winner['year']}}</div>
+          <div class="col" id="instance-grid-recipient">{{winner['name']}}</div>
+        <div class="w-100"></div>
+      {% endfor %}
+    </div>
+  </div>
+  <!-- End Grid Code -->
+
+  <br>
+  <br>
+  <br>
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
