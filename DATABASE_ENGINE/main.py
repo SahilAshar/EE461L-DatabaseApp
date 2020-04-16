@@ -83,7 +83,11 @@ def new_year(year):
 def populate_years():
 
     y = PopulateYears()
-    y.populate()
+
+    # y.get_wiki_image_link()
+    # y.print_ordinal_numbers()
+    # y.populate()
+    y.populate_wiki_images()
 
     return redirect("/years/")
 

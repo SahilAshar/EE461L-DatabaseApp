@@ -1,9 +1,9 @@
-import requests
-import os
 import logging
+import os
+
+import requests
 
 from .database_controller import db, upload_blob
-
 
 """
     Design Choices
@@ -260,10 +260,12 @@ class PeopleAccessController:
                 + "'"
                 + file_name
                 + "'"
-                + " --output ./temp/ --width 300"
+                + " --output ./temp/people/ --width 300"
             )
 
-            upload_blob("people-images", "./temp/" + file_name + "", query_name)
+            file_name = file_name.replace(".JPG", ".jpg")
+
+            upload_blob("people-images", "./temp/people/" + file_name + "", query_name)
 
             return "https://storage.googleapis.com/people-images/" + query_name
 
