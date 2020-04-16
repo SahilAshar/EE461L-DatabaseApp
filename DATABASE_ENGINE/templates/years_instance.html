@@ -53,11 +53,12 @@
   </nav>
   <!-- need to populate below section -->
   <div>
-    <img src="{{year['image_link']}}" alt="Actor Pic" />
-    <p class="instance-title-gold">{{year['ceremony_name']}}</p>
+    <img src="{{ year['image_link'] }}" alt="Ceremony Pic" />
+    <p class="instance-title-gold">{{ year['ceremony_name'] }}</p>
+    <p class="header2">{{ year['ceremony_summary'] }}</p>
   </div>
   <div class="listings">
-    <img src="{{year['image_link']}}" alt="Actor Pic" />
+    <!-- <img src="{{year['image_link']}}" alt="Actor Pic" /> -->
     {% for award in awards%}
   	  <p id="header2" style="font-size: 30px; text-decoration: underline;"> {{award['title']}}</p>
       {% for nominee in award['nominees'] %}
