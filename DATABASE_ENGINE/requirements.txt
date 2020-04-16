@@ -6,3 +6,4 @@ requests
 PyGithub
 pytest
 pytest-flask
+wikipedia
