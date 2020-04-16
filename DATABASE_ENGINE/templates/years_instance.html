@@ -55,16 +55,15 @@
 
   <!-- Instance Title -->
   <div>
-<<<<<<< HEAD
-    <p class="instance-title">{{year}}</p>
+    <p class="instance-title">{{year['ceremony_name']}}</p>
   </div>
   <!-- End Instance Title -->
 
   <br>
 
+  <img src="{{year['image_link']}}" alt="Actor Pic" />
+
   <!-- Grid Code -->
-
-
   <div id="center-block">
     <div class="row" id="instance-grid" style="width: 80%;">
       {% for award in awards%}
@@ -73,21 +72,7 @@
           <div class="col" id="instance-grid-recipient">{{nominee['song']}} {{nominee['name']}} -- {{nominee['movie']}}</div>
         {% endfor %}
         <div class="w-100"></div>
-=======
-    <img src="{{year['image_link']}}" alt="Actor Pic" />
-    <p class="instance-title-gold">{{year['ceremony_name']}}</p>
   </div>
-  <div class="listings">
-    <img src="{{year['image_link']}}" alt="Actor Pic" />
-    {% for award in awards%}
-  	  <p id="header2" style="font-size: 30px; text-decoration: underline;"> {{award['title']}}</p>
-      {% for nominee in award['nominees'] %}
-        <p id="header2"> {{nominee['song']}} {{nominee['name']}} -- {{nominee['movie']}}</p>
->>>>>>> sahil-backend-dev
-      {% endfor %}
-    </div>
-  </div>
-
   <!-- End Grid Code -->
 
   <br>

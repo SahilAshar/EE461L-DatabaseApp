@@ -68,7 +68,7 @@
         <div class="grid-item">
           <div class="card" >
             <!-- We will replace image below with image of each actor -->
-            <img class="card-img-top" src="{{ url_for('static', filename='bong-joon-ho.jpg') }}" alt="Card image cap">
+            <img class="card-img-top" src="{{ person.image_link }}" alt="Actor Pic">
               <a class="card-title" href="{{'/people/%s'%person.query_name }}">{{ person.name }}</a>
               <ul class="list-group list-group-flush">
                 <li class="list-group-item bg-transparent">Date of Birth: {{person.dob.split("(")[0]}}</li>
@@ -81,23 +81,7 @@
 </div>
   <!-- End Grid Code -->
 
-<<<<<<< HEAD
-  <!-- Pagination Navigation Code-->
-=======
-  <!-- ! ALL PAGINATION CODE -->
-  <!-- TODO: Make into a grid instead of a list -->
-  <div class="grid-container">
-    {% for person in paginated_people.items %}
-      <div class="grid-item">
-        <img src="{{ person.image_link }}" alt="Actor Pic" />
-        <a id="movie-links" href="{{'/people/%s'%person.query_name }}">{{ person.name }}</a>
-      </div>
-    {% endfor %}
-  </div>
-
-  <!-- ! ALL PAGINATION NAVIGATION CODE-->
-  <!-- TODO: Format page number appearances -->
->>>>>>> sahil-backend-dev
+  <!-- Pagination Navigation Code -->
   {# Macro for creating navigation links #}
   {% macro render_navigation(pagination, endpoint) %}
   <div class=pagination id="center-block">
