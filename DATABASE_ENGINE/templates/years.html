@@ -76,7 +76,7 @@
   <div class="grid-container">
     {% for year in paginated_years.items %}
       <div class="grid-item">
-        <a id="year-links" href="{{'/years/%s'%year.year }}">{{ year.year }}</a>
+        <a id="year-links" href="{{'/years/%s'%year.query_ceremony }}">{{ year.ceremony_name }}</a>
       </div>
     {% endfor %}
   </div>
