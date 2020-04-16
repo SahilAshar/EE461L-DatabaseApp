@@ -19,6 +19,7 @@
 
 <body>
 
+  <!-- Navbar Code -->
   <nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="#">
       <img src="{{ url_for('static', filename='oscars_logo.png') }}" alt="OSCARS LOGO" width="138" height="72" />
@@ -53,56 +54,63 @@
       </ul>
     </div>
   </nav>
+  <!-- End Navbar Code -->
+
+  <!-- Model Title -->
   <div>
-    <p class="page-title-gold">YEARS</p>
+    <p class="model-title">YEARS</p>
   </div>
-  <!-- <div class="container">
-    <div class="row" style="text-align: center;">
-      <div class="col-md-4">
-        <a id="year-links" href="/years/1995">1995</a>
-      </div>
-      <div class="col-md-4">
-        <a id="year-links" href="/years/1996">1996</a>
-      </div>
-      <div class="col-md-4">
-        <a id="year-links" href="/years/1997">1997</a>
-      </div>
+  <!-- End Model Title -->
+
+  <!-- Grid Code -->
+  <div id="center-block">
+    <div class="grid-container">
+      {% for year in paginated_years.items %}
+        <div class="grid-item">
+          <div class="card">
+            <a class="card-title" href="{{'/years/%s'%year.query_ceremony }}">{{ year.ceremony_name }}</a>
+            <div id="center-block">
+              <img class="card-img-top" src="{{year['image_link']}}" alt="Ceremony Pic">
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item bg-transparent">Having the name of the host for that year</li>
+              <li class="list-group-item bg-transparent">Venue for that year</li>
+            </ul>
+          </div>
+        </div>
+      {% endfor %}
     </div>
-  </div> -->
-  
-  <!-- ! ALL PAGINATION CODE -->
-  <!-- TODO: Make into a grid instead of a list -->
-
-  <div class="grid-container">
-    {% for year in paginated_years.items %}
-      <div class="grid-item">
-        <a id="year-links" href="{{'/years/%s'%year.query_ceremony }}">{{ year.ceremony_name }}</a>
-      </div>
-    {% endfor %}
   </div>
+  <!-- End Grid Code -->
 
-  <!-- ! ALL PAGINATION NAVIGATION CODE-->
-  <!-- TODO: Format page number appearances -->
+  <!-- Pagination Navigation Code-->
   {# Macro for creating navigation links #}
   {% macro render_navigation(pagination, endpoint) %}
-  <div class=pagination>
-  {% for page in pagination.iter_pages() %}
-    {% if page %}
-      {% if page != pagination.page %}
-        <a id="year-links" href="{{ url_for(endpoint, page=page) }}">{{ page }}</a>
-      {% else %}
-        <strong>{{ page }}</strong>
+  <div class=pagination id="center-block">
+    {% if pagination.page != 1%}
+      <a id="page-numbers" href="{{ url_for(endpoint, page=pagination.page-1) }}">previous</a>
+    {% endif%}
+      {% for page in pagination.iter_pages() %}
+        {% if page %}
+          {% if page != pagination.page %}
+            <a id="page-numbers" href="{{ url_for(endpoint, page=page) }}">{{ page }}</a>
+          {% else %}
+            <strong id="selected-page">{{ page }}</strong>
+          {% endif %}
+        {% else %}
+          <span class=ellipsis>…</span>
+        {% endif %} 
+      {% endfor %}
+      {% if pagination.page != pagination.pages %}
+        <a id="page-numbers" href="{{ url_for(endpoint, page=pagination.page+1) }}">next</a>
       {% endif %}
-    {% else %}
-      <span class=ellipsis>…</span>
-    {% endif %}
-  {% endfor %}
   </div>
   {% endmacro %}
 
   {{ render_navigation(paginated_years, 'year_root') }}
-  <!-- ! END ALL PAGINATION NAVIGATION CODE-->
-  <!-- ! END ALL PAGINATION CODE --> 
+  <!-- End Pagination Navigation Code --> 
+
+  <br>
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

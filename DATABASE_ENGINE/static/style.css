@@ -1,6 +1,39 @@
 
+/* EFFECTS */
+#center-block{
+  display: flex; 
+  justify-content: center;
+}
+
+#center-block-content{
+  display: flex; 
+  justify-content: center;
+  text-align: justify;
+  text-align-last: center;
+}
+
+body{
+  background-color: black;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.row{
+  background-color: black;
+}
+
+#img-format{
+  height: 350px;
+  width: 300px;
+}
+
+/* NAVBAR AND LINKS*/
 .navbar.navbar-expand-lg{
-  background-color: #0E0E0C ; 
+  background-color: #0E0E0C ;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 .nav-link{
   color: #D5AD6D; /*if no support for background-clip*/
@@ -13,27 +46,9 @@
   font-weight: normal;
   text-transform: uppercase;
 }
-.introduction{
-  color: #C2A84A ;
-}
-body{
-  background-color: black;
-}
-#year-links, #award-links, #movie-links, #links{
-  color: #D5AD6D; /*if no support for background-clip*/
-  background: -webkit-linear-gradient(transparent, transparent),
-  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
-  background: -o-linear-gradient(transparent, transparent);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-size: 25px;
-  font-weight: 200;
-  text-transform: uppercase;
-}
-.row{
-  background-color: black;
-}
-.page-title-gold {
+
+/* MODEL PAGES */
+.model-title{
   color: #D5AD6D; /*if no support for background-clip*/
   background: -webkit-linear-gradient(transparent, transparent),
   -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
@@ -41,12 +56,13 @@ body{
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-align: center;
-  font-size: 150px;
-  font-weight: 100;
+  font-size: 175px;
+  font-weight: lighter;
   text-transform: uppercase;
 }
 
-.instance-title-gold {
+/* INSTANCE PAGES */
+.instance-title {
   color: #D5AD6D; /*if no support for background-clip*/
   background: -webkit-linear-gradient(transparent, transparent),
   -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
@@ -59,11 +75,163 @@ body{
   text-transform: uppercase;
 }
 
-.listings{
+#instance-attribute{
+  color: #D5AD6D; /*if no support for background-clip*/
+  background: -webkit-linear-gradient(transparent, transparent),
+  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+  background: -o-linear-gradient(transparent, transparent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 30px;
+  font-weight: normal;
+  text-transform: uppercase;
+}
+
+#instance-content{
+  color: #D5AD6D; /*if no support for background-clip*/
+  background: -webkit-linear-gradient(transparent, transparent),
+  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+  background: -o-linear-gradient(transparent, transparent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 20px;
+  font-weight: normal;
+  width: 60%;
+}
+
+#instance-awards{
+  color: #D5AD6D; /*if no support for background-clip*/
+  background: -webkit-linear-gradient(transparent, transparent),
+  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+  background: -o-linear-gradient(transparent, transparent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 20px;
+  font-weight: normal;
+  text-transform: capitalize;
+}
+
+#instance-grid{
+  color: #D5AD6D; /*if no support for background-clip*/
+  background: -webkit-linear-gradient(transparent, transparent),
+  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+  background: -o-linear-gradient(transparent, transparent);
+  border: 2px solid black;
+}
+
+#instance-grid-awards{
+  font-size: 20px;
+  font-weight: normal;
+  text-transform: uppercase;
+  color:black;
+  border: 2px solid black;
+}
+
+#instance-grid-recipient{
+  font-size: 20px;
+  font-weight: normal;
+  text-transform: capitalize;
+  color:black;
+  border: 2px solid black;
+}
+
+/* MODEL PAGE */
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  background-color: black;
+  padding: 10px;
+  justify-items: center;
+  align-items: center;
+  border: 2px solid black;
+  width: 80%;
+}
+.grid-item {
+  background-color: black;
+  border: 1px solid black;
+  padding: 20px;
+  font-size: 30px;
+  justify-items: center;
+  align-items: center;
+  border: 2px solid black;
+}
+
+/* PAGINATION CSS */
+#page-numbers{
+  color: #D5AD6D; /*if no support for background-clip*/
+  background: -webkit-linear-gradient(transparent, transparent),
+  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+  background: -o-linear-gradient(transparent, transparent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 30px;
+  font-weight: 200;
   text-align: center;
 }
 
-#award-attribute, #header2{
+#selected-page{
+  color: #D5AD6D; /*if no support for background-clip*/
+  background: -webkit-linear-gradient(transparent, transparent),
+  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+  background: -o-linear-gradient(transparent, transparent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 35px;
+  font-weight: 200;
+  text-align: center;
+  text-decoration: underline;
+}
+
+/* CARD CSS */
+.card{
+  color: #D5AD6D; /*if no support for background-clip*/
+  background: -webkit-linear-gradient(transparent, transparent),
+  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+  background: -o-linear-gradient(transparent, transparent);
+  text-align: center;
+  flex-wrap: wrap;
+  flex: initial; 
+  width: 25rem; 
+  height: 40rem;
+}
+
+.card-title{
+  color:black;
+  font-size: 30px;
+  font-weight: 350;
+  text-transform: uppercase;
+  padding-top: 10px;
+}
+
+.list-group-item{
+  color: black;
+  font-size: 20px;
+  font-weight: 250;
+}
+
+.card-img-top{
+  width: 300px;
+  height: 350px;
+  padding-bottom: 20px;
+}
+
+/* USED IN ABOUT AND MOVIES_INSTANCE */
+/* NEEDS TO BE CHANGED */
+#movie-links{
+  color: #D5AD6D; /*if no support for background-clip*/
+  background: -webkit-linear-gradient(transparent, transparent),
+  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+  background: -o-linear-gradient(transparent, transparent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 25px;
+  font-weight: 200;
+  text-transform: uppercase;
+}
+
+/* USED ON MOVIE INSTANCE PAGE */
+/* NEEDS TO BE CHANGED */
+#header2{
   color: #D5AD6D; /*if no support for background-clip*/
   background: -webkit-linear-gradient(transparent, transparent),
   -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
@@ -74,29 +242,9 @@ body{
   font-weight: normal;
   text-transform: uppercase;
 }
-#oscars-title{
-  color: #D5AD6D; /*if no support for background-clip*/
-  background: -webkit-linear-gradient(transparent, transparent),
-  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
-  background: -o-linear-gradient(transparent, transparent);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-align: center;
-  font-size: 300px;
-  font-weight: 100;
-  text-transform: uppercase;
-}
-#header1{
-  color: #D5AD6D; /*if no support for background-clip*/
-  background: -webkit-linear-gradient(transparent, transparent),
-  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
-  background: -o-linear-gradient(transparent, transparent);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-size: 50px;
-  font-weight: normal;
-  text-transform: uppercase;
-}
+
+/* USED ON ABOUT AND SPLASH */
+/* NEEDS TO BE CHANGED */
 #header3{
   color: #D5AD6D; /*if no support for background-clip*/
   background: -webkit-linear-gradient(transparent, transparent),
@@ -116,17 +264,5 @@ body{
   -webkit-text-fill-color: transparent;
   font-size: 25px;
   font-weight: lighter;
-}
-.grid-container {
-  display: grid;
-  grid-template-columns: auto auto auto;
-  background-color: black;
-  padding: 10px;
-}
-.grid-item {
-  background-color: black;
-  border: 1px solid black;
-  padding: 20px;
-  font-size: 30px;
   text-align: center;
 }
