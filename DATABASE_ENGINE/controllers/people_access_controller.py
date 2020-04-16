@@ -1,13 +1,19 @@
+import logging
+import os
+from urllib.error import HTTPError
+
 import requests
+import wikipedia
 
-from .database_controller import db
-
+from .database_controller import db, upload_blob
 
 """
     Design Choices
         - Seperates functions that make API calls and functions that parse
         strings for specifc values within a string
 """
+
+LOGGER = logging.getLogger(__name__)
 
 
 class Award(db.Document):
@@ -22,6 +28,7 @@ class Person(db.Document):
     name = db.StringField()
     dob = db.StringField()
     bio = db.StringField()
+    image_link = db.StringField()
     awards = db.ListField(db.ReferenceField(Award))
 
 
@@ -35,6 +42,17 @@ class PeopleAccessController:
         # Return a string, delimited by \n, that gives actor name and DOB
         actor_data_str = self.__get_actor_data_str(query_name)
 
+        wkpage = self.__set_wiki_page(query_name)
+
+        # Return a link to an actor's image
+        actor_image_link = self.__get_image_link_str(wkpage)
+
+        wiki_image_name = self.__get_wiki_image_name(actor_image_link)
+
+        actor_wikimedia_link = self.__get_and_store_image(
+            query_name, wiki_image_name, actor_image_link
+        )
+
         # Return a dict with actor name and DOB, parsed from actor_data_str
         actor_data_dict = self.__build_actor_data_dict(actor_data_str, query_name)
 
@@ -43,6 +61,7 @@ class PeopleAccessController:
             query_name=query_name,
             name=actor_data_dict["full name"],
             dob=actor_data_dict["date of birth"],
+            image_link=actor_wikimedia_link,
         )
 
         # Assign bio to actor through API call
@@ -96,29 +115,37 @@ class PeopleAccessController:
 
     def __get_actor_data_str(self, query_name):
 
-        actor_data_json = requests.get(
-            "https://api.wolframalpha.com/v2/query?input="
-            + query_name
-            + "&includepodid=BasicInformation:PeopleData"
-            + "&format=plaintext"
-            + "&output=JSON"
-            + "&appid=9U487H-VALXT3HLLQ"
-        ).json()
+        try:
+            actor_data_json = requests.get(
+                "https://api.wolframalpha.com/v2/query?input="
+                + query_name
+                + "&includepodid=BasicInformation:PeopleData"
+                + "&format=plaintext"
+                + "&scantimeout=15.0"
+                + "&output=JSON"
+                + "&appid=9U487H-VALXT3HLLQ"
+            ).json()
 
-        actor_data_str = actor_data_json["queryresult"]["pods"][0]["subpods"][0][
-            "plaintext"
-        ]
+            actor_data_str = actor_data_json["queryresult"]["pods"][0]["subpods"][0][
+                "plaintext"
+            ]
 
-        return actor_data_str
+            return actor_data_str
+        except Exception as e:
+            message = f"Error: {e}"
+            LOGGER.exception(message)
+            return ""
 
     def __build_actor_data_dict(self, data_str, query_name):
         data_dict = {}
         data_dict["full name"] = ""
         data_dict["date of birth"] = ""
 
+        if data_str == "":
+            return data_dict
+
         data_list = list(data_str.split("\n"))
         for data in data_list:
-            # print(data)
             data_str_list = list(data.split(" | "))
             if len(data_str_list) == 2:
                 data_dict[data_str_list[0]] = data_str_list[1]
@@ -131,54 +158,76 @@ class PeopleAccessController:
         return data_dict
 
     def __get_actor_bio_str(self, query_name):
-        actor_bio_json = requests.get(
-            "https://api.wolframalpha.com/v2/query?input="
-            + query_name
-            + "&includepodid=WikipediaSummary:PeopleData"
-            + "&format=plaintext"
-            + "&output=JSON"
-            + "&appid=9U487H-VALXT3HLLQ"
-        ).json()
 
-        actor_bio_str = actor_bio_json["queryresult"]["pods"][0]["subpods"][0][
-            "plaintext"
-        ]
+        try:
+            actor_bio_json = requests.get(
+                "https://api.wolframalpha.com/v2/query?input="
+                + query_name
+                + "&includepodid=WikipediaSummary:PeopleData"
+                + "&format=plaintext"
+                + "&scantimeout=15.0"
+                + "&output=JSON"
+                + "&appid=9U487H-VALXT3HLLQ"
+            ).json()
 
-        return actor_bio_str
+            actor_bio_str = actor_bio_json["queryresult"]["pods"][0]["subpods"][0][
+                "plaintext"
+            ]
+
+            return actor_bio_str
+
+        except Exception as e:
+            message = f"Error: {e}"
+            LOGGER.exception(message)
+            return ""
 
     def __get_actor_awards_str(self, query_name):
-        actor_awards_json = requests.get(
-            "https://api.wolframalpha.com/v2/query?input="
-            + query_name
-            + "&includepodid=CrossPeopleData:AcademyAwardData"
-            + "&format=plaintext"
-            + "&output=JSON"
-            + "&appid=9U487H-VALXT3HLLQ"
-        ).json()
 
-        # TODO: If numpods = 0, then they've won zero awards. Need to handle that case.
+        try:
+            actor_awards_json = requests.get(
+                "https://api.wolframalpha.com/v2/query?input="
+                + query_name
+                + "&includepodid=CrossPeopleData:AcademyAwardData"
+                + "&format=plaintext"
+                + "&output=JSON"
+                + "&appid=9U487H-VALXT3HLLQ"
+            ).json()
 
-        actor_awards_str = actor_awards_json["queryresult"]["pods"][0]["subpods"][0][
-            "plaintext"
-        ]
+            # TODO: If numpods = 0, then they've won zero awards. Need to handle that case.
 
-        return actor_awards_str
+            actor_awards_str = actor_awards_json["queryresult"]["pods"][0]["subpods"][
+                0
+            ]["plaintext"]
+
+            return actor_awards_str
+        except Exception as e:
+            message = f"Error: {e}"
+            LOGGER.exception(message)
+            return ""
 
     def __build_actor_awards_list(self, actor_awards_str):
-        actor_awards_list = list(actor_awards_str.split("\n"))
-        actor_awards_list.remove(actor_awards_list[0])
-        actor_awards_list.remove(actor_awards_list[len(actor_awards_list) - 1])
+        try:
+            actor_awards_list = list(actor_awards_str.split("\n"))
+            actor_awards_list.remove(actor_awards_list[0])
+            actor_awards_list.remove(actor_awards_list[len(actor_awards_list) - 1])
 
-        return actor_awards_list
+            return actor_awards_list
+        except Exception as e:
+            message = f"Error: {e}"
+            LOGGER.exception(message)
+            return None
 
     def __build_awards_list(self, actor_awards_list):
         # List of Award documents to be returned
         award_list = []
 
+        if actor_awards_list is None:
+            return award_list
+
         for award_str in actor_awards_list:
             award_list.append(self.__build_award_doc(award_str))
 
-        print(str(award_list[0]))
+        # print(str(award_list[0]))
         return award_list
 
     def __build_award_doc(self, award_str):
@@ -190,10 +239,14 @@ class PeopleAccessController:
         award_dict["movie"] = ""
         award_dict["year"] = ""
 
-        award_list = list(award_str.split(" | "))
-        award_dict["title"] = award_list[0]
-        award_dict["movie"] = award_list[2]
-        award_dict["year"] = list(award_list[1].split(" "))[0]
+        try:
+            award_list = list(award_str.split(" | "))
+            award_dict["title"] = award_list[0]
+            award_dict["movie"] = award_list[2]
+            award_dict["year"] = list(award_list[1].split(" "))[0]
+        except Exception as e:
+            message = f"Error: {e}"
+            LOGGER.exception(message)
 
         new_award = Award(
             title=award_dict["title"],
@@ -204,6 +257,94 @@ class PeopleAccessController:
         new_award.save()
 
         return new_award
+
+    def __set_wiki_page(self, query_name):
+        name = query_name.replace("+", " ")
+        result = wikipedia.search(name, results=1)
+        wikipedia.set_lang("en")
+        wkpage = wikipedia.WikipediaPage(title=result[0])
+
+        return wkpage
+
+    def __get_image_link_str(self, wkpage):
+
+        try:
+            # actor_image_json = requests.get(
+            #     "https://api.wolframalpha.com/v2/query?input="
+            #     + query_name
+            #     + "&includepodid=Image:PeopleData"
+            #     + "&format=plaintext"
+            #     + "&scantimeout=15.0"
+            #     + "&output=JSON"
+            #     + "&appid=9U487H-VALXT3HLLQ"
+            # ).json()
+
+            # actor_image_str = actor_image_json["queryresult"]["pods"][0]["subpods"][0][
+            #     "imagesource"
+            # ]
+
+            # return actor_image_str
+
+            image_info_json = requests.get(
+                "https://en.wikipedia.org/w/api.php?action=query"
+                + "&format=json"
+                + "&formatversion=2"
+                + "&prop=pageimages|pageterms"
+                + "&piprop=original"
+                + "&pilicense=any"
+                + "&titles="
+                + wkpage.title
+            ).json()
+
+            image_link_str = image_info_json["query"]["pages"][0]["original"]["source"]
+            return image_link_str
+
+        except Exception as e:
+            message = f"Error: {e}"
+            LOGGER.exception(message)
+            return ""
+
+    def __get_wiki_image_name(self, image_link_str):
+        try:
+            return image_link_str.split("/")[-1]
+        except Exception as e:
+            message = f"Error: {e}"
+            LOGGER.exception(message)
+            return ""
+
+    def __get_and_store_image(self, query_name, wiki_image_name, image_link_str):
+        print(wiki_image_name)
+
+        try:
+            if wiki_image_name == "":
+                raise KeyError
+
+            file_name = wiki_image_name
+
+            print(file_name)
+
+            # os.system(
+            #     "download_from_Wikimedia_Commons "
+            #     + "'"
+            #     + file_name
+            #     + "'"
+            #     + " --output ./temp/people/ --width 300"
+            # )
+
+            file_name = file_name.replace(".JPG", ".jpg")
+            r = requests.get(image_link_str, allow_redirects=True)
+            open("./temp/people/" + file_name, "wb").write(r.content)
+
+            # file_name = file_name.replace(".JPG", ".jpg")
+
+            upload_blob("people-images", "./temp/people/" + file_name + "", query_name)
+
+            return "https://storage.googleapis.com/people-images/" + query_name
+
+        except Exception as e:
+            message = f"Error: {e}"
+            LOGGER.exception(message)
+            return ""
 
 
 if __name__ == "__main__":

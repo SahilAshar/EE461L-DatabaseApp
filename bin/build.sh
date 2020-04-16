@@ -5,7 +5,7 @@ pwd
 
 source env/bin/activate
 
-pip install -r ../requirements.txt
+pip install -r ../DATABASE_ENGINE/requirements.txt
 
 cd ../DATABASE_ENGINE
 pwd

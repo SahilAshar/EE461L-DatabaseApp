@@ -19,10 +19,10 @@
 
 <body>
 
+  <!-- Navbad Code -->
   <nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="#">
       <img src="{{ url_for('static', filename='oscars_logo.png') }}" alt="OSCARS LOGO" width="138" height="72" />
-      <!-- <img src="{{ url_for('static', filename='oscars_logo.png') }}" alt="OSCARS LOGO" width="770" height="443" class="center"> -->
     </a>
 
     <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#supportedContent"
@@ -53,27 +53,54 @@
       </ul>
     </div>
   </nav>
-  <!-- need to populate below section -->
-  <div style="text-align: center;">
-    <!-- how to reference image in tag? -->
-    <!-- <img src="#" alt="Actor Pic" /> -->
-    <p class="instance-title-gold">{{people['name']}}</p>
-    <p id="header2" style="font-size: 30px; text-decoration: underline;">Birthday</p>
-    <p id="header2">{{people['dob']}}</p>
-    <br>
-    <p id="header2" style="font-size: 30px; text-decoration: underline;">Biography</p>
-    <p id="header2">{{people['bio']}}</p>
-    <br>
-    <p id="header2" style="font-size: 30px; text-decoration: underline;">AWARDS WON</p>
-    {% for award in people['awards'] %}
-    <p id="header2">
-      {{award['title']}} -- {{award['year']}} -- {{award['movie']}}
-    </p>
-    {% endfor %}
-  </div>
-  <br>
-  <br>
+  <!-- End Navbar Code -->
 
+  <!-- Content -->
+  <div style="text-align: center; ">
+    <div id="center-block">
+      <p class="instance-title">{{people['name']}}</p>
+    </div>
+    <br>
+    <div id="center-block">
+      <img src="{{people['image_link']}}" alt="Actor Pic" width="360" height="480"/>
+    </div>
+    <br>
+    <br>
+    <div id="center-block">
+      <p id="instance-attribute">Birthday</p>
+    </div>
+    <div id="center-block-content">
+      <p id="instance-content">{{people['dob'].split("(")[0]}}</p>
+    </div>
+    <br>
+    <div id="center-block">
+      <p id="instance-attribute">Biography</p>
+    </div>
+    <div id="center-block-content">
+      <p id="instance-content">{{people['bio']}}</p>
+    </div>
+    <br>
+    <div id="center-block">
+      <p id="instance-attribute">Associated Awards</p>
+    </div>
+  </div>
+  <!-- End Content -->
+
+  <!-- Grid Code -->
+  <div id="center-block">
+    <div class="row" id="instance-grid" style="width: 60%;">
+      {% for award in people['awards'] %}
+        <div class="col" id="instance-grid-awards">{{award['title']}}</div>
+          <div class="col" id="instance-grid-recipient">{{award['year']}} -- {{award['movie']}}</div>
+        <div class="w-100"></div>
+      {% endfor %}
+    </div>
+  </div>
+  <!-- End Grid Code -->
+
+  <br>
+  <br>
+  <br>
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

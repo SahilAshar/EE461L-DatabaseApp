@@ -11,105 +11,109 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-  <!-- local stylesheeht reference -->
+  <!-- Local Stylesheeht Reference -->
   <!-- <link rel="stylesheet" href="../static/style.css" /> -->
   <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
 </head>
 
-<nav class="navbar navbar-expand-lg">
-
-  <a class="navbar-brand" href="#">
-    <img src="{{ url_for('static', filename='oscars_logo.png') }}" alt="OSCARS LOGO" width="138"
-    height="72" />
-  </a>
-
-  <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#supportedContent"
-    aria-controls="supportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="supportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="{{ url_for('root') }}">Splash<span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('year_root') }}">Years</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('award_root') }}">Awards</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('people_root') }}">People</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('movies_root') }}">Movies</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('about') }}">About</a>
-      </li>
-    </ul>
-  </div>
-</nav>
-
 <body>
 
-  <div>
-    <p class="page-title-gold">PEOPLE</p>
-  </div>
-  <!-- <div class="container">
-    <div class="row" style="text-align: center;">
-      <div class="col-md-4" id="heading">
-        <img src="{{ url_for('static', filename='bong-joon-ho.jpg') }}" alt="BONG JOON HO" height="200" style="object-fit: cover;" />
-        <br>
-        <a id="movie-links" href="/people/bong-joon-ho">Bong Joon Ho</a>
-      </div>
-      <div class="col-md-4" id="heading">
-        <img src="{{ url_for('static', filename='janet-gaynor.jpg') }}" alt="Janet Gaynor" height="200" style="object-fit: cover;"/>
-        <br>
-        <a id="movie-links" href="/people/janet-gaynor">Janet Gaynor</a>
-      </div>
-      <div class="col-md-4" id="heading">
-        <img src="{{ url_for('static', filename='rami-malek.jpg') }}" height="200" style="object-fit: cover;"/>
-        <br>
-        <a id="movie-links" href="/people/rami-malek">Rami Malek</a>
-      </div>
+  <!-- Navbar Code -->
+  <nav class="navbar navbar-expand-lg">
+
+    <a class="navbar-brand" href="#">
+      <img src="{{ url_for('static', filename='oscars_logo.png') }}" alt="OSCARS LOGO" width="138"
+      height="72" />
+    </a>
+
+    <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#supportedContent"
+      aria-controls="supportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="supportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="{{ url_for('root') }}">Splash<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('year_root') }}">Years</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('award_root') }}">Awards</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('people_root') }}">People</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('movies_root') }}">Movies</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('about') }}">About</a>
+        </li>
+      </ul>
     </div>
-  </div> -->
+  </nav>
+  <!-- End Navbar Code -->
 
-  <!-- ! ALL PAGINATION CODE -->
-  <!-- TODO: Make into a grid instead of a list -->
-  <div class="grid-container">
-    {% for person in paginated_people.items %}
-      <div class="grid-item">
-        <a id="movie-links" href="{{'/people/%s'%person.query_name }}">{{ person.name }}</a>
-      </div>
-    {% endfor %}
+  <!-- Model Title -->
+  <div>
+    <p class="model-title">PEOPLE</p>
   </div>
+  <!-- End Model Title -->
 
-  <!-- ! ALL PAGINATION NAVIGATION CODE-->
-  <!-- TODO: Format page number appearances -->
+  <!-- Grid Code -->
+  <div id="center-block">
+    <div class="grid-container">
+      {% for person in paginated_people.items %}
+        <div class="grid-item">
+          <div class="card" >
+            <!-- We will replace image below with image of each actor -->
+            <a class="card-title" href="{{'/people/%s'%person.query_name }}">{{ person.name }}</a>
+            <div id="center-block">
+              <img class="card-img-top" src="{{ person.image_link }}" alt="Actor Pic">
+            </div>
+            
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item bg-transparent">Date of Birth: {{person.dob.split("(")[0]}}</li>
+              <li class="list-group-item bg-transparent">person position (actor, director, etc.)</li>
+            </ul>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+</div>
+  <!-- End Grid Code -->
+
+  <!-- Pagination Navigation Code -->
   {# Macro for creating navigation links #}
   {% macro render_navigation(pagination, endpoint) %}
-  <div class=pagination>
-  {% for page in pagination.iter_pages() %}
-    {% if page %}
-      {% if page != pagination.page %}
-        <a id="movie-links" href="{{ url_for(endpoint, page=page) }}">{{ page }}</a>
-      {% else %}
-        <strong>{{ page }}</strong>
+  <div class=pagination id="center-block">
+    {% if pagination.page != 1%}
+      <a id="page-numbers" href="{{ url_for(endpoint, page=pagination.page-1) }}">previous</a>
+    {% endif%}
+      {% for page in pagination.iter_pages() %}
+        {% if page %}
+          {% if page != pagination.page %}
+            <a id="page-numbers" href="{{ url_for(endpoint, page=page) }}">{{ page }}</a>
+          {% else %}
+            <strong id="selected-page">{{ page }}</strong>
+          {% endif %}
+        {% else %}
+          <span class=ellipsis>…</span>
+        {% endif %} 
+      {% endfor %}
+      {% if pagination.page != pagination.pages %}
+        <a id="page-numbers" href="{{ url_for(endpoint, page=pagination.page+1) }}">next</a>
       {% endif %}
-    {% else %}
-      <span class=ellipsis>…</span>
-    {% endif %}
-  {% endfor %}
   </div>
   {% endmacro %}
 
   {{ render_navigation(paginated_people, 'people_root') }}
-  <!-- ! END ALL PAGINATION NAVIGATION CODE-->
-  <!-- ! END ALL PAGINATION CODE --> 
+  <!-- End Pagination Navigation Code --> 
+
+  <br>
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

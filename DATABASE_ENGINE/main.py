@@ -10,12 +10,6 @@ from controllers.database_controller import initialize_db
 from controllers.people_access_controller import PeopleAccessController
 from controllers.years_controller import YearController
 
-
-# import build_about
-# import build_people
-# import build_years
-
-
 from populate.populate_years import PopulateYears
 from populate.populate_people import PopulatePeople
 
@@ -68,9 +62,7 @@ def year_instance(year):
     y_controller = YearController()
     year_obj = y_controller.get(year)
 
-    return render_template(
-        "years_instance.html", year=year_obj.year, awards=year_obj.awards
-    )
+    return render_template("years_instance.html", year=year_obj, awards=year_obj.awards)
 
 
 # TODO : This works(?) Need to make this an actual post request
@@ -89,7 +81,11 @@ def new_year(year):
 def populate_years():
 
     y = PopulateYears()
-    y.populate()
+
+    # y.get_wiki_image_link()
+    # y.print_ordinal_numbers()
+    # y.populate()
+    y.populate_wiki_images()
 
     return redirect("/years/")
 
