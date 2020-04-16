@@ -17,45 +17,45 @@
   <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
-<!-- Navbar Code -->
-<nav class="navbar navbar-expand-lg">
-
-  <a class="navbar-brand" href="#">
-    <img src="{{ url_for('static', filename='oscars_logo.png') }}" alt="OSCARS LOGO" width="138"
-      height="72" />
-  </a>
-
-  <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#supportedContent"
-    aria-controls="supportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="supportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="{{ url_for('root') }}">Splash<span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('year_root') }}">Years</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('award_root') }}">Awards</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('people_root') }}">People</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('movies_root') }}">Movies</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('about') }}">About</a>
-      </li>
-    </ul>
-  </div>
-</nav>
-<!-- End Navbar Code -->
-
 <body>
+
+  <!-- Navbar Code -->
+  <nav class="navbar navbar-expand-lg">
+
+    <a class="navbar-brand" href="#">
+      <img src="{{ url_for('static', filename='oscars_logo.png') }}" alt="OSCARS LOGO" width="138"
+        height="72" />
+    </a>
+
+    <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#supportedContent"
+      aria-controls="supportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="supportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="{{ url_for('root') }}">Splash<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('year_root') }}">Years</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('award_root') }}">Awards</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('people_root') }}">People</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('movies_root') }}">Movies</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('about') }}">About</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <!-- End Navbar Code -->
 
   <!-- Model Title -->
   <div>
@@ -69,13 +69,14 @@
       {% for award in paginated_awards.items %}
         <div class="grid-item">
           <div class="card">
-            <!-- We will replace image below with image of each host or find the oscars loco per year? -->
-            <img class="card-img-top" src="../static/oscars_logo.png" alt="Card image cap">
-              <a class="card-title" href="{{'/awards/%s'%award.query_title }}">{{ award.title }}</a>
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item bg-transparent">Most Recent Recipient: {{award.winners[0]['name'].split("(")[0]}} - {{award.winners[0]['year']}}</li>
-                <li class="list-group-item bg-transparent">First Recipient: {{award.winners[-1]['name'].split("(")[0]}} - {{award.winners[-1]['year']}}</li>
-              </ul>
+            <a class="card-title" href="{{'/awards/%s'%award.query_title }}">{{ award.title }}</a>
+            <div id="center-block">
+              <img class="card-img-top" src="../static/oscars_logo.png" alt="Card image cap">
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item bg-transparent">Most Recent Recipient: {{award.winners[0]['name'].split("(")[0]}} - {{award.winners[0]['year']}}</li>
+              <li class="list-group-item bg-transparent">First Recipient: {{award.winners[-1]['name'].split("(")[0]}} - {{award.winners[-1]['year']}}</li>
+            </ul>
           </div>
         </div>
       {% endfor %}
@@ -106,7 +107,6 @@
       {% endif %}
   </div>
   {% endmacro %}
-
 
   {{ render_navigation(paginated_awards, 'award_root') }}
   <!-- End Pagination Navigation Code-->

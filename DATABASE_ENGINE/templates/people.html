@@ -16,45 +16,47 @@
   <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
 </head>
-<!-- Navbar Code -->
-<nav class="navbar navbar-expand-lg">
-
-  <a class="navbar-brand" href="#">
-    <img src="{{ url_for('static', filename='oscars_logo.png') }}" alt="OSCARS LOGO" width="138"
-    height="72" />
-  </a>
-
-  <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#supportedContent"
-    aria-controls="supportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="supportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="{{ url_for('root') }}">Splash<span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('year_root') }}">Years</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('award_root') }}">Awards</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('people_root') }}">People</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('movies_root') }}">Movies</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('about') }}">About</a>
-      </li>
-    </ul>
-  </div>
-</nav>
-<!-- End Navbar Code -->
 
 <body>
+
+  <!-- Navbar Code -->
+  <nav class="navbar navbar-expand-lg">
+
+    <a class="navbar-brand" href="#">
+      <img src="{{ url_for('static', filename='oscars_logo.png') }}" alt="OSCARS LOGO" width="138"
+      height="72" />
+    </a>
+
+    <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#supportedContent"
+      aria-controls="supportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="supportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="{{ url_for('root') }}">Splash<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('year_root') }}">Years</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('award_root') }}">Awards</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('people_root') }}">People</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('movies_root') }}">Movies</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('about') }}">About</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <!-- End Navbar Code -->
+
   <!-- Model Title -->
   <div>
     <p class="model-title">PEOPLE</p>
@@ -68,12 +70,15 @@
         <div class="grid-item">
           <div class="card" >
             <!-- We will replace image below with image of each actor -->
-            <img class="card-img-top" src="{{ person.image_link }}" alt="Actor Pic">
-              <a class="card-title" href="{{'/people/%s'%person.query_name }}">{{ person.name }}</a>
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item bg-transparent">Date of Birth: {{person.dob.split("(")[0]}}</li>
-                <li class="list-group-item bg-transparent">person position (actor, director, etc.)</li>
-              </ul>
+            <a class="card-title" href="{{'/people/%s'%person.query_name }}">{{ person.name }}</a>
+            <div id="center-block">
+              <img class="card-img-top" src="{{ person.image_link }}" alt="Actor Pic"> 
+            </div>
+            
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item bg-transparent">Date of Birth: {{person.dob.split("(")[0]}}</li>
+              <li class="list-group-item bg-transparent">person position (actor, director, etc.)</li>
+            </ul>
           </div>
         </div>
       {% endfor %}
