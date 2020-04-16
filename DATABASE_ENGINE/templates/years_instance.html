@@ -53,48 +53,34 @@
   </nav>
   <!-- End Navbar Code -->
 
-  <!-- need to populate below section -->
+  <!-- Instance Title -->
   <div>
     <p class="instance-title">{{year}}</p>
   </div>
+  <!-- End Instance Title -->
 
-<div style="display: flex; justify-content: center;">
-  <table>
-    {% for award in awards%}
-      <tr>
-        <td>
-          {{award['title']}}
-        </td>
-        <td>
-          {% for nominee in award['nominees'] %}
-          {{nominee['song']}} {{nominee['name']}} -- {{nominee['movie']}}
-          {% endfor %}
-        </td>
-      </tr>
-    {% endfor %}
-  </table>
-</div>>
+  <br>
 
-<div style="display: flex; justify-content: center;">
-  <div class="row" id="instance-grid">
-    {% for award in awards%}
-      <div class="col" id="instance-grid-awards">{{award['title']}}</div>
-      {% for nominee in award['nominees'] %}
-        <div class="col" id="instance-grid-recipient">{{nominee['song']}} {{nominee['name']}} -- {{nominee['movie']}}</div>
+  <!-- Grid Code -->
+
+
+  <div id="center-block">
+    <div class="row" id="instance-grid" style="width: 80%;">
+      {% for award in awards%}
+        <div class="col" id="instance-grid-awards">{{award['title']}}</div>
+        {% for nominee in award['nominees'] %}
+          <div class="col" id="instance-grid-recipient">{{nominee['song']}} {{nominee['name']}} -- {{nominee['movie']}}</div>
+        {% endfor %}
+        <div class="w-100"></div>
       {% endfor %}
-      <div class="w-100"></div>
-    {% endfor %}
+    </div>
   </div>
-</div>
 
-  <div class="listings">
-    {% for award in awards%}
-  	  <p id="header2" style="font-size: 30px; text-decoration: underline;"> {{award['title']}}</p>
-      {% for nominee in award['nominees'] %}
-        <p id="header2"> {{nominee['song']}} {{nominee['name']}} -- {{nominee['movie']}}</p>
-      {% endfor %}
-    {% endfor %}
-  </div>
+  <!-- End Grid Code -->
+
+  <br>
+  <br>
+  <br>
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

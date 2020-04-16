@@ -63,18 +63,28 @@
     <p id="header2">{{people['dob']}}</p>
     <br>
     <p id="instance-attribute">Biography</p>
-    <p id="instance-content">{{people['bio']}}</p>
+    <div id="center-block">
+      <p id="instance-content">{{people['bio']}}</p>
+    </div>
     <br>
-    <p id="instance-attribute">AWARDS WON</p>
-    {% for award in people['awards'] %}
-    <p id="instance-awards">
-      {{award['title']}} -- {{award['year']}} -- {{award['movie']}}
-    </p>
-    {% endfor %}
+    <p id="instance-attribute">Associated Awards</p>
   </div>
-  <br>
-  <br>
 
+  <!-- Grid Code -->
+  <div id="center-block">
+    <div class="row" id="instance-grid" style="width: 60%;">
+      {% for award in people['awards'] %}
+        <div class="col" id="instance-grid-awards">{{award['title']}}</div>
+          <div class="col" id="instance-grid-recipient">{{award['year']}} -- {{award['movie']}}</div>
+        <div class="w-100"></div>
+      {% endfor %}
+    </div>
+  </div>
+  <!-- End Grid Code -->
+
+  <br>
+  <br>
+  <br>
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

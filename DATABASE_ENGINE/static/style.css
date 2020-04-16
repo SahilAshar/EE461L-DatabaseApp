@@ -1,4 +1,19 @@
 
+/* EFFECTS */
+#center-block{
+  display: flex; 
+  justify-content: center;
+}
+
+body{
+  background-color: black;
+}
+
+.row{
+  background-color: black;
+}
+
+/* NAVBAR AND LINKS*/
 .navbar.navbar-expand-lg{
   background-color: #0E0E0C ; 
 }
@@ -12,26 +27,6 @@
   font-size: 25px;
   font-weight: normal;
   text-transform: uppercase;
-}
-.introduction{
-  color: #C2A84A ;
-}
-body{
-  background-color: black;
-}
-#year-links, #award-links, #movie-links, #links{
-  color: #D5AD6D; /*if no support for background-clip*/
-  background: -webkit-linear-gradient(transparent, transparent),
-  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
-  background: -o-linear-gradient(transparent, transparent);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-size: 25px;
-  font-weight: 200;
-  text-transform: uppercase;
-}
-.row{
-  background-color: black;
 }
 
 /* MODEL PAGES */
@@ -83,6 +78,7 @@ body{
   -webkit-text-fill-color: transparent;
   font-size: 20px;
   font-weight: normal;
+  width: 60%;
 }
 
 #instance-awards{
@@ -97,26 +93,11 @@ body{
   text-transform: capitalize;
 }
 
-#instance-boxes{
-  color: #D5AD6D; /*if no support for background-clip*/
-  background: -webkit-linear-gradient(transparent, transparent),
-  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
-  background: -o-linear-gradient(transparent, transparent);
-  text-align: center;
-  flex-wrap: wrap;
-  flex: initial; 
-  width: 80%; 
-  height: fit-content;
-  align-items: center;
-  text-align: center;
-}
-
 #instance-grid{
   color: #D5AD6D; /*if no support for background-clip*/
   background: -webkit-linear-gradient(transparent, transparent),
   -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
   background: -o-linear-gradient(transparent, transparent);
-  width: 80%;
   border: 2px solid black;
 }
 
@@ -136,84 +117,7 @@ body{
   border: 2px solid black;
 }
 
-table, th, td{
-  font-size: 25px;
-  font-weight: normal;
-  text-transform: capitalize;
-  color: #D5AD6D; /*if no support for background-clip*/
-  background: -webkit-linear-gradient(transparent, transparent),
-  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
-  background: -o-linear-gradient(transparent, transparent);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  border: 2px solid #D5AD6D;
-}
-
-table{
-  width:80%
-}
-
-.listings{
-  text-align: center;
-}
-
-#award-attribute, #header2{
-  color: #D5AD6D; /*if no support for background-clip*/
-  background: -webkit-linear-gradient(transparent, transparent),
-  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
-  background: -o-linear-gradient(transparent, transparent);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-size: 25px;
-  font-weight: normal;
-  text-transform: uppercase;
-}
-#oscars-title{
-  color: #D5AD6D; /*if no support for background-clip*/
-  background: -webkit-linear-gradient(transparent, transparent),
-  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
-  background: -o-linear-gradient(transparent, transparent);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-align: center;
-  font-size: 300px;
-  font-weight: 100;
-  text-transform: uppercase;
-}
-#header1{
-  color: #D5AD6D; /*if no support for background-clip*/
-  background: -webkit-linear-gradient(transparent, transparent),
-  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
-  background: -o-linear-gradient(transparent, transparent);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-size: 50px;
-  font-weight: normal;
-  text-transform: uppercase;
-}
-#header3{
-  color: #D5AD6D; /*if no support for background-clip*/
-  background: -webkit-linear-gradient(transparent, transparent),
-  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
-  background: -o-linear-gradient(transparent, transparent);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-size: 20px;
-  font-weight: lighter;
-}
-#header4{
-  color: #D5AD6D; /*if no support for background-clip*/
-  background: -webkit-linear-gradient(transparent, transparent),
-  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
-  background: -o-linear-gradient(transparent, transparent);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-size: 25px;
-  font-weight: lighter;
-  text-align: center;
-}
-
-/* GRID CSS */
+/* MODEL PAGE */
 .grid-container {
   display: grid;
   grid-template-columns: auto auto auto;
@@ -283,4 +187,54 @@ table{
   font-weight: 200;
 }
 
+/* USED IN ABOUT AND MOVIES_INSTANCE */
+/* NEEDS TO BE CHANGED */
+#movie-links{
+  color: #D5AD6D; /*if no support for background-clip*/
+  background: -webkit-linear-gradient(transparent, transparent),
+  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+  background: -o-linear-gradient(transparent, transparent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 25px;
+  font-weight: 200;
+  text-transform: uppercase;
+}
 
+/* USED ON MOVIE INSTANCE PAGE */
+/* NEEDS TO BE CHANGED */
+#header2{
+  color: #D5AD6D; /*if no support for background-clip*/
+  background: -webkit-linear-gradient(transparent, transparent),
+  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+  background: -o-linear-gradient(transparent, transparent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 25px;
+  font-weight: normal;
+  text-transform: uppercase;
+}
+
+/* USED ON ABOUT AND SPLASH */
+/* NEEDS TO BE CHANGED */
+#header3{
+  color: #D5AD6D; /*if no support for background-clip*/
+  background: -webkit-linear-gradient(transparent, transparent),
+  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+  background: -o-linear-gradient(transparent, transparent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 20px;
+  font-weight: lighter;
+}
+#header4{
+  color: #D5AD6D; /*if no support for background-clip*/
+  background: -webkit-linear-gradient(transparent, transparent),
+  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+  background: -o-linear-gradient(transparent, transparent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 25px;
+  font-weight: lighter;
+  text-align: center;
+}
