@@ -7,6 +7,9 @@
 
 body{
   background-color: black;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 
 .row{
@@ -16,6 +19,9 @@ body{
 /* NAVBAR AND LINKS*/
 .navbar.navbar-expand-lg{
   background-color: #0E0E0C ;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 .nav-link{
   color: #D5AD6D; /*if no support for background-clip*/
@@ -125,6 +131,8 @@ body{
   padding: 10px;
   justify-items: center;
   align-items: center;
+  border: 2px solid black;
+  width: 80%;
 }
 .grid-item {
   background-color: black;
@@ -133,6 +141,7 @@ body{
   font-size: 30px;
   justify-items: center;
   align-items: center;
+  border: 2px solid black;
 }
 
 /* PAGINATION CSS */
@@ -170,21 +179,21 @@ body{
   text-align: center;
   flex-wrap: wrap;
   flex: initial; 
-  width: 30rem; 
-  height: 35rem;
+  width: 25rem; 
+  height: 30rem;
 }
 
 .card-title{
   color:black;
-  font-size: 30px;
+  font-size: 20px;
   font-weight: 350;
   text-transform: uppercase;
 }
 
 .list-group-item{
   color: black;
-  font-size: 20px;
-  font-weight: 200;
+  font-size: 18px;
+  font-weight: 250;
 }
 
 /* USED IN ABOUT AND MOVIES_INSTANCE */
