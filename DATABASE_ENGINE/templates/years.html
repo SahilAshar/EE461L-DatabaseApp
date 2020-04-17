@@ -52,6 +52,31 @@
           <a class="nav-link" href="{{ url_for('about') }}">About</a>
         </li>
       </ul>
+      <ul class="navbar-nav">
+        <li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Filter
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <label id="filter-label" class="container">Ascending
+              <input type="radio" checked="checked" name="radio">
+              <span class="checkmark"></span>
+            </label>
+            <label id="filter-label" class="container">Decending
+              <input type="radio" name="radio">
+              <span class="checkmark"></span>
+            </label>
+            <div id="center-block">
+              <input type="button" class="button" value="Filter">
+            </div>
+          </div>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="button" type="submit">Search</button>
+      </form>
     </div>
   </nav>
   <!-- End Navbar Code -->

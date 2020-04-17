@@ -34,6 +34,7 @@ body{
   margin: 0;
   padding: 0;
   width: 100%;
+  padding-right: 20px;
 }
 .nav-link{
   color: #D5AD6D; /*if no support for background-clip*/
@@ -46,6 +47,36 @@ body{
   font-weight: normal;
   text-transform: uppercase;
 }
+
+/* FILER MENU */
+.dropdown-menu{
+  background-color: black;
+  border: 3px solid #D5AD6D;
+  text-align: center;
+  
+}
+
+#filter-label{
+  color: #D5AD6D; /*if no support for background-clip*/
+  font-size: 20px;
+}
+
+.button{
+  background-color: black;
+  border: 2px solid #D5AD6D;
+  color: #D5AD6D;
+  border-radius: 12px;
+  font-size: 20px;
+  text-transform: uppercase;
+  padding: 5px;
+}
+
+.nav-item.dropdown{
+  display: flex; 
+  justify-content: right;
+  padding-right: 20px;
+}
+
 
 /* MODEL PAGES */
 .model-title{
