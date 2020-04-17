@@ -23,11 +23,6 @@ body{
   background-color: black;
 }
 
-#img-format{
-  height: 350px;
-  width: 300px;
-}
-
 /* NAVBAR AND LINKS*/
 .navbar.navbar-expand-lg{
   background-color: #0E0E0C ;
@@ -166,6 +161,11 @@ body{
   border: 2px solid black;
 }
 
+#img-format{
+  height: 450px;
+  width: auto;
+}
+
 /* MODEL PAGE */
 .grid-container {
   display: grid;
@@ -238,7 +238,7 @@ body{
   flex-wrap: wrap;
   flex: initial; 
   width: 25rem; 
-  height: 40rem;
+  height: auto;
 }
 
 .card-title{
@@ -257,7 +257,7 @@ body{
 
 .card-img-top{
   width: 300px;
-  height: 350px;
+  height: auto;
   padding-bottom: 20px;
 }
 
