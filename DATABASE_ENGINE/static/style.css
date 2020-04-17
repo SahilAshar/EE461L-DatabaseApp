@@ -261,7 +261,7 @@ body{
   padding-bottom: 20px;
 }
 
-/* ABOUT PAGE */
+/* ABOUT AND SPLASH PAGE */
 #about-title{
   color: #D5AD6D; /*if no support for background-clip*/
   background: -webkit-linear-gradient(transparent, transparent),
@@ -270,9 +270,10 @@ body{
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-size: 25px;
-  font-weight: 200;
+  font-weight: bold;
   text-transform: uppercase;
   text-align: center;
+  text-decoration: underline;
 }
 #about-attribute{
   color: #D5AD6D; /*if no support for background-clip*/
@@ -282,10 +283,27 @@ body{
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-size: 25px;
-  font-weight: bold;
+  font-weight: normal;
   text-align: center;
   display: inline;
   text-transform: capitalize;
+  padding-right: 10px;
+}
+
+#splash, #about-content{
+  color: #D5AD6D; /*if no support for background-clip*/
+  background: -webkit-linear-gradient(transparent, transparent),
+  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+  background: -o-linear-gradient(transparent, transparent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 25px;
+  font-weight: lighter;
+  text-align: center;
+}
+
+#bio-left{
+  display: flex;
 }
 
 /* USED ON MOVIE INSTANCE PAGE */
@@ -314,14 +332,4 @@ body{
   font-size: 20px;
   font-weight: lighter;
 }
-#splash, #about-content{
-  color: #D5AD6D; /*if no support for background-clip*/
-  background: -webkit-linear-gradient(transparent, transparent),
-  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
-  background: -o-linear-gradient(transparent, transparent);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-size: 25px;
-  font-weight: lighter;
-  text-align: center;
-}
+
