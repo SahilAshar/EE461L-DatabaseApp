@@ -261,9 +261,8 @@ body{
   padding-bottom: 20px;
 }
 
-/* USED IN ABOUT AND MOVIES_INSTANCE */
-/* NEEDS TO BE CHANGED */
-#movie-links{
+/* ABOUT PAGE */
+#about-title{
   color: #D5AD6D; /*if no support for background-clip*/
   background: -webkit-linear-gradient(transparent, transparent),
   -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
@@ -273,6 +272,20 @@ body{
   font-size: 25px;
   font-weight: 200;
   text-transform: uppercase;
+  text-align: center;
+}
+#about-attribute{
+  color: #D5AD6D; /*if no support for background-clip*/
+  background: -webkit-linear-gradient(transparent, transparent),
+  -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+  background: -o-linear-gradient(transparent, transparent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 25px;
+  font-weight: bold;
+  text-align: center;
+  display: inline;
+  text-transform: capitalize;
 }
 
 /* USED ON MOVIE INSTANCE PAGE */
@@ -301,7 +314,7 @@ body{
   font-size: 20px;
   font-weight: lighter;
 }
-#header4{
+#splash, #about-content{
   color: #D5AD6D; /*if no support for background-clip*/
   background: -webkit-linear-gradient(transparent, transparent),
   -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
