@@ -73,8 +73,8 @@
           </div>
         </li>
       </ul>
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <form class="form-inline my-2 my-lg-0" action = "{{ url_for('year_search_helper') }}" method = "POST">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search_text">
         <button class="button" type="submit">Search</button>
       </form>
     </div>
@@ -112,13 +112,13 @@
   {# Macro for creating navigation links #}
   {% macro render_navigation(pagination, endpoint) %}
   <div class=pagination id="center-block">
-    {% if pagination.page != 1%}
-      <a id="page-numbers" href="{{ url_for(endpoint, page=pagination.page-1) }}">previous</a>
+    {% if pagination.page != 1 %}
+      <a id="page-numbers" href="{{ url_for(endpoint, page=pagination.page-1, view=view) }}">previous</a>
     {% endif%}
       {% for page in pagination.iter_pages() %}
         {% if page %}
           {% if page != pagination.page %}
-            <a id="page-numbers" href="{{ url_for(endpoint, page=page) }}">{{ page }}</a>
+            <a id="page-numbers" href="{{ url_for(endpoint, page=page, view=view) }}">{{ page }}</a>
           {% else %}
             <strong id="selected-page">{{ page }}</strong>
           {% endif %}
@@ -127,7 +127,7 @@
         {% endif %} 
       {% endfor %}
       {% if pagination.page != pagination.pages %}
-        <a id="page-numbers" href="{{ url_for(endpoint, page=pagination.page+1) }}">next</a>
+        <a id="page-numbers" href="{{ url_for(endpoint, page=pagination.page+1, view=view) }}">next</a>
       {% endif %}
   </div>
   {% endmacro %}

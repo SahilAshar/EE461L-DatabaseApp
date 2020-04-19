@@ -35,6 +35,16 @@ class Year(db.Document):
     image_link = db.StringField()
     awards = db.ListField(db.ReferenceField(YearAward))
 
+    meta = {
+        "indexes": [
+            {
+                "fields": ["$ceremony_name", "$year", "$ceremony_summary"],
+                "default_language": "english",
+                "weights": {"ceremony_name": 10, "year": 2, "ceremony_summary": 5},
+            }
+        ]
+    }
+
 
 class YearController:
 
@@ -103,6 +113,16 @@ class YearController:
             paginated_years = Year.objects.order_by("year").paginate(
                 page=page, per_page=9
             )
+
+        return paginated_years
+
+    def get_paginated_years_search(self, page, search):
+
+        paginated_years = (
+            Year.objects.search_text(search)
+            .order_by("$text_score")
+            .paginate(page=page, per_page=9)
+        )
 
         return paginated_years
 

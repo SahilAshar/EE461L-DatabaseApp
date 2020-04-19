@@ -1,7 +1,7 @@
 import datetime
 
 
-from flask import Flask, redirect, render_template, url_for
+from flask import Flask, redirect, render_template, url_for, request
 from flask_mongoengine import MongoEngine
 
 from controllers.about_controller import AboutController
@@ -53,6 +53,26 @@ def year_root(page=1, view="descending"):
     page = int(page)
     y_controller = YearController()
     paginated_years = y_controller.get_paginated_years(page, view)
+
+    return render_template("years.html", paginated_years=paginated_years, view=view)
+
+
+@app.route("/year/helper", methods=["POST"])
+def year_search_helper():
+    return redirect(url_for("year_search", search=request.form["search_text"]))
+
+
+# TODO: this is a janky way of handling pagination, pls fix @Sahil
+@app.route("/years/search=<search>")
+@app.route("/years/search=<search>/page=<page>")
+def year_search(page=1, search=None):
+
+    if search is None:
+        redirect(url_for("year_search", search=request.form["search_text"]))
+
+    page = int(page)
+    y_controller = YearController()
+    paginated_years = y_controller.get_paginated_years_search(page, search)
 
     return render_template("years.html", paginated_years=paginated_years)
 
@@ -134,9 +154,17 @@ def people_root(page=1, view="ascending"):
     return render_template("people.html", paginated_people=paginated_people)
 
 
+@app.route("/people/helper", methods=["POST"])
+def people_search_helper():
+    return redirect(url_for("people_search", search=request.form["search_text"]))
+
+
 @app.route("/people/search=<search>")
 @app.route("/people/search=<search>/page=<page>")
 def people_search(page=1, search=None):
+
+    # if search == "" or search is None:
+    #     redirect(url_for("people_search", page=1, search=request.form["search_text"]))
 
     page = int(page)
     pa_controller = PeopleAccessController()
