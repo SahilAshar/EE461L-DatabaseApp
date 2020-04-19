@@ -31,6 +31,16 @@ class Person(db.Document):
     image_link = db.StringField()
     awards = db.ListField(db.ReferenceField(Award))
 
+    meta = {
+        "indexes": [
+            {
+                "fields": ["$name", "$bio"],
+                "default_language": "english",
+                "weights": {"name": 10, "bio": 2},
+            }
+        ]
+    }
+
 
 class PeopleAccessController:
     # POST Request (Update Request)
@@ -108,8 +118,17 @@ class PeopleAccessController:
 
         return matching_persons
 
-    def get_paginated_people(self, page):
+    def get_paginated_people(self, page, view):
         paginated_people = Person.objects.paginate(page=page, per_page=9)
+
+        return paginated_people
+
+    def get_paginated_people_search(self, page, search):
+        paginated_people = (
+            Person.objects.search_text(search)
+            .order_by("$text_score")
+            .paginate(page=page, per_page=9)
+        )
 
         return paginated_people
 

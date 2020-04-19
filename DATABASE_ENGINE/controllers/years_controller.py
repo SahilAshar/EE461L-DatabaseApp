@@ -93,8 +93,16 @@ class YearController:
 
         return matching_years
 
-    def get_paginated_years(self, page):
-        paginated_years = Year.objects.order_by("year").paginate(page=page, per_page=9)
+    def get_paginated_years(self, page, view):
+
+        if view == "descending":
+            paginated_years = Year.objects.order_by("-year").paginate(
+                page=page, per_page=9
+            )
+        elif view == "ascending":
+            paginated_years = Year.objects.order_by("year").paginate(
+                page=page, per_page=9
+            )
 
         return paginated_years
 

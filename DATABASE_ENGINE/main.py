@@ -46,12 +46,13 @@ def about():
 
 # TODO: this is a janky way of handling pagination, pls fix @Sahil
 @app.route("/years/")
-@app.route("/years/page=<page>")
-def year_root(page=1):
+@app.route("/years/page=<page>/")
+@app.route("/years/page=<page>/view=<view>")
+def year_root(page=1, view="descending"):
 
     page = int(page)
     y_controller = YearController()
-    paginated_years = y_controller.get_paginated_years(page)
+    paginated_years = y_controller.get_paginated_years(page, view)
 
     return render_template("years.html", paginated_years=paginated_years)
 
@@ -123,11 +124,23 @@ def update_all_awards():
 # TODO: this is a janky way of handling pagination, pls fix @Sahil
 @app.route("/people/")
 @app.route("/people/page=<page>")
-def people_root(page=1):
+@app.route("/people/page=<page>/view=<view>")
+def people_root(page=1, view="ascending"):
 
     page = int(page)
     pa_controller = PeopleAccessController()
-    paginated_people = pa_controller.get_paginated_people(page)
+    paginated_people = pa_controller.get_paginated_people(page, view)
+
+    return render_template("people.html", paginated_people=paginated_people)
+
+
+@app.route("/people/search=<search>")
+@app.route("/people/search=<search>/page=<page>")
+def people_search(page=1, search=None):
+
+    page = int(page)
+    pa_controller = PeopleAccessController()
+    paginated_people = pa_controller.get_paginated_people_search(page, search)
 
     return render_template("people.html", paginated_people=paginated_people)
 
@@ -167,8 +180,11 @@ def populate_people():
     return redirect("/people/")
 
 
+# TODO: this is a janky way of handling pagination, pls fix @Sahil
 @app.route("/movies/")
-def movies_root():
+@app.route("/movies/page=<page>")
+@app.route("/movies/page=<page>/view=<view>")
+def movies_root(page=1, view="ascending"):
 
     return render_template("movies.html", movie=None)
 
