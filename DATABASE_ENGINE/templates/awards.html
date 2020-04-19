@@ -38,10 +38,7 @@
           <a class="nav-link" href="{{ url_for('root') }}">Splash<span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('year_root') }}">Years</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('award_root') }}">Awards</a>
+          <a class="nav-link" href="{{ url_for('year_root') }}">Ceremonies</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('people_root') }}">People</a>
@@ -50,9 +47,49 @@
           <a class="nav-link" href="{{ url_for('movies_root') }}">Movies</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('award_root') }}">Awards</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="{{ url_for('about') }}">About</a>
         </li>
       </ul>
+      <ul class="navbar-nav">
+        <li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Filter
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <label id="filter-label" class="container">Acting
+              <input type="checkbox" name="radio">
+              <span class="checkmark"></span>
+            </label>
+            <label id="filter-label" class="container">Directing
+              <input type="checkbox" name="radio">
+              <span class="checkmark"></span>
+            </label>
+            <label id="filter-label" class="container">Movies
+              <input type="checkbox" name="radio">
+              <span class="checkmark"></span>
+            </label>
+            <label id="filter-label" class="container">Music
+              <input type="checkbox" name="radio">
+              <span class="checkmark"></span>
+            </label>
+            <label id="filter-label" class="container">Producing
+              <input type="checkbox" name="radio">
+              <span class="checkmark"></span>
+            </label>
+            <div id="center-block">
+              <input type="button" class="button" value="Filter">
+            </div>
+          </div>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="button" type="submit">Search</button>
+      </form>
     </div>
   </nav>
   <!-- End Navbar Code -->

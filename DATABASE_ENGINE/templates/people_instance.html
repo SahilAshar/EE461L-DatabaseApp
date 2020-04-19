@@ -36,16 +36,16 @@
           <a class="nav-link" href="{{ url_for('root') }}">Splash<span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('year_root') }}">Years</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('award_root') }}">Awards</a>
+          <a class="nav-link" href="{{ url_for('year_root') }}">Ceremonies</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('people_root') }}">People</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('movies_root') }}">Movies</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('award_root') }}">Awards</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('about') }}">About</a>
@@ -62,7 +62,7 @@
     </div>
     <br>
     <div id="center-block">
-      <img src="{{people['image_link']}}" alt="Actor Pic" width="360" height="480"/>
+      <img id="img-format" src="{{people['image_link']}}" alt="Actor Pic"/>
     </div>
     <br>
     <br>
