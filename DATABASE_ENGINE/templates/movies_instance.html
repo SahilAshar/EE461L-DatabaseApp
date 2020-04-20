@@ -94,17 +94,44 @@
   <div style="text-align: center;">
     <!-- how to reference image in tag? -->
     <!-- <img src="#" alt="Movie Poster" /> -->
-    <p class="instance-title">{{movie['title']}}</p>
-    <p class="header2">{{movie['director']}}</p>
-    <p class="header2">{{movie['year']}}</p>
+    <div id="center-block">
+      <p class="instance-title">{{movie['title']}}</p>
+    </div>
+    <br>
+    <div id="center-block">
+      <img id="img-format" src="{{ movie['image_link']}}" alt="Ceremony Pic" />
+    </div>
+    <br>
+    <br>
+    <div id="center-block">
+      <p class="instance-attribute">Directed By {{movie['director']}}</p>
+    </div>
+    <div id="center-block">
+      <p class="instance-attribute">Release Date: {{movie['year']}}</p>
+    </div>
+    div id="center-block">
+      <p id="instance-attribute">Associated Awards</p>
+    </div>
     {% for nomination in movie['nominations'] %}
-    <p id="header2">
-      {{nomination['title']}} -- {% for name in movie['nominations'['names']] %} {{nomination['name']}} {% endfor %}
+    <p id="instance-grid-awards">
+      {{nomination['award_title']}} -- {% for name in nomination['names'] %} {{name}} {% endfor %}
     </p>
     {% endfor %}
-    <p class="header2">{{movie['year']}}</p>
   </div>
   <!-- End Old Content -->
+
+  <!-- Grid Code -->
+  <div id="center-block">
+    <div class="row" id="instance-grid" style="width: 80%;">
+      {% for nomination in movie['nominations'] %}
+        <div class="col" id="instance-grid-awards">{{nomination['award_title']}}</div>
+        {% for nominee in award['nominees'] %}
+          <div class="col" id="instance-grid-recipient">{% for name in nomination['names'] %} {{name}} {% endfor %}</div>
+        {% endfor %}
+        <div class="w-100"></div>
+      {% endfor %}
+    </div>
+  </div>
 
   <br>
   <br>

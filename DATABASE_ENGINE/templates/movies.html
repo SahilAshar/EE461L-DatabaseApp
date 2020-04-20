@@ -122,7 +122,7 @@
           <div class="card">
             <a class="card-title" href="{{'/movies/%s'%movie.title }}">{{ movie.title }}</a>
             <div id="center-block">
-              <img class="card-img-top" src="{{year['image_link']}}" alt="Ceremony Pic">
+              <img class="card-img-top" src="{{ movie['image_link'] }}" alt="movie pic"/>
             </div>
             <ul class="list-group list-group-flush">
               <li class="list-group-item bg-transparent">Director</li>
