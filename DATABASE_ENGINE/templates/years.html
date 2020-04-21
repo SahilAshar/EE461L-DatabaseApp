@@ -75,8 +75,8 @@
           </div>
         </li>
       </ul>
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <form class="form-inline my-2 my-lg-0" action = "{{ url_for('year_search_helper') }}" method = "POST">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search_text">
         <button class="button" type="submit">Search</button>
       </form>
     </div>
@@ -95,7 +95,7 @@
       {% for year in paginated_years.items %}
         <div class="grid-item">
           <div class="card">
-            <a class="card-title" href="{{'/years/%s'%year.query_ceremony }}">{{ year.ceremony_name }}</a>
+            <a class="card-title" href="{{ url_for('year_instance', ceremony_name=year.query_ceremony) }}">{{ year.ceremony_name }}</a>
             <div id="center-block">
               <img class="card-img-top" src="{{year['image_link']}}" alt="Ceremony Pic">
             </div>
@@ -114,13 +114,13 @@
   {# Macro for creating navigation links #}
   {% macro render_navigation(pagination, endpoint) %}
   <div class=pagination id="center-block">
-    {% if pagination.page != 1%}
-      <a id="page-numbers" href="{{ url_for(endpoint, page=pagination.page-1) }}">previous</a>
+    {% if pagination.page != 1 %}
+      <a id="page-numbers" href="{{ url_for(endpoint, page=pagination.page-1, view=view) }}">previous</a>
     {% endif%}
       {% for page in pagination.iter_pages() %}
         {% if page %}
           {% if page != pagination.page %}
-            <a id="page-numbers" href="{{ url_for(endpoint, page=page) }}">{{ page }}</a>
+            <a id="page-numbers" href="{{ url_for(endpoint, page=page, view=view) }}">{{ page }}</a>
           {% else %}
             <strong id="selected-page">{{ page }}</strong>
           {% endif %}
@@ -129,7 +129,7 @@
         {% endif %} 
       {% endfor %}
       {% if pagination.page != pagination.pages %}
-        <a id="page-numbers" href="{{ url_for(endpoint, page=pagination.page+1) }}">next</a>
+        <a id="page-numbers" href="{{ url_for(endpoint, page=pagination.page+1, view=view) }}">next</a>
       {% endif %}
   </div>
   {% endmacro %}

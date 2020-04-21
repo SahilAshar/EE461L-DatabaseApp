@@ -80,7 +80,24 @@
       {% for award in awards%}
         <div class="col" id="instance-grid-awards">{{award['title']}}</div>
         {% for nominee in award['nominees'] %}
-          <div class="col" id="instance-grid-recipient">{{nominee['song']}} {{nominee['name']}} -- {{nominee['movie']}}</div>
+          <div class="col" id="instance-grid-recipient">
+            
+            {% if nominee['song'] != '' %}
+              {{ nominee['song'] }} --
+            {% else %}
+              {{nominee['song']}}
+            {% endif %}
+            
+            {% if award['title'] == "best motion picture" or award['title'] == "best picture" %}
+              {{nominee['name']}}
+            {% elif award['title'] == "achievement in music written for motion pictures (original song)" or award['title'] == "music (original song)" %}
+              {{nominee['name']}}
+            {% else %}
+              <a href="{{ url_for('people_instance', person=(nominee['name'] | replace(' ', '+') | lower ))}}">{{ nominee['name'] }}</a>
+            {% endif %}
+            -- 
+            {{nominee['movie']}}
+          </div>
         {% endfor %}
         <div class="w-100"></div>
       {% endfor %}
