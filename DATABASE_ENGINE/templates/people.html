@@ -61,18 +61,17 @@
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <form action="/action_page.php">
               <fieldset>
-                <label id="filter-label" class="container">SORT</label>
-                <label id="filter-label" class="container">A-Z
+                <label id="filter-label" class="container">Ascending
                   <input type="radio" checked="checked" name="radio">
                   <span class="checkmark"></span>
                 </label>
-                <label id="filter-label" class="container">Z-A
+                <label id="filter-label" class="container">Descending
                   <input type="radio" name="radio">
                   <span class="checkmark"></span>
                 </label>
-                <label id="filter-label" class="container">FILTER</label>
+                <br>
                 <div class="custom-select" multiple="multiple" style="width:200px;">
-                  <select>
+                  <select id="select-filter">
                     <option value="0">Select Letter:</option>
                     <option value="1">A</option>
                     <option value="2">B</option>
@@ -102,7 +101,9 @@
                     <option value="27">Z</option>
                   </select>
                 </div>
-                <input type="submit" value="Search">
+                <br>
+                <br>
+                <input type="submit" value="Filter">
               </fieldset>
             </form>
           </div>

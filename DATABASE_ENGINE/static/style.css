@@ -72,6 +72,16 @@ body{
   padding-right: 20px;
 }
 
+.custom-select{
+  background-color: black;
+  border: black;
+}
+
+#select-filter{
+  background-color: black;
+  color:#D5AD6D;
+  border:2px solid #D5AD6D;
+}
 
 /* MODEL PAGES */
 .model-title{
