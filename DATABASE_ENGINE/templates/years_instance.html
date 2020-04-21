@@ -93,7 +93,7 @@
             {% elif award['title'] == "achievement in music written for motion pictures (original song)" or award['title'] == "music (original song)" %}
               {{nominee['name']}}
             {% else %}
-              <a href="{{'/people/%s'%nominee['name'] | replace(' ', '+') | lower }}">{{ nominee['name'] }}</a> 
+              <a href="{{ url_for('people_instance', person=(nominee['name'] | replace(' ', '+') | lower ))}}">{{ nominee['name'] }}</a>
             {% endif %}
             -- 
             {{nominee['movie']}}

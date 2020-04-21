@@ -105,8 +105,7 @@ class YearController:
 
     def get_ceremony_name_by_year(self, query_year):
 
-        matching_years = Year.objects(year__iexact=query_year).first()
-
+        matching_years = Year.objects(year__iexact=query_year).get()
         return matching_years.query_ceremony
 
     def get_paginated_years(self, page, view):

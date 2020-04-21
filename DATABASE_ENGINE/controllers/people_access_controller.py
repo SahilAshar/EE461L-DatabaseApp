@@ -59,9 +59,7 @@ class PeopleAccessController:
 
         wiki_image_name = self.__get_wiki_image_name(actor_image_link)
 
-        actor_wikimedia_link = self.__get_and_store_image(
-            query_name, wiki_image_name, actor_image_link
-        )
+        actor_wikimedia_link = self.__get_and_store_image(query_name, actor_image_link)
 
         # Return a dict with actor name and DOB, parsed from actor_data_str
         actor_data_dict = self.__build_actor_data_dict(actor_data_str, query_name)
@@ -119,7 +117,9 @@ class PeopleAccessController:
         return matching_persons
 
     def get_paginated_people(self, page, view):
-        paginated_people = Person.objects.paginate(page=page, per_page=9)
+        paginated_people = Person.objects.order_by("+name").paginate(
+            page=page, per_page=9
+        )
 
         return paginated_people
 
@@ -278,12 +278,19 @@ class PeopleAccessController:
         return new_award
 
     def __set_wiki_page(self, query_name):
-        name = query_name.replace("+", " ")
-        result = wikipedia.search(name, results=1)
-        wikipedia.set_lang("en")
-        wkpage = wikipedia.WikipediaPage(title=result[0])
 
-        return wkpage
+        try:
+            name = query_name.replace("+", " ")
+            result = wikipedia.search(name, results=1)
+            wikipedia.set_lang("en")
+            wkpage = wikipedia.WikipediaPage(title=result[0])
+
+            return wkpage
+
+        except Exception as e:
+            message = f"Error: {e}"
+            LOGGER.exception(message)
+            return ""
 
     def __get_image_link_str(self, wkpage):
 
@@ -331,34 +338,11 @@ class PeopleAccessController:
             LOGGER.exception(message)
             return ""
 
-    def __get_and_store_image(self, query_name, wiki_image_name, image_link_str):
-        print(wiki_image_name)
+    def __get_and_store_image(self, query_name, image_link_str):
 
         try:
-            if wiki_image_name == "":
-                raise KeyError
-
-            file_name = wiki_image_name
-
-            print(file_name)
-
-            # os.system(
-            #     "download_from_Wikimedia_Commons "
-            #     + "'"
-            #     + file_name
-            #     + "'"
-            #     + " --output ./temp/people/ --width 300"
-            # )
-
-            file_name = file_name.replace(".JPG", ".jpg")
-            r = requests.get(image_link_str, allow_redirects=True)
-            open("./temp/people/" + file_name, "wb").write(r.content)
-
-            # file_name = file_name.replace(".JPG", ".jpg")
-
-            upload_blob("people-images", "./temp/people/" + file_name + "", query_name)
-
-            return "https://storage.googleapis.com/people-images/" + query_name
+            print(image_link_str)
+            return image_link_str
 
         except Exception as e:
             message = f"Error: {e}"
