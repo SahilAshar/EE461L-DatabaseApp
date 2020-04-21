@@ -38,7 +38,7 @@
           <a class="nav-link" href="{{ url_for('root') }}">Splash<span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('year_root') }}">Years</a>
+          <a class="nav-link" href="{{ url_for('year_root') }}">Ceremonies</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('people_root') }}">People</a>
@@ -59,14 +59,14 @@
             Filter
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <form action="/action_page.php">
+            <form action="" method="GET">
               <fieldset>
                 <label id="filter-label" class="container">Ascending
-                  <input type="radio" checked="checked" name="radio">
+                  <input type="radio" checked="checked" name="radio" value="ascending">
                   <span class="checkmark"></span>
                 </label>
                 <label id="filter-label" class="container">Descending
-                  <input type="radio" name="radio">
+                  <input type="radio" name="radio" value="descending">
                   <span class="checkmark"></span>
                 </label>
                 <br>
@@ -132,7 +132,11 @@
             <!-- We will replace image below with image of each actor -->
             <a class="card-title" href="{{ url_for('people_instance', person=person.query_name) }}">{{ person.name }}</a>
             <div id="center-block">
-              <img class="card-img-top" src="{{ person.image_link }}" alt="Actor Pic">
+              {% if person.image_link == ""%}
+                <img class="card-img-top" src="{{ url_for('static', filename='default-pic.jpg') }}" alt="Actor pic"/>
+              {% else %}
+                <img class="card-img-top" src="{{ person.image_link }}" alt="Actor Pic">
+              {% endif %}
             </div>
             
             <ul class="list-group list-group-flush">

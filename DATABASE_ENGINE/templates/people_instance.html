@@ -62,7 +62,11 @@
     </div>
     <br>
     <div id="center-block">
-      <img id="img-format" src="{{people['image_link']}}" alt="Actor Pic"/>
+      {% if people['image_link'] == ""%}
+        <img id="img-format" src="{{ url_for('static', filename='default-pic.jpg') }}" alt="Actor pic"/>
+      {% else %}
+        <img id="img-format" src="{{people['image_link']}}" alt="Actor Pic"/>
+      {% endif %}
     </div>
     <br>
     <br>

@@ -60,7 +60,11 @@
     </div>
     <br>
     <div id="center-block">
-      <img id="img-format" src="{{year['image_link']}}" alt="Ceremony Pic" />
+      {% if year['image_link'] == ""%}
+        <img id="img-format" src="{{ url_for('static', filename='default-pic.jpg') }}" alt="Ceremony Pic"/>
+      {% else %}
+        <img id="img-format" src="{{year['image_link']}}" alt="Ceremony Pic" />
+      {% endif %}
     </div>
     <br>
     <br>
