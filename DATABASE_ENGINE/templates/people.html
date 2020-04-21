@@ -59,48 +59,52 @@
             Filter
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <label id="filter-label" class="container">A-Z
-              <input type="radio" checked="checked" name="radio">
-              <span class="checkmark"></span>
-            </label>
-            <label id="filter-label" class="container">Z-A
-              <input type="radio" name="radio">
-              <span class="checkmark"></span>
-            </label>
-            <div class="custom-select" style="width:200px;">
-              <select>
-                <option value="0">Select Letter:</option>
-                <option value="1">A</option>
-                <option value="2">B</option>
-                <option value="3">C</option>
-                <option value="4">D</option>
-                <option value="5">E</option>
-                <option value="6">F</option>
-                <option value="7">G</option>
-                <option value="8">H</option>
-                <option value="9">I</option>
-                <option value="10">J</option>
-                <option value="11">K</option>
-                <option value="13">L</option>
-                <option value="14">M</option>
-                <option value="15">N</option>
-                <option value="16">O</option>
-                <option value="17">P</option>
-                <option value="18">Q</option>
-                <option value="19">R</option>
-                <option value="20">S</option>
-                <option value="21">T</option>
-                <option value="22">U</option>
-                <option value="23">V</option>
-                <option value="24">W</option>
-                <option value="25">X</option>
-                <option value="26">Y</option>
-                <option value="27">Z</option>
-              </select>
-            </div>
-            <div id="center-block">
-              <input type="button" class="button" value="Filter">
-            </div>
+            <form action="/action_page.php">
+              <fieldset>
+                <label id="filter-label" class="container">SORT</label>
+                <label id="filter-label" class="container">A-Z
+                  <input type="radio" checked="checked" name="radio">
+                  <span class="checkmark"></span>
+                </label>
+                <label id="filter-label" class="container">Z-A
+                  <input type="radio" name="radio">
+                  <span class="checkmark"></span>
+                </label>
+                <label id="filter-label" class="container">FILTER</label>
+                <div class="custom-select" multiple="multiple" style="width:200px;">
+                  <select>
+                    <option value="0">Select Letter:</option>
+                    <option value="1">A</option>
+                    <option value="2">B</option>
+                    <option value="3">C</option>
+                    <option value="4">D</option>
+                    <option value="5">E</option>
+                    <option value="6">F</option>
+                    <option value="7">G</option>
+                    <option value="8">H</option>
+                    <option value="9">I</option>
+                    <option value="10">J</option>
+                    <option value="11">K</option>
+                    <option value="13">L</option>
+                    <option value="14">M</option>
+                    <option value="15">N</option>
+                    <option value="16">O</option>
+                    <option value="17">P</option>
+                    <option value="18">Q</option>
+                    <option value="19">R</option>
+                    <option value="20">S</option>
+                    <option value="21">T</option>
+                    <option value="22">U</option>
+                    <option value="23">V</option>
+                    <option value="24">W</option>
+                    <option value="25">X</option>
+                    <option value="26">Y</option>
+                    <option value="27">Z</option>
+                  </select>
+                </div>
+                <input type="submit" value="Search">
+              </fieldset>
+            </form>
           </div>
         </li>
       </ul>

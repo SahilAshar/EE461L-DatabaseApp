@@ -53,23 +53,25 @@
         </li>
       </ul>
       <ul class="navbar-nav">
-        <li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Filter
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <label id="filter-label" class="container">Ascending
-              <input type="radio" checked="checked" name="radio">
-              <span class="checkmark"></span>
-            </label>
-            <label id="filter-label" class="container">Decending
-              <input type="radio" name="radio">
-              <span class="checkmark"></span>
-            </label>
-            <div id="center-block">
-              <input type="button" class="button" value="Filter">
-            </div>
+            <form action="/action_page.php">
+              <fieldset>
+                <label id="filter-label" class="container">SORT</label>
+                <label id="filter-label" class="container">A-Z
+                  <input type="radio" checked="checked" name="radio">
+                  <span class="checkmark"></span>
+                </label>
+                <label id="filter-label" class="container">Z-A
+                  <input type="radio" name="radio">
+                  <span class="checkmark"></span>
+                </label>
+                <input type="submit" value="Search">
+              </fieldset>
+            </form>
           </div>
         </li>
       </ul>
