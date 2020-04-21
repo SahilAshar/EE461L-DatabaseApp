@@ -93,7 +93,7 @@
       {% for year in paginated_years.items %}
         <div class="grid-item">
           <div class="card">
-            <a class="card-title" href="{{'/years/%s'%year.query_ceremony }}">{{ year.ceremony_name }}</a>
+            <a class="card-title" href="{{ url_for('year_instance', ceremony_name=year.query_ceremony) }}">{{ year.ceremony_name }}</a>
             <div id="center-block">
               <img class="card-img-top" src="{{year['image_link']}}" alt="Ceremony Pic">
             </div>

@@ -5,7 +5,6 @@ Ang Lee
 Anthony Minghella
 Barry Levinson
 Bernardo Bertolucci
-Bong Joon Ho
 James Cameron
 Jonathan Demme
 Kevin Costner
@@ -20,3 +19,5 @@ Ron Howard
 Sam Mendes
 Steven Soderbergh
 Sydney Pollack
+Emmanuel Lubezki
+Alexandre Desplat

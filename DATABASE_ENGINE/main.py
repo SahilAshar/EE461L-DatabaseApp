@@ -77,13 +77,24 @@ def year_search(page=1, search=None):
     return render_template("years.html", paginated_years=paginated_years)
 
 
-@app.route("/years/<year>/")
-def year_instance(year):
+@app.route("/years/<ceremony_name>/")
+def year_instance(ceremony_name=None):
 
     y_controller = YearController()
-    year_obj = y_controller.get(year)
+    year_obj = y_controller.get(ceremony_name)
 
     return render_template("years_instance.html", year=year_obj, awards=year_obj.awards)
+
+
+@app.route("/years/num/<year_num>/")
+# def ceremony_from_year_num(ceremony, year_num=None):
+def ceremony_from_year_num(year_num=None):
+    y_controller = YearController()
+    ceremony_name = y_controller.get_ceremony_name_by_year(year_num)
+
+    return redirect(url_for("year_instance", ceremony_name=ceremony_name))
+
+    # return render_template("years_instance.html", year=year_obj, awards=year_obj.awards)
 
 
 # TODO : This works(?) Need to make this an actual post request
@@ -174,9 +185,8 @@ def people_search(page=1, search=None):
 
 
 @app.route("/people/<person>/")
-def people_instance(person):
+def people_instance(person=None):
 
-    # people = build_people.get_person_info(person)
     pa_controller = PeopleAccessController()
     people = pa_controller.get(person)
 

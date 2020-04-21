@@ -126,7 +126,7 @@
         <div class="grid-item">
           <div class="card" >
             <!-- We will replace image below with image of each actor -->
-            <a class="card-title" href="{{'/people/%s'%person.query_name }}">{{ person.name }}</a>
+            <a class="card-title" href="{{ url_for('people_instance', person=person.query_name) }}">{{ person.name }}</a>
             <div id="center-block">
               <img class="card-img-top" src="{{ person.image_link }}" alt="Actor Pic">
             </div>
