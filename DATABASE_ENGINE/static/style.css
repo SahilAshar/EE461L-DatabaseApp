@@ -343,3 +343,8 @@ body{
   font-weight: lighter;
 }
 
+/* CAROUSEL CONTROLS */
+.carousel-control-next-icon, .carousel-control-prev-icon {
+  height: 100px;
+  width: 100px;
+}

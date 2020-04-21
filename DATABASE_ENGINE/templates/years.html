@@ -58,19 +58,17 @@
             Filter
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <form action="/action_page.php">
-              <fieldset>
-                <label id="filter-label" class="container">Ascending
-                  <input type="radio" checked="checked" name="radio">
-                  <span class="checkmark"></span>
-                </label>
-                <label id="filter-label" class="container">Descending
-                  <input type="radio" name="radio">
-                  <span class="checkmark"></span>
-                </label>
-                <br>
-                <input type="submit" value="Search">
-              </fieldset>
+            <form action = "" method = "POST">
+              <label id="filter-label" class="container">Ascending
+                <input type="radio" checked="checked" name="radio" value="ascending">
+                <span class="checkmark"></span>
+              </label>
+              <label id="filter-label" class="container">Descending
+                <input type="radio" name="radio" value="descending">
+                <span class="checkmark"></span>
+              </label>
+              <br>
+              <input type="submit" value="Search">
             </form>
           </div>
         </li>
@@ -97,7 +95,12 @@
           <div class="card">
             <a class="card-title" href="{{'/years/%s'%year.query_ceremony }}">{{ year.ceremony_name }}</a>
             <div id="center-block">
+              {% if year['image_link'] == ""%}
+                <img class="card-img-top" src="{{ url_for('static', filename='default-pic.jpg') }}" alt="Ceremony Pic"/>
+              {% else %}
               <img class="card-img-top" src="{{year['image_link']}}" alt="Ceremony Pic">
+              {% endif %}
+              
             </div>
             <ul class="list-group list-group-flush">
               <li class="list-group-item bg-transparent">Having the name of the host for that year</li>
