@@ -115,7 +115,7 @@ class YearController:
                 page=page, per_page=9
             )
         elif view == "ascending":
-            paginated_years = Year.objects.order_by("year").paginate(
+            paginated_years = Year.objects.order_by("+year").paginate(
                 page=page, per_page=9
             )
 

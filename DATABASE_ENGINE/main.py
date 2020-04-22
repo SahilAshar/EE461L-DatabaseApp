@@ -57,9 +57,14 @@ def year_root(page=1, view="descending"):
     return render_template("years.html", paginated_years=paginated_years, view=view)
 
 
-@app.route("/year/helper", methods=["POST"])
+@app.route("/years/search_helper", methods=["POST"])
 def year_search_helper():
     return redirect(url_for("year_search", search=request.form["search_text"]))
+
+
+@app.route("/years/filter_helper", methods=["POST"])
+def year_filter_helper():
+    return redirect(url_for("year_root", page=1, view=request.form["radio"]))
 
 
 # TODO: this is a janky way of handling pagination, pls fix @Sahil
@@ -162,10 +167,15 @@ def people_root(page=1, view="ascending"):
     pa_controller = PeopleAccessController()
     paginated_people = pa_controller.get_paginated_people(page, view)
 
-    return render_template("people.html", paginated_people=paginated_people)
+    return render_template("people.html", paginated_people=paginated_people, view=view)
 
 
-@app.route("/people/helper", methods=["POST"])
+@app.route("/people/filter_helper", methods=["POST"])
+def people_filter_helper():
+    return redirect(url_for("people_root", page=1, view=request.form["radio"]))
+
+
+@app.route("/people/search_helper", methods=["POST"])
 def people_search_helper():
     return redirect(url_for("people_search", search=request.form["search_text"]))
 

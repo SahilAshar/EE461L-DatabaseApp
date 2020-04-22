@@ -117,9 +117,15 @@ class PeopleAccessController:
         return matching_persons
 
     def get_paginated_people(self, page, view):
-        paginated_people = Person.objects.order_by("+name").paginate(
-            page=page, per_page=9
-        )
+
+        if view == "descending":
+            paginated_people = Person.objects.order_by("-name").paginate(
+                page=page, per_page=9
+            )
+        elif view == "ascending":
+            paginated_people = Person.objects.order_by("+name").paginate(
+                page=page, per_page=9
+            )
 
         return paginated_people
 
