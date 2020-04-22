@@ -58,11 +58,11 @@
             <form action="/action_page.php">
               <fieldset>
                 <label id="filter-label" class="container">Ascending
-                  <input type="radio" checked="checked" name="radio">
+                  <input type="radio" checked="checked" name="radio" value="ascending">
                   <span class="checkmark"></span>
                 </label>
                 <label id="filter-label" class="container">Descending
-                  <input type="radio" name="radio">
+                  <input type="radio" name="radio" value="descending">
                   <span class="checkmark"></span>
                 </label>
                 <br>
@@ -98,7 +98,9 @@
                   </select>
                 </div>
                 <br>
-                <input type="submit" value="Filter">
+                <br>
+                <input id="filter-button" type="submit" value="Filter">
+                <br>
               </fieldset>
             </form>
           </div>
