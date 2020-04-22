@@ -65,11 +65,11 @@
     <br>
     <br>
     <div id="center-block-content">
-      <p id="instance-content">Directed by {{movie['director']}}</p>
+      <p id="instance-attribute">Directed by {{movie['director']}}</p>
     </div>
     <br>
     <div id="center-block">
-      <p id="instance-attribute">Release Date {{movie['year']}}</p>
+      <p id="instance-attribute">Released {{movie['year']}}</p>
     </div>
     <br>
     <div id="center-block">
@@ -82,62 +82,18 @@
    <div id="center-block">
     <div class="row" id="instance-grid" style="width: 60%;">
       {% for nomination in movie['nominations'] %}
-        <div class="col" id="instance-grid-awards">{{nomination['title']}}</div>
-          {% for name in nomination['names'] %}
-            <div class="col" id="instance-grid-recipient">{{ name }}</div>
-          {% endfor %}
+        <div class="col" id="instance-grid-awards">{{nomination['award_title']}}</div>
+          <div class="col" id="instance-grid-recipient"> 
+            {% for name in nomination['names'] %} 
+              {{name}} 
+              <br>
+            {% endfor %}
+          </div>
         <div class="w-100"></div>
       {% endfor %}
     </div>
   </div>
   <!-- End Grid Code -->
-
-  <!-- Old Content -->
-  <div style="text-align: center;">
-    <!-- how to reference image in tag? -->
-    <!-- <img src="#" alt="Movie Poster" /> -->
-    <div id="center-block">
-      <p class="instance-title">{{movie['title']}}</p>
-    </div>
-    <br>
-    <div id="center-block">
-      {% if movie['image_link'] == "" %}
-        <img class="card-img-top" src="{{ url_for('static', filename='default-pic.jpg') }}" alt="movie pic"/>
-      {% else %}
-        <img class="card-img-top" src="{{ movie['image_link'] }}" alt="movie pic"/>
-      {% endif %}
-    </div>
-    <br>
-    <br>
-    <div id="center-block">
-      <p class="instance-attribute">Directed By {{movie['director']}}</p>
-    </div>
-    <div id="center-block">
-      <p class="instance-attribute">Release Date: {{movie['year']}}</p>
-    </div>
-    div id="center-block">
-      <p id="instance-attribute">Associated Awards</p>
-    </div>
-    {% for nomination in movie['nominations'] %}
-    <p id="instance-grid-awards">
-      {{nomination['award_title']}} -- {% for name in nomination['names'] %} {{name}} {% endfor %}
-    </p>
-    {% endfor %}
-  </div>
-  <!-- End Old Content -->
-
-  <!-- Grid Code -->
-  <div id="center-block">
-    <div class="row" id="instance-grid" style="width: 80%;">
-      {% for nomination in movie['nominations'] %}
-        <div class="col" id="instance-grid-awards">{{nomination['award_title']}}</div>
-        {% for name in nomination['names'] %}
-          <div class="col" id="instance-grid-recipient"> {{name}}</div>
-        {% endfor %}
-        <div class="w-100"></div>
-      {% endfor %}
-    </div>
-  </div>
 
   <br>
   <br>
