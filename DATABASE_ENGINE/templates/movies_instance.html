@@ -69,7 +69,9 @@
     </div>
     <br>
     <div id="center-block">
-      <p id="instance-attribute">Released {{movie['year']}}</p>
+      <p id="instance-attribute">Released : 
+        <a href="{{ url_for('ceremony_from_year_num', year_num=movie_year) }}">{{movie['year']}}</a>
+      </p>
     </div>
     <br>
     <div id="center-block">
@@ -85,7 +87,7 @@
         <div class="col" id="instance-grid-awards">{{nomination['award_title']}}</div>
           <div class="col" id="instance-grid-recipient"> 
             {% for name in nomination['names'] %} 
-              {{name}} 
+              <a id="instance-grid-link" href="{{ url_for('people_instance', person=(name | replace(' ', '+') | lower ))}}">{{name}}</a> 
               <br>
             {% endfor %}
           </div>

@@ -269,8 +269,9 @@ def movies_instance(movie=None):
 
     m_controller = MovieController()
     movie = m_controller.get(movie)
+    movie_year = movie.year.split(", ")[-1]
 
-    return render_template("movies_instance.html", movie=movie)
+    return render_template("movies_instance.html", movie=movie, movie_year=movie_year)
 
 
 # ! Temporary, do not use in production

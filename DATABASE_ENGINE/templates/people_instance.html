@@ -96,7 +96,9 @@
       {% for award in people['awards'] %}
         <div class="col" id="instance-grid-awards">{{award['title']}}</div>
           <div class="col" id="instance-grid-recipient">
-            <a id="instance-grid-link" href="{{ url_for('ceremony_from_year_num', year_num=award['year']) }}">{{ award['year'] }}</a> -- {{ award['movie'] }}
+            <a id="instance-grid-link" href="{{ url_for('ceremony_from_year_num', year_num=award['year']) }}">{{ award['year'] }}</a> 
+            -- 
+            <a id="instance-grid-link" href="{{ url_for('movies_instance', movie=(award['movie'] | replace(' ', '+') | lower )) }}">{{ award['movie'] }}</a>
           </div>
         <div class="w-100"></div>
       {% endfor %}
