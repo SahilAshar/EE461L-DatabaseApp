@@ -17,6 +17,7 @@ class Nomination(db.Document):
 # query name is just name + " movie" to make sure api returns the movie and not just definition of word
 class Movie(db.Document):
     query_title = db.StringField()
+    link_title = db.StringField()
     title = db.StringField()
     director = db.StringField()
     year = db.StringField()
@@ -51,8 +52,13 @@ class MovieController:
 
         wiki_img_link_str = self.__get_wiki_img_link(wkpage_title_str, checker)
 
+        link_str = movie_info_dict['title']
+        link_str = link_str.lower()
+        link_str = link_str.replace(" ", "+")
+
         mov = Movie(
             query_title=query_title,
+            link_title=link_str,
             title=movie_info_dict['title'],
             director=movie_info_dict['director'],
             year=movie_info_dict['release date'],
