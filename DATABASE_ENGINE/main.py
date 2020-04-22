@@ -9,9 +9,11 @@ from controllers.awards_controller import AwardController
 from controllers.database_controller import initialize_db
 from controllers.people_access_controller import PeopleAccessController
 from controllers.years_controller import YearController
+from controllers.movie_controller import MovieController
 
 from populate.populate_years import PopulateYears
 from populate.populate_people import PopulatePeople
+from populate.populate_movies import PopulateMovies
 
 
 app = Flask(__name__)
@@ -57,9 +59,14 @@ def year_root(page=1, view="descending"):
     return render_template("years.html", paginated_years=paginated_years, view=view)
 
 
-@app.route("/year/helper", methods=["POST"])
+@app.route("/years/search_helper", methods=["POST"])
 def year_search_helper():
     return redirect(url_for("year_search", search=request.form["search_text"]))
+
+
+@app.route("/years/filter_helper", methods=["POST"])
+def year_filter_helper():
+    return redirect(url_for("year_root", page=1, view=request.form["radio"]))
 
 
 # TODO: this is a janky way of handling pagination, pls fix @Sahil
@@ -162,10 +169,15 @@ def people_root(page=1, view="ascending"):
     pa_controller = PeopleAccessController()
     paginated_people = pa_controller.get_paginated_people(page, view)
 
-    return render_template("people.html", paginated_people=paginated_people)
+    return render_template("people.html", paginated_people=paginated_people, view=view)
 
 
-@app.route("/people/helper", methods=["POST"])
+@app.route("/people/filter_helper", methods=["POST"])
+def people_filter_helper():
+    return redirect(url_for("people_root", page=1, view=request.form["radio"]))
+
+
+@app.route("/people/search_helper", methods=["POST"])
 def people_search_helper():
     return redirect(url_for("people_search", search=request.form["search_text"]))
 
@@ -224,15 +236,32 @@ def populate_people():
 @app.route("/movies/page=<page>/view=<view>")
 def movies_root(page=1, view="ascending"):
 
-    return render_template("movies.html", movie=None)
+    page = int(page)
+    m_controller = MovieController()
+    paginated_movies = m_controller.get_paginated_movies(page, view)
+
+    return render_template("movies.html", paginated_movies=paginated_movies, view=view)
 
 
 @app.route("/movies/<movie>/")
-def movies_instance(movie):
-    # For the sake of example, use static information to inflate the template.
-    # This will be replaced with real information in later steps.
+def movies_instance(movie=None):
 
-    return render_template("movies_instance.html", movie=None)
+    m_controller = MovieController()
+    movie = m_controller.get(movie)
+
+    return render_template("movies_instance.html", movie=movie)
+
+
+# ! Temporary, do not use in production
+@app.route("/movies/populate")
+def populate_mov():
+
+    p = PopulateMovies()
+
+    # p.print_names()
+    p.populate_movies()
+
+    return redirect("/movies/")
 
 
 if __name__ == "__main__":

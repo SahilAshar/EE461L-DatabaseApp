@@ -125,9 +125,9 @@
       {% for movie in paginated_movies.items %}
         <div class="grid-item">
           <div class="card">
-            <a class="card-title" href="{{'/movies/%s'%movie.title }}">{{ movie.title }}</a>
+            <a class="card-title" href="{{ url_for('movies_instance', movie=movie.link_title) }}">{{ movie.title }}</a>
             <div id="center-block">
-              {% if movie['image_link'] == ""}
+              {% if movie['image_link'] == "" %}
                 <img class="card-img-top" src="{{ url_for('static', filename='default-pic.jpg') }}" alt="movie pic"/>
               {% else %}
                 <img class="card-img-top" src="{{ movie['image_link'] }}" alt="movie pic"/>
@@ -169,7 +169,7 @@
   </div>
   {% endmacro %}
 
-  {{ render_navigation(paginated_years, 'year_root') }}
+  {{ render_navigation(paginated_movies, 'movies_root') }}
   <!-- End Pagination Navigation Code -->   
 
   <br>

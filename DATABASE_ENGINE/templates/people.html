@@ -59,7 +59,7 @@
             Filter
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <form action="" method="GET">
+            <form action="{{ url_for('people_filter_helper') }}" method="POST">
               <fieldset>
                 <label id="filter-label" class="container">Ascending
                   <input type="radio" checked="checked" name="radio" value="ascending">
@@ -157,12 +157,12 @@
   {% macro render_navigation(pagination, endpoint) %}
   <div class=pagination id="center-block">
     {% if pagination.page != 1%}
-      <a id="page-numbers" href="{{ url_for(endpoint, page=pagination.page-1) }}">previous</a>
+      <a id="page-numbers" href="{{ url_for(endpoint, page=pagination.page-1, view=view) }}">previous</a>
     {% endif%}
       {% for page in pagination.iter_pages() %}
         {% if page %}
           {% if page != pagination.page %}
-            <a id="page-numbers" href="{{ url_for(endpoint, page=page) }}">{{ page }}</a>
+            <a id="page-numbers" href="{{ url_for(endpoint, page=page, view=view) }}">{{ page }}</a>
           {% else %}
             <strong id="selected-page">{{ page }}</strong>
           {% endif %}
@@ -171,7 +171,7 @@
         {% endif %} 
       {% endfor %}
       {% if pagination.page != pagination.pages %}
-        <a id="page-numbers" href="{{ url_for(endpoint, page=pagination.page+1) }}">next</a>
+        <a id="page-numbers" href="{{ url_for(endpoint, page=pagination.page+1, view=view) }}">next</a>
       {% endif %}
   </div>
   {% endmacro %}

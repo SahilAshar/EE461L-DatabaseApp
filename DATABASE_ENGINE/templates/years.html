@@ -58,7 +58,7 @@
             Filter
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <form action = "" method = "POST">
+            <form action = "{{ url_for('year_filter_helper') }}" method = "POST">
               <label id="filter-label" class="container">Ascending
                 <input type="radio" name="radio" value="ascending">
                 <span class="checkmark"></span>
