@@ -60,15 +60,17 @@
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <form action = "" method = "POST">
               <label id="filter-label" class="container">Ascending
-                <input type="radio" checked="checked" name="radio" value="ascending">
+                <input type="radio" name="radio" value="ascending">
                 <span class="checkmark"></span>
               </label>
               <label id="filter-label" class="container">Descending
-                <input type="radio" name="radio" value="descending">
+                <input type="radio" checked="checked" name="radio" value="descending">
                 <span class="checkmark"></span>
               </label>
               <br>
-              <input type="submit" value="Search">
+              <br>
+              <input id="filter-button" type="submit" value="Filter">
+              <br>
             </form>
           </div>
         </li>

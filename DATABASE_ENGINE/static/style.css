@@ -48,12 +48,26 @@ body{
   background-color: black;
   border: 3px solid #D5AD6D;
   text-align: center;
-  
+  width: 225px;
+}
+
+a:hover.nav-link.dropdown-toggle{
+  color: rgb(185, 7, 7);
 }
 
 #filter-label{
   color: #D5AD6D; /*if no support for background-clip*/
   font-size: 20px;
+  text-transform: uppercase;
+}
+
+#filter-button{
+color: #D5AD6D;
+background-color: black;
+font-size: 25px;
+text-transform: uppercase;
+border: 2px solid #D5AD6D;
+font-weight: bold;
 }
 
 .button{
@@ -81,6 +95,8 @@ body{
   background-color: black;
   color:#D5AD6D;
   border:2px solid #D5AD6D;
+  font-size: 20px;
+  text-transform: uppercase;
 }
 
 /* MODEL PAGES */
