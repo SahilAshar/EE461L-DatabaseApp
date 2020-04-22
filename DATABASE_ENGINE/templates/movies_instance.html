@@ -82,8 +82,10 @@
    <div id="center-block">
     <div class="row" id="instance-grid" style="width: 60%;">
       {% for nomination in movie['nominations'] %}
-        <div class="col" id="instance-grid-awards">{{award['title']}}</div>
-          <div class="col" id="instance-grid-recipient">{{award['year']}} -- {{award['movie']}}</div>
+        <div class="col" id="instance-grid-awards">{{nomination['title']}}</div>
+          {% for name in nomination['names'] %}
+            <div class="col" id="instance-grid-recipient">{{ name }}</div>
+          {% endfor %}
         <div class="w-100"></div>
       {% endfor %}
     </div>
@@ -99,7 +101,7 @@
     </div>
     <br>
     <div id="center-block">
-      {% if movie['image_link'] == ""}
+      {% if movie['image_link'] == "" %}
         <img class="card-img-top" src="{{ url_for('static', filename='default-pic.jpg') }}" alt="movie pic"/>
       {% else %}
         <img class="card-img-top" src="{{ movie['image_link'] }}" alt="movie pic"/>
@@ -129,8 +131,8 @@
     <div class="row" id="instance-grid" style="width: 80%;">
       {% for nomination in movie['nominations'] %}
         <div class="col" id="instance-grid-awards">{{nomination['award_title']}}</div>
-        {% for nominee in award['nominees'] %}
-          <div class="col" id="instance-grid-recipient">{% for name in nomination['names'] %} {{name}} {% endfor %}</div>
+        {% for name in nomination['names'] %}
+          <div class="col" id="instance-grid-recipient"> {{name}}</div>
         {% endfor %}
         <div class="w-100"></div>
       {% endfor %}

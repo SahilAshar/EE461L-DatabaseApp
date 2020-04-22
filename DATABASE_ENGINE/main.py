@@ -235,20 +235,21 @@ def populate_people():
 @app.route("/movies/page=<page>")
 @app.route("/movies/page=<page>/view=<view>")
 def movies_root(page=1, view="ascending"):
-    # m_pop = PopulateMovies()
-    # m_pop.populate_movies()
 
-    return render_template("movies.html", movie=None)
+    page = int(page)
+    m_controller = MovieController()
+    paginated_movies = m_controller.get_paginated_movies(page, view)
+
+    return render_template("movies.html", paginated_movies=paginated_movies, view=view)
 
 
 @app.route("/movies/<movie>/")
-def movies_instance(movie):
-    # For the sake of example, use static information to inflate the template.
-    # This will be replaced with real information in later steps.
-    m_controller = MovieController()
-    movies = m_controller.get(movie)
+def movies_instance(movie=None):
 
-    return render_template("movies_instance.html", movie=movies[0])
+    m_controller = MovieController()
+    movie = m_controller.get(movie)
+
+    return render_template("movies_instance.html", movie=movie)
 
 
 # ! Temporary, do not use in production
