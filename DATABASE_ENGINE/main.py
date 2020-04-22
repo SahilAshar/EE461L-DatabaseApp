@@ -9,9 +9,11 @@ from controllers.awards_controller import AwardController
 from controllers.database_controller import initialize_db
 from controllers.people_access_controller import PeopleAccessController
 from controllers.years_controller import YearController
+from controllers.movie_controller import MovieController
 
 from populate.populate_years import PopulateYears
 from populate.populate_people import PopulatePeople
+from populate.populate_movies import PopulateMovies
 
 
 app = Flask(__name__)
@@ -167,8 +169,11 @@ def populate_people():
     return redirect("/people/")
 
 
+#TODO: make this have pages of movies
 @app.route("/movies/")
 def movies_root():
+    # m_pop = PopulateMovies()
+    # m_pop.populate_movies()
 
     return render_template("movies.html", movie=None)
 
@@ -177,8 +182,21 @@ def movies_root():
 def movies_instance(movie):
     # For the sake of example, use static information to inflate the template.
     # This will be replaced with real information in later steps.
+    m_controller = MovieController()
+    movies = m_controller.get(movie)
 
-    return render_template("movies_instance.html", movie=None)
+    return render_template("movies_instance.html", movie=movies[0])
+
+# ! Temporary, do not use in production
+@app.route("/movies/populate")
+def populate_mov():
+
+    p = PopulateMovies()
+
+    # p.print_names()
+    p.populate_movies()
+
+    return redirect("/movies/")
 
 
 if __name__ == "__main__":
