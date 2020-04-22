@@ -2,8 +2,9 @@ import logging
 import requests
 import wikipedia
 
-# from .database_controller import db
-from DATABASE_ENGINE.controllers.database_controller import db
+from .database_controller import db
+
+# from DATABASE_ENGINE.controllers.database_controller import db
 
 LOGGER = logging.getLogger(__name__)
 
@@ -23,6 +24,16 @@ class Movie(db.Document):
     year = db.StringField()
     image_link = db.StringField()
     nominations = db.ListField(db.ReferenceField(Nomination))
+
+    meta = {
+        "indexes": [
+            {
+                "fields": ["$title", "$director"],
+                "default_language": "english",
+                "weights": {"title": 10, "director": 3},
+            }
+        ]
+    }
 
 
 class MovieController:
@@ -105,6 +116,16 @@ class MovieController:
             paginated_movies = Movie.objects.order_by("+title").paginate(
                 page=page, per_page=9
             )
+
+        return paginated_movies
+
+    def get_paginated_movies_search(self, page, search):
+
+        paginated_movies = (
+            Movie.objects.search_text(search)
+            .order_by("$text_score")
+            .paginate(page=page, per_page=9)
+        )
 
         return paginated_movies
 

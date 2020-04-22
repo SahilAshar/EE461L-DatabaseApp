@@ -100,7 +100,7 @@
               <a id="instance-grid-link" href="{{ url_for('people_instance', person=(nominee['name'] | replace(' ', '+') | lower ))}}">{{ nominee['name'] }}</a>
             {% endif %}
             -- 
-            {{nominee['movie']}}
+            <a id="instance-grid-link" href="{{ url_for('movies_instance', movie=(nominee['movie'] | replace(' ', '+') | lower ))}}">{{ nominee['movie'] }}</a>
           </div>
         {% endfor %}
         <div class="w-100"></div>

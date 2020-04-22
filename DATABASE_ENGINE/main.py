@@ -243,6 +243,27 @@ def movies_root(page=1, view="ascending"):
     return render_template("movies.html", paginated_movies=paginated_movies, view=view)
 
 
+@app.route("/movies/filter_helper", methods=["POST"])
+def movies_filter_helper():
+    return redirect(url_for("movies_root", page=1, view=request.form["radio"]))
+
+
+@app.route("/movies/search_helper", methods=["POST"])
+def movies_search_helper():
+    return redirect(url_for("movies_search", search=request.form["search_text"]))
+
+
+@app.route("/movies/search=<search>")
+@app.route("/movies/search=<search>/page=<page>")
+def movies_search(page=1, search=None):
+
+    page = int(page)
+    m_controller = MovieController()
+    paginated_movies = m_controller.get_paginated_movies_search(page, search)
+
+    return render_template("movies.html", paginated_movies=paginated_movies)
+
+
 @app.route("/movies/<movie>/")
 def movies_instance(movie=None):
 
