@@ -2,6 +2,7 @@ import wikipedia
 import os
 import requests
 import logging
+import time
 from controllers.movie_controller import MovieController
 
 LOGGER = logging.getLogger(__name__)
@@ -16,14 +17,27 @@ class PopulateMovies:
         movie_file = open("movies.txt", "r")
         movie_list = movie_file.readlines()
 
-        for movie in movie_list:
-            movie = movie.rstrip("\n")
-            movie = movie.strip()
-            movie = movie.lower()
-            movie = movie.replace(" ", "+")
-            movie = movie.replace(",", "")
-            print("Posting movie: ", movie)
-            mov_controller.post(movie)
+        low = 0
+        high = 300
+        for i in range(0, 5):
+            for movie in movie_list[low:high]:
+                movie = movie.rstrip("\n")
+                movie = movie.strip()
+                movie = movie.lower()
+                movie = movie.replace(" ", "+")
+                movie = movie.replace(",", "")
+                print("Posting movie: ", movie)
+                mov_controller.post(movie)
+
+            low += 300
+            if high >= len(movie_list):
+                break
+            elif high+300 > len(movie_list):
+                high = len(movie_list)
+            else:
+                high += 300
+
+            time.sleep(360)
 
         movie_file.close()
         error_checker = open("movie_checker.txt", "r")

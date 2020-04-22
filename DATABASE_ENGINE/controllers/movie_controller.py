@@ -100,9 +100,8 @@ class MovieController:
                 + "&format=plaintext"
                 + "&scantimeout=15.0"
                 + "&output=JSON"
-                + "&appid=9U487H-VALXT3HLLQ"
+                + "&appid=LWUJE3-527ATY4RER"
             ).json()
-
 
             movie_json = movie_json["queryresult"]["pods"][0]["subpods"][0]["plaintext"]
 
@@ -121,7 +120,7 @@ class MovieController:
                     + "&format=plaintext"
                     + "&scantimeout=15.0"
                     + "&output=JSON"
-                    + "&appid=9U487H-VALXT3HLLQ"
+                    + "&appid=LWUJE3-527ATY4RER"
                 ).json()
 
                 movie_json = movie_json["queryresult"]["pods"][0]["subpods"][0]["plaintext"]
@@ -179,7 +178,7 @@ class MovieController:
                 + "&format=plaintext"
                 + "&scantimeout=15.0"
                 + "&output=JSON"
-                + "&appid=9U487H-VALXT3HLLQ"
+                + "&appid=LWUJE3-527ATY4RER"
             ).json()
 
             movie_noms_str = noms_json["queryresult"]["pods"][0]["subpods"][0]["plaintext"]
@@ -200,7 +199,7 @@ class MovieController:
                     + "&format=plaintext"
                     + "&scantimeout=15.0"
                     + "&output=JSON"
-                    + "&appid=9U487H-VALXT3HLLQ"
+                    + "&appid=LWUJE3-527ATY4RER"
                 ).json()
 
                 movie_json = movie_json["queryresult"]["pods"][0]["subpods"][0]["plaintext"]
