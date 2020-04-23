@@ -14,6 +14,7 @@ from .database_controller import db, upload_blob
 """
 
 LOGGER = logging.getLogger(__name__)
+WOLFRAM_API_KEY = "RQV64G-3A2ALKAP6A"
 
 
 class Award(db.Document):
@@ -138,6 +139,11 @@ class PeopleAccessController:
 
         return paginated_people
 
+    def delete_blank_people(self):
+        blank_people = Person.objects(name__icontains="")
+        for person in blank_people:
+            person.delete()
+
     def __get_actor_data_str(self, query_name):
 
         try:
@@ -148,8 +154,11 @@ class PeopleAccessController:
                 + "&format=plaintext"
                 + "&scantimeout=15.0"
                 + "&output=JSON"
-                + "&appid=9U487H-VALXT3HLLQ"
+                + "&appid="
+                + WOLFRAM_API_KEY
             ).json()
+
+            print(actor_data_json)
 
             actor_data_str = actor_data_json["queryresult"]["pods"][0]["subpods"][0][
                 "plaintext"
@@ -169,18 +178,23 @@ class PeopleAccessController:
         if data_str == "":
             return data_dict
 
-        data_list = list(data_str.split("\n"))
-        for data in data_list:
-            data_str_list = list(data.split(" | "))
-            if len(data_str_list) == 2:
-                data_dict[data_str_list[0]] = data_str_list[1]
-            else:
-                data_dict[data_str_list[0]] = ""
+        try:
+            data_list = list(data_str.split("\n"))
+            for data in data_list:
+                data_str_list = list(data.split(" | "))
+                if len(data_str_list) == 2:
+                    data_dict[data_str_list[0]] = data_str_list[1]
+                else:
+                    data_dict[data_str_list[0]] = ""
 
-        if data_dict["full name"] == "":
-            data_dict["full name"] = query_name.replace("+", " ")
+            if data_dict["full name"] == "":
+                data_dict["full name"] = query_name.replace("+", " ")
 
-        return data_dict
+            return data_dict
+        except Exception as e:
+            message = f"Error: {e}"
+            LOGGER.exception(message)
+            return data_dict
 
     def __get_actor_bio_str(self, query_name):
 
@@ -192,7 +206,8 @@ class PeopleAccessController:
                 + "&format=plaintext"
                 + "&scantimeout=15.0"
                 + "&output=JSON"
-                + "&appid=9U487H-VALXT3HLLQ"
+                + "&appid="
+                + WOLFRAM_API_KEY
             ).json()
 
             actor_bio_str = actor_bio_json["queryresult"]["pods"][0]["subpods"][0][
@@ -214,8 +229,10 @@ class PeopleAccessController:
                 + query_name
                 + "&includepodid=CrossPeopleData:AcademyAwardData"
                 + "&format=plaintext"
+                + "&scantimeout=15.0"
                 + "&output=JSON"
-                + "&appid=9U487H-VALXT3HLLQ"
+                + "&appid="
+                + WOLFRAM_API_KEY
             ).json()
 
             # TODO: If numpods = 0, then they've won zero awards. Need to handle that case.
@@ -301,22 +318,6 @@ class PeopleAccessController:
     def __get_image_link_str(self, wkpage):
 
         try:
-            # actor_image_json = requests.get(
-            #     "https://api.wolframalpha.com/v2/query?input="
-            #     + query_name
-            #     + "&includepodid=Image:PeopleData"
-            #     + "&format=plaintext"
-            #     + "&scantimeout=15.0"
-            #     + "&output=JSON"
-            #     + "&appid=9U487H-VALXT3HLLQ"
-            # ).json()
-
-            # actor_image_str = actor_image_json["queryresult"]["pods"][0]["subpods"][0][
-            #     "imagesource"
-            # ]
-
-            # return actor_image_str
-
             image_info_json = requests.get(
                 "https://en.wikipedia.org/w/api.php?action=query"
                 + "&format=json"

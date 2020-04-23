@@ -257,12 +257,6 @@ class YearController:
 
     def __get_image_link_str(self, wkpage):
 
-        # ordinal_num = wkpage.title.split(" ")[0]
-
-        # for image in wkpage.images:
-        #     if ordinal_num in image:
-        #         return image
-
         image_info_json = requests.get(
             "https://en.wikipedia.org/w/api.php?action=query"
             + "&format=json"

@@ -38,10 +38,10 @@ class Movie(db.Document):
 
 class MovieController:
     # clear movie_checker.txt when controller made. will write during post calls
-    def __init__(self):
-        checker = open("movie_checker.txt", "w")
-        checker.truncate(0)
-        checker.close()
+    # def __init__(self):
+    #     checker = open("movie_checker.txt", "w")
+    #     checker.truncate(0)
+    #     checker.close()
 
     def post(self, title):
         checker = open("movie_checker.txt", "a+")
@@ -128,6 +128,12 @@ class MovieController:
         )
 
         return paginated_movies
+
+    # ! Temp function for instance population
+    def get_all_nominations(self):
+        all_nomination_objects = Nomination.objects()
+
+        return all_nomination_objects
 
     def __get_movie_info_str(self, query_title, checker):
         try:
