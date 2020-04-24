@@ -35,9 +35,9 @@ def test_commits_init_works(new_commits):
 def test_getting_issue_obj(make_about_controller):
     test_issue_array = make_about_controller.return_issue_obj()
     # test by adding up all issues and making sure it equals total commits
-    # extra one for issue that has been closed
+    # extra 16 for issues that have been closed
     total_issues = test_issue_array.ablanchard10+test_issue_array.carosheehy+test_issue_array.natashalong+test_issue_array.Noah_Lisk+test_issue_array.Sahil_Ashar
-    assert test_issue_array.total == total_issues
+    assert test_issue_array.total == total_issues+16
 
 
 def test_getting_commits_obj(make_about_controller):
@@ -60,7 +60,6 @@ def test_year_get_fail(app, make_years_controller):
         assert make_years_controller.get('2022')
 
 
-
 def test_year_post(app, make_years_controller):
     test_yrobj = make_years_controller.post("1995")
     assert test_yrobj.year == '1995'
@@ -78,3 +77,32 @@ def test_award_get(app, make_awards_controller):
     assert test_bestpiclist.winners[0].movie == ''
     assert test_bestpiclist.winners[0].song == ''
     assert test_bestpiclist.winners[0].year == '2020'
+
+# test movies controller
+def test_movie_get(app, make_movies_controller):
+    test_movielist = make_movies_controller.get("parasite+(2019+film)")
+    assert test_movielist[0].title == 'Parasite'
+    assert test_movielist[0].year == 'October 11, 2019'
+    assert test_movielist[0].link_title == 'parasite'
+    assert test_movielist[0].image_link == 'https://upload.wikimedia.org/wikipedia/en/5/53/Parasite_%282019_film%29.png'
+    assert test_movielist[0].director == 'Bong Joon-ho'
+    assert len(test_movielist[0].nominations) == 6
+    assert test_movielist[0].nominations[0].award_title == 'Achievement In Directing (Winner)'
+    assert len(test_movielist[0].nominations[0].names) == 1
+    assert test_movielist[0].nominations[0].names[0] == 'Bong Joon-ho'
+
+def test_movie_get_fail(app, make_movies_controller):
+    test_movielist = make_movies_controller.get("yo what it do")
+    assert len(test_movielist) == 0
+
+def test_movie_post(app, make_movies_controller):
+    test_movie = make_movies_controller.post("parasite+(2019+film)")
+    assert test_movie.title == 'Parasite'
+    assert test_movie.year == 'October 11, 2019'
+    assert test_movie.link_title == 'parasite'
+    assert test_movie.image_link == 'https://upload.wikimedia.org/wikipedia/en/5/53/Parasite_%282019_film%29.png'
+    assert test_movie.director == 'Bong Joon-ho'
+    assert len(test_movie.nominations) == 6
+    assert test_movie.nominations[0].award_title == 'Achievement In Directing (Winner)'
+    assert len(test_movie.nominations[0].names) == 1
+    assert test_movie.nominations[0].names[0] == 'Bong Joon-ho'
