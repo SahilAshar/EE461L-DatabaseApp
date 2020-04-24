@@ -43,12 +43,13 @@
         <a class="nav-link" href="{{ url_for('movies_root') }}">Movies</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('award_root') }}">Awards</a>
-      </li>
-      <li class="nav-item">
         <a class="nav-link" href="{{ url_for('about') }}">About</a>
       </li>
     </ul> 
+    <form class="form-inline my-2 my-lg-0" action = "{{ url_for('year_search_helper') }}" method = "POST">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search Ceremonies" aria-label="Search" name="search_text">
+      <button class="button" type="submit">Search</button>
+    </form>
   </div>
   </nav>
   <!-- End Navbar Code -->
