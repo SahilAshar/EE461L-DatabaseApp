@@ -16,6 +16,10 @@ class PopulatePeople:
 
         people_f.close()
 
+    def update_attributes(self):
+        pa_controller = PeopleAccessController()
+        pa_controller.update_attributes_for_all_people()
+
     def delete(self):
         pa_controller = PeopleAccessController()
         pa_controller.delete_blank_people()

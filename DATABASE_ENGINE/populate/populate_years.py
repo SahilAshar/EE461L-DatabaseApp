@@ -48,7 +48,9 @@ class PopulateYears:
     def populate_wiki_images(self):
         y_controller = YearController()
 
-        with open("DATABASE_ENGINE/populate/ceremonies.csv", newline="") as csvfile:
+        with open(
+            "DATABASE_ENGINE/populate/ceremonies_copy.csv", newline=""
+        ) as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 print(row["Ceremony"], row["Year"])

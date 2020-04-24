@@ -4,6 +4,7 @@ from urllib.error import HTTPError
 
 import requests
 import wikipedia
+import wptools
 
 from .database_controller import db, upload_blob
 
@@ -29,6 +30,8 @@ class Person(db.Document):
     name = db.StringField()
     dob = db.StringField()
     bio = db.StringField()
+    occupation = db.StringField()
+    years_active = db.StringField()
     image_link = db.StringField()
     awards = db.ListField(db.ReferenceField(Award))
 
@@ -55,6 +58,9 @@ class PeopleAccessController:
 
         wkpage = self.__set_wiki_page(query_name)
 
+        occupation = self.__get_occupation_from_infobox(wkpage)
+        years_active = self.__get_years_active_from_infobox(wkpage)
+
         # Return a link to an actor's image
         actor_image_link = self.__get_image_link_str(wkpage)
 
@@ -70,6 +76,8 @@ class PeopleAccessController:
             query_name=query_name,
             name=actor_data_dict["full name"],
             dob=actor_data_dict["date of birth"],
+            occupation=occupation,
+            years_active=years_active,
             image_link=actor_wikimedia_link,
         )
 
@@ -105,15 +113,7 @@ class PeopleAccessController:
         # You can only query one value at a time against fields, so you need
         # to query each part of the person's name and slowly narrow down options
 
-        # for i in range(0, len(name_list)):
-        #     matching_persons = Person.objects(name__icontains=name_list[i])
-
         matching_persons = Person.objects(query_name__icontains=query_name)
-
-        # print(len(matching_persons))
-
-        # for person in matching_persons:
-        #     print(person.name)
 
         return matching_persons
 
@@ -140,9 +140,23 @@ class PeopleAccessController:
         return paginated_people
 
     def delete_blank_people(self):
-        blank_people = Person.objects(name__icontains="")
+        blank_people = Person.objects(name__iexact="")
         for person in blank_people:
             person.delete()
+
+    def update_attributes_for_all_people(self):
+
+        for person in Person.objects():
+            query_name = person.query_name
+            wkpage = self.__set_wiki_page(query_name)
+
+            occupation = self.__get_occupation_from_infobox(wkpage)
+            years_active = self.__get_years_active_from_infobox(wkpage)
+
+            # person = Person(occupation=occupation, years_active=years_active)
+            person.update(occupation=occupation, years_active=years_active)
+            person.reload()
+            print(person.occupation + " | " + person.years_active)
 
     def __get_actor_data_str(self, query_name):
 
@@ -314,6 +328,34 @@ class PeopleAccessController:
             message = f"Error: {e}"
             LOGGER.exception(message)
             return ""
+
+    def __get_occupation_from_infobox(self, wkpage):
+
+        occupation = "n/a"
+
+        try:
+            awards_page = wptools.page(wkpage.title).get_parse()
+            infobox = awards_page.data["infobox"]
+            occupation = infobox["occupation"]
+        except Exception as e:
+            message = f"Error: {e}"
+            LOGGER.exception(message)
+
+        return occupation
+
+    def __get_years_active_from_infobox(self, wkpage):
+
+        years_active = "n/a"
+
+        try:
+            awards_page = wptools.page(wkpage.title).get_parse()
+            infobox = awards_page.data["infobox"]
+            years_active = infobox["years_active"]
+        except Exception as e:
+            message = f"Error: {e}"
+            LOGGER.exception(message)
+
+        return years_active
 
     def __get_image_link_str(self, wkpage):
 

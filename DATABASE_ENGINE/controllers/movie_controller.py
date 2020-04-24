@@ -96,6 +96,8 @@ class MovieController:
         print(Movie.objects.count())
         checker.close()
 
+        return mov
+
     def get(self, query_title):
         # format title to be same as query title in post
         # query_title = title.replace("-", "+")

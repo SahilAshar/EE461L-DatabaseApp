@@ -226,7 +226,8 @@ def populate_people():
 
     # p.print_names()
     # p.populate()
-    p.delete()
+    # p.delete()
+    p.update_attributes()
 
     return redirect("/people/")
 
