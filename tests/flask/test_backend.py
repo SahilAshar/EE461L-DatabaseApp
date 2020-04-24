@@ -49,10 +49,10 @@ def test_getting_commits_obj(make_about_controller):
 
 # test years controller
 def test_year_get(app, make_years_controller):
-    year_list = make_years_controller.get("1996")
-    assert year_list.awards[0]['title'] == "best picture"
-    assert year_list.awards[0]['nominees'][0]['name'] == "produced by Mel Gibson, Alan Ladd, Jr. and Bruce Davey"
-    assert year_list.awards[0]['nominees'][0]['movie'] == "Braveheart"
+    year_test_list = make_years_controller.get("90th+Academy+Awards")
+    assert year_test_list[0].ceremony_name == '90nd Academy Awards'
+    assert year_test_list[0].image_link == 'https://upload.wikimedia.org/wikipedia/en/2/25/2018_Oscars_Official_Poster.png'
+    assert year_test_list[0].movies_year == '2017'
 
 
 def test_year_get_fail(app, make_years_controller):
@@ -61,12 +61,10 @@ def test_year_get_fail(app, make_years_controller):
 
 
 def test_year_post(app, make_years_controller):
-    test_yrobj = make_years_controller.post("1995")
-    assert test_yrobj.year == '1995'
-    assert test_yrobj.awards[0].title == 'best picture'
-    assert test_yrobj.awards[0].nominees[0].movie == 'Forrest Gump'
-    assert test_yrobj.awards[0].nominees[0].name == 'produced by Wendy Finerman, Steve Tisch and Steve Starkey'
-    assert test_yrobj.awards[0].nominees[0].song == ''
+    test_yrobj = make_years_controller.post("90th+Academy+Awards")
+    assert test_yrobj.ceremony_name == '90nd Academy Awards'
+    assert test_yrobj.image_link == 'https://upload.wikimedia.org/wikipedia/en/2/25/2018_Oscars_Official_Poster.png'
+    assert test_yrobj.movies_year == '2017'
 
 
 # test awards controller
