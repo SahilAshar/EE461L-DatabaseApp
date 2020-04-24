@@ -37,10 +37,7 @@
           <a class="nav-link" href="{{ url_for('root') }}">Splash<span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('year_root') }}">Years</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('award_root') }}">Awards</a>
+          <a class="nav-link" href="{{ url_for('year_root') }}">Ceremonies</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('people_root') }}">People</a>
@@ -49,16 +46,46 @@
           <a class="nav-link" href="{{ url_for('movies_root') }}">Movies</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('award_root') }}">Awards</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="{{ url_for('about') }}">About</a>
         </li>
       </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Filter
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <form action = "{{ url_for('year_filter_helper') }}" method = "POST">
+              <label id="filter-label" class="container">Ascending
+                <input type="radio" name="radio" value="ascending">
+                <span class="checkmark"></span>
+              </label>
+              <label id="filter-label" class="container">Descending
+                <input type="radio" checked="checked" name="radio" value="descending">
+                <span class="checkmark"></span>
+              </label>
+              <br>
+              <br>
+              <input id="filter-button" type="submit" value="Filter">
+              <br>
+            </form>
+          </div>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0" action = "{{ url_for('year_search_helper') }}" method = "POST">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search_text">
+        <button class="button" type="submit">Search</button>
+      </form>
     </div>
   </nav>
   <!-- End Navbar Code -->
 
   <!-- Model Title -->
   <div>
-    <p class="model-title">YEARS</p>
+    <p class="model-title">Ceremonies</p>
   </div>
   <!-- End Model Title -->
 
@@ -68,13 +95,19 @@
       {% for year in paginated_years.items %}
         <div class="grid-item">
           <div class="card">
-            <a class="card-title" href="{{'/years/%s'%year.query_ceremony }}">{{ year.ceremony_name }}</a>
+            <a class="card-title" href="{{ url_for('year_instance', ceremony_name=year.query_ceremony) }}">{{ year.ceremony_name }}</a>
             <div id="center-block">
+              {% if year['image_link'] == ""%}
+                <img class="card-img-top" src="{{ url_for('static', filename='default-pic.jpg') }}" alt="Ceremony Pic"/>
+              {% else %}
               <img class="card-img-top" src="{{year['image_link']}}" alt="Ceremony Pic">
+              {% endif %}
+              
             </div>
             <ul class="list-group list-group-flush">
-              <li class="list-group-item bg-transparent">Having the name of the host for that year</li>
-              <li class="list-group-item bg-transparent">Venue for that year</li>
+              <li class="list-group-item bg-transparent">Year of Ceremony: {{ year.hosted_year }}</li>
+              <li class="list-group-item bg-transparent">Host: {{ year.host }}</li>
+              <li class="list-group-item bg-transparent">Venue: {{ year.site }}</li>
             </ul>
           </div>
         </div>
@@ -87,13 +120,13 @@
   {# Macro for creating navigation links #}
   {% macro render_navigation(pagination, endpoint) %}
   <div class=pagination id="center-block">
-    {% if pagination.page != 1%}
-      <a id="page-numbers" href="{{ url_for(endpoint, page=pagination.page-1) }}">previous</a>
+    {% if pagination.page != 1 %}
+      <a id="page-numbers" href="{{ url_for(endpoint, page=pagination.page-1, view=view) }}">previous</a>
     {% endif%}
       {% for page in pagination.iter_pages() %}
         {% if page %}
           {% if page != pagination.page %}
-            <a id="page-numbers" href="{{ url_for(endpoint, page=page) }}">{{ page }}</a>
+            <a id="page-numbers" href="{{ url_for(endpoint, page=page, view=view) }}">{{ page }}</a>
           {% else %}
             <strong id="selected-page">{{ page }}</strong>
           {% endif %}
@@ -102,7 +135,7 @@
         {% endif %} 
       {% endfor %}
       {% if pagination.page != pagination.pages %}
-        <a id="page-numbers" href="{{ url_for(endpoint, page=pagination.page+1) }}">next</a>
+        <a id="page-numbers" href="{{ url_for(endpoint, page=pagination.page+1, view=view) }}">next</a>
       {% endif %}
   </div>
   {% endmacro %}

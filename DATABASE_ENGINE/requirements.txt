@@ -7,3 +7,4 @@ PyGithub
 pytest
 pytest-flask
 wikipedia
+wptools

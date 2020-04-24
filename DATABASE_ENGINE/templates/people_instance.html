@@ -36,16 +36,16 @@
           <a class="nav-link" href="{{ url_for('root') }}">Splash<span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('year_root') }}">Years</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('award_root') }}">Awards</a>
+          <a class="nav-link" href="{{ url_for('year_root') }}">Ceremonies</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('people_root') }}">People</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('movies_root') }}">Movies</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('award_root') }}">Awards</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('about') }}">About</a>
@@ -62,7 +62,11 @@
     </div>
     <br>
     <div id="center-block">
-      <img src="{{people['image_link']}}" alt="Actor Pic" width="360" height="480"/>
+      {% if people['image_link'] == ""%}
+        <img id="img-format" src="{{ url_for('static', filename='default-pic.jpg') }}" alt="Actor pic"/>
+      {% else %}
+        <img id="img-format" src="{{people['image_link']}}" alt="Actor Pic"/>
+      {% endif %}
     </div>
     <br>
     <br>
@@ -91,7 +95,11 @@
     <div class="row" id="instance-grid" style="width: 60%;">
       {% for award in people['awards'] %}
         <div class="col" id="instance-grid-awards">{{award['title']}}</div>
-          <div class="col" id="instance-grid-recipient">{{award['year']}} -- {{award['movie']}}</div>
+          <div class="col" id="instance-grid-recipient">
+            <a id="instance-grid-link" href="{{ url_for('ceremony_from_year_num', year_num=award['year']) }}">{{ award['year'] }}</a> 
+            -- 
+            <a id="instance-grid-link" href="{{ url_for('movies_instance', movie=(award['movie'] | replace(' ', '+') | lower )) }}">{{ award['movie'] }}</a>
+          </div>
         <div class="w-100"></div>
       {% endfor %}
     </div>

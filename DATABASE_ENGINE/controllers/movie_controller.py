@@ -2,8 +2,9 @@ import logging
 import requests
 import wikipedia
 
-# from .database_controller import db
-from DATABASE_ENGINE.controllers.database_controller import db
+from .database_controller import db
+
+# from DATABASE_ENGINE.controllers.database_controller import db
 
 LOGGER = logging.getLogger(__name__)
 
@@ -24,13 +25,23 @@ class Movie(db.Document):
     image_link = db.StringField()
     nominations = db.ListField(db.ReferenceField(Nomination))
 
+    meta = {
+        "indexes": [
+            {
+                "fields": ["$title", "$director"],
+                "default_language": "english",
+                "weights": {"title": 10, "director": 3},
+            }
+        ]
+    }
+
 
 class MovieController:
     # clear movie_checker.txt when controller made. will write during post calls
-    def __init__(self):
-        checker = open("movie_checker.txt", "w")
-        checker.truncate(0)
-        checker.close()
+    # def __init__(self):
+    #     checker = open("movie_checker.txt", "w")
+    #     checker.truncate(0)
+    #     checker.close()
 
     def post(self, title):
         checker = open("movie_checker.txt", "a+")
@@ -42,7 +53,9 @@ class MovieController:
         query_title = self.__handle_edge_cases(query_title)
 
         # Return string with movie title, director, and year and other info
-        movie_info_str = self.__get_movie_info_str(query_title.replace("&", "and"), checker)
+        movie_info_str = self.__get_movie_info_str(
+            query_title.replace("&", "and"), checker
+        )
 
         # return dict with title, dir, yr from movie_info_str // dict helpful bc each index can be label from json
         movie_info_dict = self.__put_info_in_dict(movie_info_str)
@@ -52,23 +65,25 @@ class MovieController:
 
         wiki_img_link_str = self.__get_wiki_img_link(wkpage_title_str, checker)
 
-        link_str = movie_info_dict['title']
+        link_str = movie_info_dict["title"]
         link_str = link_str.lower()
         link_str = link_str.replace(" ", "+")
 
         mov = Movie(
             query_title=query_title,
             link_title=link_str,
-            title=movie_info_dict['title'],
-            director=movie_info_dict['director'],
-            year=movie_info_dict['release date'],
+            title=movie_info_dict["title"],
+            director=movie_info_dict["director"],
+            year=movie_info_dict["release date"],
             image_link=wiki_img_link_str,
         )
 
         mov.save()
 
         # get string with all awards nominations
-        mov_noms_str = self.__get_movie_noms_str(query_title.replace("&", "and"), checker)
+        mov_noms_str = self.__get_movie_noms_str(
+            query_title.replace("&", "and"), checker
+        )
 
         # now make string into list of nomination strings
         mov_noms_list = self.__make_nom_list(mov_noms_str)
@@ -81,15 +96,46 @@ class MovieController:
         print(Movie.objects.count())
         checker.close()
 
-    def get(self, title):
+        return mov
+
+    def get(self, query_title):
         # format title to be same as query title in post
-        query_title = title.replace("-", "+")
+        # query_title = title.replace("-", "+")
 
         # now find movies in db that have same query_title as movie you want to get
-        movies_found = Movie.objects(query_title__icontains=query_title)
+        movies_found = Movie.objects(link_title__iexact=query_title).get()
 
         # movies_found should only have length 1 if populated correctly so will just return 1 movie
         return movies_found
+
+    def get_paginated_movies(self, page, view):
+
+        if view == "descending":
+            paginated_movies = Movie.objects.order_by("-title").paginate(
+                page=page, per_page=9
+            )
+        elif view == "ascending":
+            paginated_movies = Movie.objects.order_by("+title").paginate(
+                page=page, per_page=9
+            )
+
+        return paginated_movies
+
+    def get_paginated_movies_search(self, page, search):
+
+        paginated_movies = (
+            Movie.objects.search_text(search)
+            .order_by("$text_score")
+            .paginate(page=page, per_page=9)
+        )
+
+        return paginated_movies
+
+    # ! Temp function for instance population
+    def get_all_nominations(self):
+        all_nomination_objects = Nomination.objects()
+
+        return all_nomination_objects
 
     def __get_movie_info_str(self, query_title, checker):
         try:
@@ -109,7 +155,7 @@ class MovieController:
         except Exception as e:
             # if query title resulted in error, try query title with film attached to title
             try:
-                query_title_list = query_title.split('+(')
+                query_title_list = query_title.split("+(")
                 query_title = query_title_list[0]
                 query_title += "+film"
 
@@ -123,7 +169,9 @@ class MovieController:
                     + "&appid=LWUJE3-527ATY4RER"
                 ).json()
 
-                movie_json = movie_json["queryresult"]["pods"][0]["subpods"][0]["plaintext"]
+                movie_json = movie_json["queryresult"]["pods"][0]["subpods"][0][
+                    "plaintext"
+                ]
 
                 return movie_json
 
@@ -135,12 +183,11 @@ class MovieController:
                 # LOGGER.exception(message)
                 return ""
 
-
     def __put_info_in_dict(self, movie_info_str):
-        info_dict = {'title': "", 'director': "", 'release date': ""}
-        info_str = movie_info_str.split('\n')
+        info_dict = {"title": "", "director": "", "release date": ""}
+        info_str = movie_info_str.split("\n")
         for info in info_str:
-            info_split = info.split(' | ')
+            info_split = info.split(" | ")
             if len(info_split) == 2:
                 info_dict[info_split[0]] = info_split[1]
             elif len(info_split) > 2:
@@ -150,16 +197,16 @@ class MovieController:
                 info_dict[info_split[0][:-1]] = data_str[:-2]
 
         # turn date string into just year
-        if info_dict['title'] == "Journey into Self":
-            info_dict['release date'] = "1968"
-        elif info_dict['director'] == "George Foster Platt, Nancy Hamilton":
-            info_dict['title'] = "Helen Keller in Her Story"
-            info_dict['director'] = "Nancy Hamilton"
-            info_dict['release date'] = "June 15, 1954"
+        if info_dict["title"] == "Journey into Self":
+            info_dict["release date"] = "1968"
+        elif info_dict["director"] == "George Foster Platt, Nancy Hamilton":
+            info_dict["title"] = "Helen Keller in Her Story"
+            info_dict["director"] = "Nancy Hamilton"
+            info_dict["release date"] = "June 15, 1954"
         else:
-            date_str = info_dict['release date']
+            date_str = info_dict["release date"]
             date_str_list = date_str.split(" (")
-            info_dict['release date'] = date_str_list[0]
+            info_dict["release date"] = date_str_list[0]
         """
         date_str_list = date_str.split(', ')
         if len(date_str_list) == 1:
@@ -181,14 +228,16 @@ class MovieController:
                 + "&appid=LWUJE3-527ATY4RER"
             ).json()
 
-            movie_noms_str = noms_json["queryresult"]["pods"][0]["subpods"][0]["plaintext"]
+            movie_noms_str = noms_json["queryresult"]["pods"][0]["subpods"][0][
+                "plaintext"
+            ]
 
             return movie_noms_str
 
         except Exception as e:
             # if query title resulted in error, try query title with film attached to title
             try:
-                query_title_list = query_title.split('+(')
+                query_title_list = query_title.split("+(")
                 query_title = query_title_list[0]
                 query_title += "+film"
 
@@ -202,7 +251,9 @@ class MovieController:
                     + "&appid=LWUJE3-527ATY4RER"
                 ).json()
 
-                movie_json = movie_json["queryresult"]["pods"][0]["subpods"][0]["plaintext"]
+                movie_json = movie_json["queryresult"]["pods"][0]["subpods"][0][
+                    "plaintext"
+                ]
 
                 return movie_json
 
@@ -215,7 +266,7 @@ class MovieController:
                 return ""
 
     def __make_nom_list(self, nom_list_str):
-        nom_list = list(nom_list_str.split('\n'))
+        nom_list = list(nom_list_str.split("\n"))
         nom_list.remove(nom_list[0])
 
         return nom_list
@@ -224,7 +275,7 @@ class MovieController:
         nom_list = []
 
         for nom_str in mov_noms_list:
-            award_list = nom_str.split(' | ', 1)
+            award_list = nom_str.split(" | ", 1)
             nom_list.append(self.__make_nomination_obj(award_list))
 
         return nom_list
@@ -232,7 +283,7 @@ class MovieController:
     def __make_nomination_obj(self, nomination_str):
         nomination = Nomination(
             award_title=nomination_str[0].title(),
-            names=list(nomination_str[1].split(' | '))
+            names=list(nomination_str[1].split(" | ")),
         )
 
         nomination.save()
@@ -252,7 +303,10 @@ class MovieController:
             query_title = "Tom and Jerry filmography"
         elif query_title == "le+ciel+et+la+boue":
             query_title = "sky+above+and+mud+beneath"
-        elif query_title == "ryan+(film)" or query_title == "folies+bergere+de+paris+(1935+film)":
+        elif (
+            query_title == "ryan+(film)"
+            or query_title == "folies+bergere+de+paris+(1935+film)"
+        ):
             query_title = query_title.replace("+", " ")
             page = wikipedia.search(query_title, results=2, suggestion=True)
             page_name = page[0][1]
@@ -260,13 +314,22 @@ class MovieController:
 
         query_title = query_title.replace("+", " ")
         page = wikipedia.search(query_title, results=1, suggestion=True)
-        if query_title[:-5].lower() not in page[0][0].lower() and query_title.split(' (')[0].lower() not in page[0][0].lower():
+        if (
+            query_title[:-5].lower() not in page[0][0].lower()
+            and query_title.split(" (")[0].lower() not in page[0][0].lower()
+        ):
             # print("query = ", query_title[:-5], ", page title: ", page[0][0])
             query_title = query_title[:-5]
             page = wikipedia.search(query_title, results=1, suggestion=True)
             if query_title[:-5].lower() not in page[0][0].lower():
                 print("\nSTILL WRONG")
-                checker.write("WIKI PAGE WRONG? query_title: " + query_title + ", page title: " + page[0][0] + "\n")
+                checker.write(
+                    "WIKI PAGE WRONG? query_title: "
+                    + query_title
+                    + ", page title: "
+                    + page[0][0]
+                    + "\n"
+                )
                 checker.flush()
 
         page_name = page[0][0]
@@ -288,9 +351,9 @@ class MovieController:
             + page_title
         ).json()
 
-        #TODO: WHAT IF NO IMG ON WIKIPEDIA
+        # TODO: WHAT IF NO IMG ON WIKIPEDIA
         try:
-            img_link = response['query']['pages'][0]['original']['source']
+            img_link = response["query"]["pages"][0]["original"]["source"]
         except Exception as e:
             img_link = ""
             checker.write("NO IMG FOR PAGE: " + page_title + "\n")
@@ -335,8 +398,8 @@ class MovieController:
             query_title = "black+and+white+in+color+(1977+film)"
         elif query_title == "the+bolero+film":
             query_title = "the+bolero+(1973+film)"
-        elif query_title == "summer+of+\'42+film":
-            query_title = "summer+of+\'42+(1971+film)"
+        elif query_title == "summer+of+'42+film":
+            query_title = "summer+of+'42+(1971+film)"
         elif query_title == "the+garden+of+the+finzi+continis+(film)":
             query_title = "the+garden+of+the+finzi-continis+film"
         elif query_title == "is+it+always+right+to+be+right?+film":
@@ -409,6 +472,7 @@ class MovieController:
             query_title = "la+ciociara"
 
         return query_title
+
 
 if __name__ == "__main__":
     mov_controller = MovieController()

@@ -1,7 +1,7 @@
 import datetime
 
 
-from flask import Flask, redirect, render_template, url_for
+from flask import Flask, redirect, render_template, url_for, request
 from flask_mongoengine import MongoEngine
 
 from controllers.about_controller import AboutController
@@ -48,23 +48,60 @@ def about():
 
 # TODO: this is a janky way of handling pagination, pls fix @Sahil
 @app.route("/years/")
-@app.route("/years/page=<page>")
-def year_root(page=1):
+@app.route("/years/page=<page>/")
+@app.route("/years/page=<page>/view=<view>")
+def year_root(page=1, view="descending"):
 
     page = int(page)
     y_controller = YearController()
-    paginated_years = y_controller.get_paginated_years(page)
+    paginated_years = y_controller.get_paginated_years(page, view)
+
+    return render_template("years.html", paginated_years=paginated_years, view=view)
+
+
+@app.route("/years/search_helper", methods=["POST"])
+def year_search_helper():
+    return redirect(url_for("year_search", search=request.form["search_text"]))
+
+
+@app.route("/years/filter_helper", methods=["POST"])
+def year_filter_helper():
+    return redirect(url_for("year_root", page=1, view=request.form["radio"]))
+
+
+# TODO: this is a janky way of handling pagination, pls fix @Sahil
+@app.route("/years/search=<search>")
+@app.route("/years/search=<search>/page=<page>")
+def year_search(page=1, search=None):
+
+    if search is None:
+        redirect(url_for("year_search", search=request.form["search_text"]))
+
+    page = int(page)
+    y_controller = YearController()
+    paginated_years = y_controller.get_paginated_years_search(page, search)
 
     return render_template("years.html", paginated_years=paginated_years)
 
 
-@app.route("/years/<year>/")
-def year_instance(year):
+@app.route("/years/<ceremony_name>/")
+def year_instance(ceremony_name=None):
 
     y_controller = YearController()
-    year_obj = y_controller.get(year)
+    year_obj = y_controller.get(ceremony_name)
 
     return render_template("years_instance.html", year=year_obj, awards=year_obj.awards)
+
+
+@app.route("/years/num/<year_num>/")
+# def ceremony_from_year_num(ceremony, year_num=None):
+def ceremony_from_year_num(year_num=None):
+    y_controller = YearController()
+    ceremony_name = y_controller.get_ceremony_name_by_year(year_num)
+
+    return redirect(url_for("year_instance", ceremony_name=ceremony_name))
+
+    # return render_template("years_instance.html", year=year_obj, awards=year_obj.awards)
 
 
 # TODO : This works(?) Need to make this an actual post request
@@ -125,19 +162,43 @@ def update_all_awards():
 # TODO: this is a janky way of handling pagination, pls fix @Sahil
 @app.route("/people/")
 @app.route("/people/page=<page>")
-def people_root(page=1):
+@app.route("/people/page=<page>/view=<view>")
+def people_root(page=1, view="ascending"):
 
     page = int(page)
     pa_controller = PeopleAccessController()
-    paginated_people = pa_controller.get_paginated_people(page)
+    paginated_people = pa_controller.get_paginated_people(page, view)
+
+    return render_template("people.html", paginated_people=paginated_people, view=view)
+
+
+@app.route("/people/filter_helper", methods=["POST"])
+def people_filter_helper():
+    return redirect(url_for("people_root", page=1, view=request.form["radio"]))
+
+
+@app.route("/people/search_helper", methods=["POST"])
+def people_search_helper():
+    return redirect(url_for("people_search", search=request.form["search_text"]))
+
+
+@app.route("/people/search=<search>")
+@app.route("/people/search=<search>/page=<page>")
+def people_search(page=1, search=None):
+
+    # if search == "" or search is None:
+    #     redirect(url_for("people_search", page=1, search=request.form["search_text"]))
+
+    page = int(page)
+    pa_controller = PeopleAccessController()
+    paginated_people = pa_controller.get_paginated_people_search(page, search)
 
     return render_template("people.html", paginated_people=paginated_people)
 
 
 @app.route("/people/<person>/")
-def people_instance(person):
+def people_instance(person=None):
 
-    # people = build_people.get_person_info(person)
     pa_controller = PeopleAccessController()
     people = pa_controller.get(person)
 
@@ -164,28 +225,56 @@ def populate_people():
     p = PopulatePeople()
 
     # p.print_names()
-    p.populate()
+    # p.populate()
+    # p.delete()
+    p.update_attributes()
 
     return redirect("/people/")
 
 
-#TODO: make this have pages of movies
+# TODO: this is a janky way of handling pagination, pls fix @Sahil
 @app.route("/movies/")
-def movies_root():
-    # m_pop = PopulateMovies()
-    # m_pop.populate_movies()
+@app.route("/movies/page=<page>")
+@app.route("/movies/page=<page>/view=<view>")
+def movies_root(page=1, view="ascending"):
 
-    return render_template("movies.html", movie=None)
+    page = int(page)
+    m_controller = MovieController()
+    paginated_movies = m_controller.get_paginated_movies(page, view)
+
+    return render_template("movies.html", paginated_movies=paginated_movies, view=view)
+
+
+@app.route("/movies/filter_helper", methods=["POST"])
+def movies_filter_helper():
+    return redirect(url_for("movies_root", page=1, view=request.form["radio"]))
+
+
+@app.route("/movies/search_helper", methods=["POST"])
+def movies_search_helper():
+    return redirect(url_for("movies_search", search=request.form["search_text"]))
+
+
+@app.route("/movies/search=<search>")
+@app.route("/movies/search=<search>/page=<page>")
+def movies_search(page=1, search=None):
+
+    page = int(page)
+    m_controller = MovieController()
+    paginated_movies = m_controller.get_paginated_movies_search(page, search)
+
+    return render_template("movies.html", paginated_movies=paginated_movies)
 
 
 @app.route("/movies/<movie>/")
-def movies_instance(movie):
-    # For the sake of example, use static information to inflate the template.
-    # This will be replaced with real information in later steps.
-    m_controller = MovieController()
-    movies = m_controller.get(movie)
+def movies_instance(movie=None):
 
-    return render_template("movies_instance.html", movie=movies[0])
+    m_controller = MovieController()
+    movie = m_controller.get(movie)
+    movie_year = movie.year.split(", ")[-1]
+
+    return render_template("movies_instance.html", movie=movie, movie_year=movie_year)
+
 
 # ! Temporary, do not use in production
 @app.route("/movies/populate")
