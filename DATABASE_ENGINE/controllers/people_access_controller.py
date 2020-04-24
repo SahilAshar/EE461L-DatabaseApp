@@ -5,6 +5,7 @@ from urllib.error import HTTPError
 import requests
 import wikipedia
 import wptools
+from datetime import date
 
 from .database_controller import db, upload_blob
 
@@ -60,6 +61,9 @@ class PeopleAccessController:
 
         occupation = self.__get_occupation_from_infobox(wkpage)
         years_active = self.__get_years_active_from_infobox(wkpage)
+
+        occupation = self.__parse_occupation(occupation)
+        years_active = self.__parse_years_active(years_active)
 
         # Return a link to an actor's image
         actor_image_link = self.__get_image_link_str(wkpage)
@@ -397,6 +401,68 @@ class PeopleAccessController:
             message = f"Error: {e}"
             LOGGER.exception(message)
             return ""
+
+    def __parse_occupation(self, occupation):
+        final_occ = []
+        occupation = occupation.replace("<br />", ", ").replace("<br/>", ", ").replace(" <br> ", ", ").replace("<br>", ", ")
+        occupation = occupation.replace(" {{·}} ", ", ")
+        if '{' or '}' in occupation:
+            occupation = occupation.replace(',', '')
+            occupation = occupation.replace('{', '').replace('}', '')
+            occupation = occupation.replace('\n* ', '|').replace('\n*', '|')
+            occupation = occupation.split('|')[1:]
+            if occupation[0] == '|':
+                occupation = occupation[1:]
+
+            for occ in occupation:
+                if '[' and ']' in occ:
+                    occ = occ.replace('[', '').replace(']', '')
+                elif '[' in occ:
+                    occ = ''
+                elif ']' in occ:
+                    occ = occ.replace(']', '')
+                occ = occ.title()
+                if occ != '':
+                    final_occ.append(occ)
+
+            return ", ".join(final_occ)
+        else:
+            occupation_split = occupation.split('[[')
+            if len(occupation_split) == 1:
+                return occupation
+            for occ in occupation_split:
+                if '|' in occ:
+                    occ_list = occ.split(']]')
+                    occ = occ_list[0].split('|')[1].title()
+                    occ += occ_list[1]
+                else:
+                    occ = occ.replace(']]', '')
+
+                final_occ.append(occ)
+
+            return "".join(final_occ)
+
+    def __parse_years_active(self, years_active):
+        years_active = "1989–present (actor)<br>1984–1997 (singer)"
+
+        years_active = years_active.replace(" ", "")
+        years_active = years_active.replace("&ndash;", "-")
+        years_active = years_active.replace("<br>", ",")
+        years_active = years_active.replace("–", "-")
+
+        if "," in years_active:
+            index = years_active.index(",") + 1
+            years_active = years_active[:index] + " " + years_active[index:]
+
+        if "present" or "current" in years_active:
+            years_active = years_active.replace("present", str(date.today().year)
+                                                ).replace("current",str(date.today().year))
+        if years_active[4] != "-":
+            years_active = years_active[:4] + years_active[5:]
+
+        print(years_active)
+
+
 
 
 if __name__ == "__main__":

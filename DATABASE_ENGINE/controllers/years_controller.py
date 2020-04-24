@@ -92,6 +92,8 @@ class YearController:
 
         host, site = self.__get_host_and_site(wkpage)
 
+        host, site = self.__parse_host_and_site(host, site)
+
         ceremony_summary_str = self.__get_ceremony_summary_str(wkpage)
         image_link_str = self.__get_image_link_str(wkpage)
 
@@ -362,6 +364,54 @@ class YearController:
         #     message = f"Error: {e}"
         #     LOGGER.exception(message)
         #     return ""
+
+    def __parse_host_and_site(self, host, site):
+        host = self.__parse_host(host)
+        site = self.__parse_site(site)
+        return host, site
+
+    def __parse_host(self, host):
+        host = host.replace("and <br />", "and ").replace(", <br />", ", ").replace("<br />", ", ")
+        host = host.replace("<br> ", ", ").replace(" and <br>", ", ").replace("<br>", ", ")
+
+        if "{" in host:
+            host = host[:host.index("{")]
+
+        final_hosts = []
+        host_split = host.split("[[")
+        for person in host_split:
+            if "|" in person:
+                person = person.split("|")
+                person = person[1].replace("]]", "")
+            else:
+                person = person.replace("]]", "")
+            final_hosts.append(person)
+
+        return "".join(final_hosts)
+
+    def __parse_site(self, site):
+        if "{" in site:
+            if "ref" in site:
+                site = site[:site.index("{")] + site[site.index("}") + 3:]
+            else:
+                site = site.split("|")[1:]
+                site = ", ".join(site)
+
+        site = site.replace(" <br />", ", ").replace(",<br />", ", ").replace(" <br /> ", ", ").replace("<br />", ", ")
+        site = site.replace("<br/>", ", ")
+        site = site.replace(", <br>", ", ").replace("and <br>", ", ").replace(" <br>", ", ").replace("<br>", ", ")
+
+        final_site = []
+        site_split = site.split("[[")
+        for place in site_split:
+            if "|" in place:
+                place = place.split("|")
+                place = place[1].replace("]]", "")
+            else:
+                place = place.replace("]]", "")
+            final_site.append(place)
+
+        return "".join(final_site)
 
 
 if __name__ == "__main__":
