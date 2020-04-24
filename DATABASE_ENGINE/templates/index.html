@@ -39,10 +39,7 @@
           <a class="nav-link" href="{{ url_for('root') }}">Splash<span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('year_root') }}">Years</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('award_root') }}">Awards</a>
+          <a class="nav-link" href="{{ url_for('year_root') }}">Ceremonies</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('people_root') }}">People</a>
@@ -66,39 +63,40 @@
   <!-- End Oscars Logo Code -->
 
   <!-- Carousel Code -->
-  <p id="header4">
+  <p id="splash">
     Please enjoy some of our favorite Academy Award moments.
   </p>
 
   <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" style="text-align: center;">
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/GsSWj51uGnI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <p id="header4">Ellen takes the most retweeted picture of all time.</p>
+        <iframe width="840" height="473" src="https://www.youtube.com/embed/GsSWj51uGnI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <p id="splash">Ellen takes the most retweeted picture of all time.</p>
       </div>
       <div class="carousel-item">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/ftz-BPqCiZU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <p id="header4">Bong Joon Ho wins Best Director, delivering a humble speech.</p>
+        <iframe width="840" height="473" src="https://www.youtube.com/embed/ftz-BPqCiZU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <p id="splash">Bong Joon Ho wins Best Director, delivering a humble speech.</p>
       </div>
       <div class="carousel-item">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/llgL7mGYVTI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <p id="header4">Halle Berry wins Best Actress, paving the way for women of color.</p>
-      </div>
-      <div class="carousel-item">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/bb7303ukNtk?start=123" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <p id="header4">Jack Nicholson is too drunk to deliver his acceptance speech, so he invites the runner-up, Robin Williams, to say a few words.</p>
+        <iframe width="840" height="473" src="https://www.youtube.com/embed/llgL7mGYVTI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <p id="splash">Halle Berry wins Best Actress, paving the way for women of color.</p>
       </div>
     </div>
-    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev" >
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="sr-only">Previous</span>
     </a>
-    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next" >
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="sr-only">Next</span>
     </a>
+    
   </div>
   <!-- End Carousel Code -->
+
+  <br>
+  <br>
+  <br>
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
@@ -114,6 +112,11 @@
         $("#carouselExampleControls").carousel({interval: false});
       });
     </script>      
+
+<footer>
+  <p><a id="license-content-link" href="{{ url_for('license') }}">License</a></p>
+</footer>
+
 
 </body>
 
