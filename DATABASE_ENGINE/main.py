@@ -1,7 +1,7 @@
 import datetime
 
 
-from flask import Flask, redirect, render_template, url_for, request
+from flask import Flask, redirect, render_template, url_for, request, abort
 from flask_mongoengine import MongoEngine
 
 from controllers.about_controller import AboutController
@@ -44,6 +44,11 @@ def about():
     commits_obj = about_controller.return_commit_obj()
 
     return render_template("about.html", issues=issues_obj, commits=commits_obj)
+
+
+@app.errorhandler(500)
+def page_not_found(error):
+    return render_template("page_not_found.html", title="500"), 500
 
 
 # TODO: this is a janky way of handling pagination, pls fix @Sahil
@@ -202,8 +207,8 @@ def people_instance(person=None):
     pa_controller = PeopleAccessController()
     people = pa_controller.get(person)
 
-    print(len(people))
-    print(people[0])
+    if people is False:
+        abort(500)
 
     return render_template("people_instance.html", people=people[0])
 
@@ -225,9 +230,9 @@ def populate_people():
     p = PopulatePeople()
 
     # p.print_names()
-    # p.populate()
+    p.populate()
     # p.delete()
-    p.update_attributes()
+    # p.update_attributes()
 
     return redirect("/people/")
 
@@ -283,7 +288,8 @@ def populate_mov():
     p = PopulateMovies()
 
     # p.print_names()
-    p.populate_movies()
+    # p.populate_movies()
+    p.update_attributes()
 
     return redirect("/movies/")
 

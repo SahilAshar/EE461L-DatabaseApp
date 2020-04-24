@@ -1,6 +1,7 @@
 import logging
 import requests
 import wikipedia
+import wptools
 
 from .database_controller import db
 
@@ -22,6 +23,7 @@ class Movie(db.Document):
     title = db.StringField()
     director = db.StringField()
     year = db.StringField()
+    gross = db.StringField()
     image_link = db.StringField()
     nominations = db.ListField(db.ReferenceField(Nomination))
 
@@ -38,13 +40,14 @@ class Movie(db.Document):
 
 class MovieController:
     # clear movie_checker.txt when controller made. will write during post calls
-    # def __init__(self):
-    #     checker = open("movie_checker.txt", "w")
-    #     checker.truncate(0)
-    #     checker.close()
+    # ! Comment this chunk out for production
+    def __init__(self):
+        checker = open("movie_checker.txt", "w")
+        checker.truncate(0)
+        checker.close()
 
     def post(self, title):
-        checker = open("movie_checker.txt", "a+")
+        checker = self.__get_checker_file()
 
         query_title = title.replace("-", "+")
         if "film" not in query_title:
@@ -63,6 +66,9 @@ class MovieController:
         # now will get image data from wikipedia api
         wkpage_title_str = self.__find_wiki_page_title(query_title, checker)
 
+        gross = self.__get_gross_from_infobox(wkpage_title_str)
+        gross = self.__parse_gross(gross)
+
         wiki_img_link_str = self.__get_wiki_img_link(wkpage_title_str, checker)
 
         link_str = movie_info_dict["title"]
@@ -75,6 +81,7 @@ class MovieController:
             title=movie_info_dict["title"],
             director=movie_info_dict["director"],
             year=movie_info_dict["release date"],
+            gross=gross,
             image_link=wiki_img_link_str,
         )
 
@@ -136,6 +143,25 @@ class MovieController:
         all_nomination_objects = Nomination.objects()
 
         return all_nomination_objects
+
+    def update_attributes_for_all_movies(self):
+
+        checker = self.__get_checker_file()
+
+        for movie in Movie.objects():
+            query_title = movie.query_title
+            wkpage_title_str = self.__find_wiki_page_title(query_title, checker)
+
+            gross = self.__get_gross_from_infobox(wkpage_title_str)
+            gross = self.__parse_gross(gross)
+
+            movie.update(gross=gross)
+            movie.reload()
+
+            print(movie.gross)
+
+    def __get_checker_file(self):
+        return open("movie_checker.txt", "a+")
 
     def __get_movie_info_str(self, query_title, checker):
         try:
@@ -360,6 +386,23 @@ class MovieController:
             checker.flush()
 
         return img_link
+
+    def __get_gross_from_infobox(self, wkpage_title_str):
+
+        gross = "n/a"
+
+        try:
+            awards_page = wptools.page(wkpage_title_str).get_parse()
+            infobox = awards_page.data["infobox"]
+            gross = infobox["gross"]
+        except Exception as e:
+            message = f"Error: {e}"
+            LOGGER.exception(message)
+
+        return gross
+
+    def __parse_gross(self, gross):
+        return gross
 
     def __handle_edge_cases(self, query_title):
         if query_title == "the+secret+in+their+eyes+film":

@@ -91,6 +91,7 @@ class YearController:
         wkpage = self.__set_wiki_page(ceremony_name)
 
         host, site = self.__get_host_and_site(wkpage)
+        host, site = self.__parse_host_and_site(host, site)
 
         ceremony_summary_str = self.__get_ceremony_summary_str(wkpage)
         image_link_str = self.__get_image_link_str(wkpage)
@@ -287,6 +288,9 @@ class YearController:
             LOGGER.exception(message)
 
         return host, site
+
+    def __parse_host_and_site(self, host, site):
+        pass
 
     def __get_ceremony_summary_str(self, wkpage):
 

@@ -61,6 +61,9 @@ class PeopleAccessController:
         occupation = self.__get_occupation_from_infobox(wkpage)
         years_active = self.__get_years_active_from_infobox(wkpage)
 
+        occupation = self.__parse_occupation(occupation)
+        years_active = self.__parse_years_active(years_active)
+
         # Return a link to an actor's image
         actor_image_link = self.__get_image_link_str(wkpage)
 
@@ -115,7 +118,10 @@ class PeopleAccessController:
 
         matching_persons = Person.objects(query_name__icontains=query_name)
 
-        return matching_persons
+        if len(matching_persons) > 0:
+            return matching_persons
+        else:
+            return False
 
     def get_paginated_people(self, page, view):
 
@@ -139,6 +145,9 @@ class PeopleAccessController:
 
         return paginated_people
 
+    def check_if_in_db(self, query_name):
+        pass
+
     def delete_blank_people(self):
         blank_people = Person.objects(name__iexact="")
         for person in blank_people:
@@ -152,6 +161,9 @@ class PeopleAccessController:
 
             occupation = self.__get_occupation_from_infobox(wkpage)
             years_active = self.__get_years_active_from_infobox(wkpage)
+
+            occupation = self.__parse_occupation(occupation)
+            years_active = self.__parse_years_active(years_active)
 
             # person = Person(occupation=occupation, years_active=years_active)
             person.update(occupation=occupation, years_active=years_active)
@@ -355,6 +367,12 @@ class PeopleAccessController:
             message = f"Error: {e}"
             LOGGER.exception(message)
 
+        return years_active
+
+    def __parse_occupation(self, occupation):
+        return occupation
+
+    def __parse_years_active(self, years_active):
         return years_active
 
     def __get_image_link_str(self, wkpage):
