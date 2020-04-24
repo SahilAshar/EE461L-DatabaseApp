@@ -61,7 +61,11 @@
     </div>
     <br>
     <div id="center-block">
-      <img id="img-format" src="{{movie['image_link']}}" alt="Movie Pic"/>
+      {% if movie['image_link'] == "" %}
+        <img class="card-img-top" src="{{ url_for('static', filename='default-pic.jpg') }}" alt="movie pic"/>
+      {% else %}
+        <img class="card-img-top" src="{{ movie['image_link'] }}" alt="movie pic"/>
+      {% endif %}
     </div>
     <br>
     <br>
@@ -72,6 +76,14 @@
     <div id="center-block">
       <p id="instance-attribute">Released : 
         <a href="{{ url_for('ceremony_from_year_num', year_num=movie_year) }}">{{movie['year']}}</a>
+      </p>
+    </div>
+    <br>
+    <div id="center-block-content">
+      <p id="instance-content">
+        <br>
+        <br>
+        Please view the <a id="other-content-link" href="{{ url_for('disclaimer') }}">disclaimer.</a>
       </p>
     </div>
     <br>

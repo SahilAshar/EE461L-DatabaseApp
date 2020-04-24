@@ -41,10 +41,10 @@ class Movie(db.Document):
 class MovieController:
     # clear movie_checker.txt when controller made. will write during post calls
     # ! Comment this chunk out for production
-    def __init__(self):
-        checker = open("movie_checker.txt", "w")
-        checker.truncate(0)
-        checker.close()
+    # def __init__(self):
+    #     checker = open("movie_checker.txt", "w")
+    #     checker.truncate(0)
+    #     checker.close()
 
     def post(self, title):
         checker = self.__get_checker_file()
@@ -110,10 +110,15 @@ class MovieController:
         # query_title = title.replace("-", "+")
 
         # now find movies in db that have same query_title as movie you want to get
-        movies_found = Movie.objects(link_title__iexact=query_title).get()
+        try:
+            movies_found = Movie.objects(link_title__iexact=query_title).get()
+            return movies_found
+        except Exception as e:
+            message = f"Error: {e}"
+            LOGGER.exception(message)
+            return False
 
         # movies_found should only have length 1 if populated correctly so will just return 1 movie
-        return movies_found
 
     def get_paginated_movies(self, page, view):
 
@@ -149,16 +154,21 @@ class MovieController:
         checker = self.__get_checker_file()
 
         for movie in Movie.objects():
-            query_title = movie.query_title
-            wkpage_title_str = self.__find_wiki_page_title(query_title, checker)
 
-            gross = self.__get_gross_from_infobox(wkpage_title_str)
-            gross = self.__parse_gross(gross)
+            try:
+                query_title = movie.query_title
+                # wkpage_title_str = self.__find_wiki_page_title(query_title, checker)
 
-            movie.update(gross=gross)
-            movie.reload()
+                # gross = self.__get_gross_from_infobox(wkpage_title_str)
+                gross = self.__parse_gross(movie.gross)
 
-            print(movie.gross)
+                movie.update(gross=gross)
+                movie.reload()
+
+                print(movie.gross)
+            except Exception as e:
+                message = f"Error: {e}"
+                LOGGER.exception(message)
 
     def __get_checker_file(self):
         return open("movie_checker.txt", "a+")
@@ -402,7 +412,27 @@ class MovieController:
         return gross
 
     def __parse_gross(self, gross):
-        return gross
+
+        try:
+            gross = gross.replace("{{", "")
+            gross = gross.replace("}}", "")
+            gross = gross.replace("[[", "")
+            gross = gross.replace("]]", "")
+            gross = gross.replace("<small>", "")
+            gross = gross.replace("</small>", "")
+            gross = gross.replace("small", "")
+            gross = gross.replace("|", "")
+            gross = gross.replace("<br />", " ")
+            gross = gross.replace("<br>", " ")
+            gross = gross.replace("{{Sfn|Cowie|1990|p|=|132}}", "")
+            gross = gross.replace("&nbsp;", " ")
+            gross = gross.replace("{{nbsp}}", "")
+            gross = gross.replace("{{sfn|Box Office Mojo staff}}", "")
+
+            return gross
+        except Exception as e:
+            message = f"Error: {e}"
+            LOGGER.exception(message)
 
     def __handle_edge_cases(self, query_title):
         if query_title == "the+secret+in+their+eyes+film":

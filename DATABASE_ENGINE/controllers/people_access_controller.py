@@ -157,18 +157,23 @@ class PeopleAccessController:
 
         for person in Person.objects():
             query_name = person.query_name
-            wkpage = self.__set_wiki_page(query_name)
+            # wkpage = self.__set_wiki_page(query_name)
 
-            occupation = self.__get_occupation_from_infobox(wkpage)
-            years_active = self.__get_years_active_from_infobox(wkpage)
+            # occupation = self.__get_occupation_from_infobox(wkpage)
+            # years_active = self.__get_years_active_from_infobox(wkpage)
 
-            occupation = self.__parse_occupation(occupation)
-            years_active = self.__parse_years_active(years_active)
+            occupation = self.__parse_occupation(person.occupation)
+            years_active = self.__parse_years_active(person.years_active)
 
             # person = Person(occupation=occupation, years_active=years_active)
             person.update(occupation=occupation, years_active=years_active)
             person.reload()
-            print(person.occupation + " | " + person.years_active)
+
+            try:
+                print(person.occupation + " | " + person.years_active)
+            except Exception as e:
+                message = f"Error: {e}"
+                LOGGER.exception(message)
 
     def __get_actor_data_str(self, query_name):
 
@@ -370,10 +375,40 @@ class PeopleAccessController:
         return years_active
 
     def __parse_occupation(self, occupation):
-        return occupation
+
+        try:
+            occupation = occupation.replace("{{", "")
+            occupation = occupation.replace("}}", "")
+            occupation = occupation.replace("[[", "")
+            occupation = occupation.replace("]]", "")
+            occupation = occupation.replace(
+                "|<!--DO NOT REMOVE. See [[Talk:Alec Baldwin#Comedian?]] for more details.-->|",
+                "",
+            )
+            occupation = occupation.replace("plainlist| *", "")
+            occupation = occupation.replace("flatlist| * ", "")
+            occupation = occupation.replace("hlist|", "")
+            occupation = occupation.replace("|", ", ")
+            occupation = occupation.replace("* ", ", ")
+            occupation = occupation.replace(" *", ", ")
+            occupation = occupation.replace("<br>", ", ")
+            occupation = occupation.replace("flatlist", "")
+            occupation = occupation.replace(" ,", ", ")
+
+            return occupation
+        except Exception as e:
+            message = f"Error: {e}"
+            LOGGER.exception(message)
 
     def __parse_years_active(self, years_active):
-        return years_active
+
+        try:
+            years_active = years_active.replace("&ndash;", "-")
+
+            return years_active
+        except Exception as e:
+            message = f"Error: {e}"
+            LOGGER.exception(message)
 
     def __get_image_link_str(self, wkpage):
 

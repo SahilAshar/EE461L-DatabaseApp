@@ -8,6 +8,10 @@ from controllers.years_controller import YearController
 
 
 class PopulateYears:
+    def update_attributes(self):
+        y_controller = YearController()
+        y_controller.update_attributes_for_all_years()
+
     def get_wiki_image_parser(self, search_term, ordinal_num):
 
         result = wikipedia.search(search_term, results=1)

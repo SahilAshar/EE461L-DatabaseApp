@@ -46,6 +46,16 @@ def about():
     return render_template("about.html", issues=issues_obj, commits=commits_obj)
 
 
+@app.route("/license")
+def license():
+    return render_template("license.html")
+
+
+@app.route("/disclaimer")
+def disclaimer():
+    return render_template("disclaimer.html")
+
+
 @app.errorhandler(500)
 def page_not_found(error):
     return render_template("page_not_found.html", title="500"), 500
@@ -99,7 +109,6 @@ def year_instance(ceremony_name=None):
 
 
 @app.route("/years/num/<year_num>/")
-# def ceremony_from_year_num(ceremony, year_num=None):
 def ceremony_from_year_num(year_num=None):
     y_controller = YearController()
     ceremony_name = y_controller.get_ceremony_name_by_year(year_num)
@@ -111,7 +120,7 @@ def ceremony_from_year_num(year_num=None):
 
 # TODO : This works(?) Need to make this an actual post request
 # But this proves I can create actual controllers that can link
-@app.route("/years/new/<year>/")
+# @app.route("/years/new/<year>/")
 def new_year(year):
 
     y_controller = YearController()
@@ -121,7 +130,7 @@ def new_year(year):
 
 
 # ! Temporary, do not use in production
-@app.route("/years/populate")
+# @app.route("/years/populate")
 def populate_years():
 
     y = PopulateYears()
@@ -129,13 +138,14 @@ def populate_years():
     # y.get_wiki_image_link()
     # y.print_ordinal_numbers()
     # y.populate()
-    y.populate_wiki_images()
+    # y.populate_wiki_images()
+    # y.update_attributes()
 
     return redirect("/years/")
 
 
-@app.route("/awards/")
-@app.route("/awards/page=<page>")
+# @app.route("/awards/")
+# @app.route("/awards/page=<page>")
 def award_root(page=1):
 
     page = int(page)
@@ -145,7 +155,7 @@ def award_root(page=1):
     return render_template("awards.html", paginated_awards=paginated_awards)
 
 
-@app.route("/awards/<award>/")
+# @app.route("/awards/<award>/")
 def award_instance(award):
 
     a_controller = AwardController()
@@ -156,7 +166,7 @@ def award_instance(award):
 
 # TODO : This works(?) Need to make this an actual post request
 # But this proves I can create actual controllers that can link
-@app.route("/awards/new/update-all")
+# @app.route("/awards/new/update-all")
 def update_all_awards():
     a_controller = AwardController()
     a_controller.post()
@@ -215,7 +225,7 @@ def people_instance(person=None):
 
 # TODO : This works(?) Need to make this an actual post request
 # But this proves I can create actual controllers that can link
-@app.route("/people/new/<person>/")
+# @app.route("/people/new/<person>/")
 def new_person(person):
     pa_controller = PeopleAccessController()
     pa_controller.post(person)
@@ -224,13 +234,13 @@ def new_person(person):
 
 
 # ! Temporary, do not use in production
-@app.route("/people/populate")
+# @app.route("/people/populate")
 def populate_people():
 
     p = PopulatePeople()
 
     # p.print_names()
-    p.populate()
+    # p.populate()
     # p.delete()
     # p.update_attributes()
 
@@ -276,13 +286,17 @@ def movies_instance(movie=None):
 
     m_controller = MovieController()
     movie = m_controller.get(movie)
+
+    if movie is False:
+        abort(500)
+
     movie_year = movie.year.split(", ")[-1]
 
     return render_template("movies_instance.html", movie=movie, movie_year=movie_year)
 
 
 # ! Temporary, do not use in production
-@app.route("/movies/populate")
+# @app.route("/movies/populate")
 def populate_mov():
 
     p = PopulateMovies()

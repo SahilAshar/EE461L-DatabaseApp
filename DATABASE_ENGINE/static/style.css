@@ -189,6 +189,30 @@ a:hover#instance-grid-link{
   color: rgb(185, 7, 7);
 }
 
+#other-content-link{
+  font-size: 30px;
+  font-weight: normal;
+  color:white ;
+  font-style: italic;
+  text-decoration: underline;
+}
+
+a:hover#other-content-link{
+  color: rgb(7, 49, 185);
+}
+
+#license-content-link{
+  font-size: 15px;
+  font-weight: normal;
+  color:white ;
+  text-align: center;
+  text-decoration: underline;
+}
+
+a:hover#license-content-link{
+  color: rgb(7, 49, 185);
+}
+
 #img-format{
   height: 450px;
   width: auto;

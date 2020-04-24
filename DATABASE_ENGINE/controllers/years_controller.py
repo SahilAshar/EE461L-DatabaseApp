@@ -91,7 +91,8 @@ class YearController:
         wkpage = self.__set_wiki_page(ceremony_name)
 
         host, site = self.__get_host_and_site(wkpage)
-        host, site = self.__parse_host_and_site(host, site)
+        host = self.__parse_host(host)
+        site = self.__parse_site(site)
 
         ceremony_summary_str = self.__get_ceremony_summary_str(wkpage)
         image_link_str = self.__get_image_link_str(wkpage)
@@ -154,6 +155,32 @@ class YearController:
         )
 
         return paginated_years
+
+    def update_attributes_for_all_years(self):
+
+        for year in Year.objects():
+            # query_name = person.query_name
+            # wkpage = self.__set_wiki_page(query_name)
+
+            # occupation = self.__get_occupation_from_infobox(wkpage)
+            # years_active = self.__get_years_active_from_infobox(wkpage)
+
+            wkpage = self.__set_wiki_page(year.ceremony_name)
+
+            host, site = self.__get_host_and_site(wkpage)
+
+            host = self.__parse_host(host)
+            site = self.__parse_site(site)
+
+            # person = Person(occupation=occupation, years_active=years_active)
+            year.update(host=host, site=site)
+            year.reload()
+
+            try:
+                print(year.host + " | " + year.site)
+            except Exception as e:
+                message = f"Error: {e}"
+                LOGGER.exception(message)
 
     # Makes initial API call and returns a str of all awards
     # associated with a specific year
@@ -289,8 +316,48 @@ class YearController:
 
         return host, site
 
-    def __parse_host_and_site(self, host, site):
-        pass
+    def __parse_host(self, host):
+        try:
+            host = host.replace("{{", "")
+            host = host.replace("}}", "")
+            host = host.replace("[[", "")
+            host = host.replace("]]", "")
+            host = host.replace("<small>", "")
+            host = host.replace("</small>", "")
+            host = host.replace("small", "")
+            host = host.replace("|", "")
+            host = host.replace("<br />", " ")
+            host = host.replace("<br>", " ")
+            host = host.replace("&nbsp;", " ")
+            host = host.replace("{{nbsp}}", "")
+
+            return host
+        except Exception as e:
+            message = f"Error: {e}"
+            LOGGER.exception(message)
+
+    def __parse_site(self, site):
+        try:
+            site = site.replace("{{", "")
+            site = site.replace("}}", "")
+            site = site.replace("[[", "")
+            site = site.replace("]]", "")
+            site = site.replace("<small>", "")
+            site = site.replace("</small>", "")
+            site = site.replace("small", "")
+            site = site.replace("|", " ")
+            site = site.replace("<br />", " ")
+            site = site.replace("<br/>", " ")
+            site = site.replace("<br>", " ")
+            site = site.replace("{{Sfn|Cowie|1990|p|=|132}}", "")
+            site = site.replace("&nbsp;", " ")
+            site = site.replace("{{nbsp}}", "")
+            site = site.replace("{{sfn|Box Office Mojo staff}}", "")
+
+            return site
+        except Exception as e:
+            message = f"Error: {e}"
+            LOGGER.exception(message)
 
     def __get_ceremony_summary_str(self, wkpage):
 

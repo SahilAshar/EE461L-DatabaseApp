@@ -73,6 +73,14 @@
       <p id="instance-content">{{ year['ceremony_summary'] }}</p>
     </div>
     <br>
+    <div id="center-block-content">
+      <p id="instance-content">
+        <br>
+        <br>
+        Please view the <a id="other-content-link" href="{{ url_for('disclaimer') }}">disclaimer.</a>
+      </p>
+    </div>
+    <br>
     <div id="center-block">
       <p id="instance-attribute">Associated Awards</p>
     </div>
@@ -94,9 +102,23 @@
             {% endif %}
             
             {% if award['title'] == "best motion picture" or award['title'] == "best picture" %}
-              {{nominee['name']}}
+              {{ nominee['name'] }}
             {% elif award['title'] == "achievement in music written for motion pictures (original song)" or award['title'] == "music (original song)" %}
-              {{nominee['name']}}
+              {{ nominee['name'] }}
+            {% 
+              elif award['title'] == "animated feature film"
+              or award['title'] == "animated feature film" 
+              or award['title'] == "achievement in production design" 
+              or award['title'] == "writing (screenplay written directly for the screen)"
+              or award['title'] == "achievement in makeup and hairstyling"
+              or award['title'] == "documentary (feature)"
+              or award['title'] == "documentary (short subject)"
+              or award['title'] == "short film (animated)"
+              or award['title'] == "film editing"
+              or award['title'] == "achievement in sound mixing"
+              or award['title'] == "achievement in visual effects"
+            %}
+              {{ nominee['name'] }}
             {% else %}
               <a id="instance-grid-link" href="{{ url_for('people_instance', person=(nominee['name'] | replace(' ', '+') | lower ))}}">{{ nominee['name'] }}</a>
             {% endif %}

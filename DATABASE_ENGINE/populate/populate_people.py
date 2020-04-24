@@ -28,33 +28,35 @@ class PopulatePeople:
     def populate(self):
         pa_controller = PeopleAccessController()
 
-        people_file_list = [
-            "people_a.txt",
-            "people_b.txt",
-            "people_c.txt",
-            "people_d.txt",
-            "people_e.txt",
-            "people_f.txt",
-            "people_g.txt",
-            "people_h.txt",
-            "people_i.txt",
-            "people_j.txt",
-            "people_k.txt",
-            "people_l.txt",
-            "people_m.txt",
-            "people_n.txt",
-            "people_o.txt",
-            "people_p.txt",
-            "people_q.txt",
-            "people_r.txt",
-            "people_s.txt",
-            "people_t.txt",
-            "people_u.txt",
-            "people_v.txt",
-            "people_w.txt",
-            "people_y.txt",
-            "people_z.txt",
-        ]
+        # people_file_list = [
+        #     "people_a.txt",
+        #     "people_b.txt",
+        #     "people_c.txt",
+        #     "people_d.txt",
+        #     "people_e.txt",
+        #     "people_f.txt",
+        #     "people_g.txt",
+        #     "people_h.txt",
+        #     "people_i.txt",
+        #     "people_j.txt",
+        #     "people_k.txt",
+        #     "people_l.txt",
+        #     "people_m.txt",
+        #     "people_n.txt",
+        #     "people_o.txt",
+        #     "people_p.txt",
+        #     "people_q.txt",
+        #     "people_r.txt",
+        #     "people_s.txt",
+        #     "people_t.txt",
+        #     "people_u.txt",
+        #     "people_v.txt",
+        #     "people_w.txt",
+        #     "people_y.txt",
+        #     "people_z.txt",
+        # ]
+
+        people_file_list = ["all people.txt"]
 
         for people_file_name in people_file_list:
 
