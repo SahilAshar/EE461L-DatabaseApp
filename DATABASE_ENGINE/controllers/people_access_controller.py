@@ -4,6 +4,7 @@ from urllib.error import HTTPError
 
 import requests
 import wikipedia
+import wptools
 
 from .database_controller import db, upload_blob
 
@@ -14,6 +15,7 @@ from .database_controller import db, upload_blob
 """
 
 LOGGER = logging.getLogger(__name__)
+WOLFRAM_API_KEY = "RQV64G-3A2ALKAP6A"
 
 
 class Award(db.Document):
@@ -28,8 +30,20 @@ class Person(db.Document):
     name = db.StringField()
     dob = db.StringField()
     bio = db.StringField()
+    occupation = db.StringField()
+    years_active = db.StringField()
     image_link = db.StringField()
     awards = db.ListField(db.ReferenceField(Award))
+
+    meta = {
+        "indexes": [
+            {
+                "fields": ["$name", "$bio"],
+                "default_language": "english",
+                "weights": {"name": 10, "bio": 2},
+            }
+        ]
+    }
 
 
 class PeopleAccessController:
@@ -44,14 +58,18 @@ class PeopleAccessController:
 
         wkpage = self.__set_wiki_page(query_name)
 
+        occupation = self.__get_occupation_from_infobox(wkpage)
+        years_active = self.__get_years_active_from_infobox(wkpage)
+
+        occupation = self.__parse_occupation(occupation)
+        years_active = self.__parse_years_active(years_active)
+
         # Return a link to an actor's image
         actor_image_link = self.__get_image_link_str(wkpage)
 
         wiki_image_name = self.__get_wiki_image_name(actor_image_link)
 
-        actor_wikimedia_link = self.__get_and_store_image(
-            query_name, wiki_image_name, actor_image_link
-        )
+        actor_wikimedia_link = self.__get_and_store_image(query_name, actor_image_link)
 
         # Return a dict with actor name and DOB, parsed from actor_data_str
         actor_data_dict = self.__build_actor_data_dict(actor_data_str, query_name)
@@ -61,6 +79,8 @@ class PeopleAccessController:
             query_name=query_name,
             name=actor_data_dict["full name"],
             dob=actor_data_dict["date of birth"],
+            occupation=occupation,
+            years_active=years_active,
             image_link=actor_wikimedia_link,
         )
 
@@ -96,22 +116,64 @@ class PeopleAccessController:
         # You can only query one value at a time against fields, so you need
         # to query each part of the person's name and slowly narrow down options
 
-        # for i in range(0, len(name_list)):
-        #     matching_persons = Person.objects(name__icontains=name_list[i])
-
         matching_persons = Person.objects(query_name__icontains=query_name)
 
-        # print(len(matching_persons))
+        if len(matching_persons) > 0:
+            return matching_persons
+        else:
+            return False
 
-        # for person in matching_persons:
-        #     print(person.name)
+    def get_paginated_people(self, page, view):
 
-        return matching_persons
-
-    def get_paginated_people(self, page):
-        paginated_people = Person.objects.paginate(page=page, per_page=9)
+        if view == "descending":
+            paginated_people = Person.objects.order_by("-name").paginate(
+                page=page, per_page=9
+            )
+        elif view == "ascending":
+            paginated_people = Person.objects.order_by("+name").paginate(
+                page=page, per_page=9
+            )
 
         return paginated_people
+
+    def get_paginated_people_search(self, page, search):
+        paginated_people = (
+            Person.objects.search_text(search)
+            .order_by("$text_score")
+            .paginate(page=page, per_page=9)
+        )
+
+        return paginated_people
+
+    def check_if_in_db(self, query_name):
+        pass
+
+    def delete_blank_people(self):
+        blank_people = Person.objects(name__iexact="")
+        for person in blank_people:
+            person.delete()
+
+    def update_attributes_for_all_people(self):
+
+        for person in Person.objects():
+            query_name = person.query_name
+            # wkpage = self.__set_wiki_page(query_name)
+
+            # occupation = self.__get_occupation_from_infobox(wkpage)
+            # years_active = self.__get_years_active_from_infobox(wkpage)
+
+            occupation = self.__parse_occupation(person.occupation)
+            years_active = self.__parse_years_active(person.years_active)
+
+            # person = Person(occupation=occupation, years_active=years_active)
+            person.update(occupation=occupation, years_active=years_active)
+            person.reload()
+
+            try:
+                print(person.occupation + " | " + person.years_active)
+            except Exception as e:
+                message = f"Error: {e}"
+                LOGGER.exception(message)
 
     def __get_actor_data_str(self, query_name):
 
@@ -123,8 +185,11 @@ class PeopleAccessController:
                 + "&format=plaintext"
                 + "&scantimeout=15.0"
                 + "&output=JSON"
-                + "&appid=9U487H-VALXT3HLLQ"
+                + "&appid="
+                + WOLFRAM_API_KEY
             ).json()
+
+            print(actor_data_json)
 
             actor_data_str = actor_data_json["queryresult"]["pods"][0]["subpods"][0][
                 "plaintext"
@@ -144,18 +209,23 @@ class PeopleAccessController:
         if data_str == "":
             return data_dict
 
-        data_list = list(data_str.split("\n"))
-        for data in data_list:
-            data_str_list = list(data.split(" | "))
-            if len(data_str_list) == 2:
-                data_dict[data_str_list[0]] = data_str_list[1]
-            else:
-                data_dict[data_str_list[0]] = ""
+        try:
+            data_list = list(data_str.split("\n"))
+            for data in data_list:
+                data_str_list = list(data.split(" | "))
+                if len(data_str_list) == 2:
+                    data_dict[data_str_list[0]] = data_str_list[1]
+                else:
+                    data_dict[data_str_list[0]] = ""
 
-        if data_dict["full name"] == "":
-            data_dict["full name"] = query_name.replace("+", " ")
+            if data_dict["full name"] == "":
+                data_dict["full name"] = query_name.replace("+", " ")
 
-        return data_dict
+            return data_dict
+        except Exception as e:
+            message = f"Error: {e}"
+            LOGGER.exception(message)
+            return data_dict
 
     def __get_actor_bio_str(self, query_name):
 
@@ -167,7 +237,8 @@ class PeopleAccessController:
                 + "&format=plaintext"
                 + "&scantimeout=15.0"
                 + "&output=JSON"
-                + "&appid=9U487H-VALXT3HLLQ"
+                + "&appid="
+                + WOLFRAM_API_KEY
             ).json()
 
             actor_bio_str = actor_bio_json["queryresult"]["pods"][0]["subpods"][0][
@@ -189,8 +260,10 @@ class PeopleAccessController:
                 + query_name
                 + "&includepodid=CrossPeopleData:AcademyAwardData"
                 + "&format=plaintext"
+                + "&scantimeout=15.0"
                 + "&output=JSON"
-                + "&appid=9U487H-VALXT3HLLQ"
+                + "&appid="
+                + WOLFRAM_API_KEY
             ).json()
 
             # TODO: If numpods = 0, then they've won zero awards. Need to handle that case.
@@ -259,32 +332,87 @@ class PeopleAccessController:
         return new_award
 
     def __set_wiki_page(self, query_name):
-        name = query_name.replace("+", " ")
-        result = wikipedia.search(name, results=1)
-        wikipedia.set_lang("en")
-        wkpage = wikipedia.WikipediaPage(title=result[0])
 
-        return wkpage
+        try:
+            name = query_name.replace("+", " ")
+            result = wikipedia.search(name, results=1)
+            wikipedia.set_lang("en")
+            wkpage = wikipedia.WikipediaPage(title=result[0])
+
+            return wkpage
+
+        except Exception as e:
+            message = f"Error: {e}"
+            LOGGER.exception(message)
+            return ""
+
+    def __get_occupation_from_infobox(self, wkpage):
+
+        occupation = "n/a"
+
+        try:
+            awards_page = wptools.page(wkpage.title).get_parse()
+            infobox = awards_page.data["infobox"]
+            occupation = infobox["occupation"]
+        except Exception as e:
+            message = f"Error: {e}"
+            LOGGER.exception(message)
+
+        return occupation
+
+    def __get_years_active_from_infobox(self, wkpage):
+
+        years_active = "n/a"
+
+        try:
+            awards_page = wptools.page(wkpage.title).get_parse()
+            infobox = awards_page.data["infobox"]
+            years_active = infobox["years_active"]
+        except Exception as e:
+            message = f"Error: {e}"
+            LOGGER.exception(message)
+
+        return years_active
+
+    def __parse_occupation(self, occupation):
+
+        try:
+            occupation = occupation.replace("{{", "")
+            occupation = occupation.replace("}}", "")
+            occupation = occupation.replace("[[", "")
+            occupation = occupation.replace("]]", "")
+            occupation = occupation.replace(
+                "|<!--DO NOT REMOVE. See [[Talk:Alec Baldwin#Comedian?]] for more details.-->|",
+                "",
+            )
+            occupation = occupation.replace("plainlist| *", "")
+            occupation = occupation.replace("flatlist| * ", "")
+            occupation = occupation.replace("hlist|", "")
+            occupation = occupation.replace("|", ", ")
+            occupation = occupation.replace("* ", ", ")
+            occupation = occupation.replace(" *", ", ")
+            occupation = occupation.replace("<br>", ", ")
+            occupation = occupation.replace("flatlist", "")
+            occupation = occupation.replace(" ,", ", ")
+
+            return occupation
+        except Exception as e:
+            message = f"Error: {e}"
+            LOGGER.exception(message)
+
+    def __parse_years_active(self, years_active):
+
+        try:
+            years_active = years_active.replace("&ndash;", "-")
+
+            return years_active
+        except Exception as e:
+            message = f"Error: {e}"
+            LOGGER.exception(message)
 
     def __get_image_link_str(self, wkpage):
 
         try:
-            # actor_image_json = requests.get(
-            #     "https://api.wolframalpha.com/v2/query?input="
-            #     + query_name
-            #     + "&includepodid=Image:PeopleData"
-            #     + "&format=plaintext"
-            #     + "&scantimeout=15.0"
-            #     + "&output=JSON"
-            #     + "&appid=9U487H-VALXT3HLLQ"
-            # ).json()
-
-            # actor_image_str = actor_image_json["queryresult"]["pods"][0]["subpods"][0][
-            #     "imagesource"
-            # ]
-
-            # return actor_image_str
-
             image_info_json = requests.get(
                 "https://en.wikipedia.org/w/api.php?action=query"
                 + "&format=json"
@@ -312,34 +440,11 @@ class PeopleAccessController:
             LOGGER.exception(message)
             return ""
 
-    def __get_and_store_image(self, query_name, wiki_image_name, image_link_str):
-        print(wiki_image_name)
+    def __get_and_store_image(self, query_name, image_link_str):
 
         try:
-            if wiki_image_name == "":
-                raise KeyError
-
-            file_name = wiki_image_name
-
-            print(file_name)
-
-            # os.system(
-            #     "download_from_Wikimedia_Commons "
-            #     + "'"
-            #     + file_name
-            #     + "'"
-            #     + " --output ./temp/people/ --width 300"
-            # )
-
-            file_name = file_name.replace(".JPG", ".jpg")
-            r = requests.get(image_link_str, allow_redirects=True)
-            open("./temp/people/" + file_name, "wb").write(r.content)
-
-            # file_name = file_name.replace(".JPG", ".jpg")
-
-            upload_blob("people-images", "./temp/people/" + file_name + "", query_name)
-
-            return "https://storage.googleapis.com/people-images/" + query_name
+            print(image_link_str)
+            return image_link_str
 
         except Exception as e:
             message = f"Error: {e}"

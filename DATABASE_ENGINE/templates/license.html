@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+        <!-- local stylesheeht reference -->
+        <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+
+    <body>
+        <!-- Navbar Code -->
+        <nav class="navbar navbar-expand-lg">
+            <a class="navbar-brand" href="#">
+            <img src="{{ url_for('static', filename='oscars_logo.png') }}" alt="OSCARS LOGO" width="138" height="72" />
+            </a>
+
+            <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#supportedContent"
+            aria-controls="supportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="supportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('root') }}">Splash<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('year_root') }}">Ceremonies</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('people_root') }}">People</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('movies_root') }}">Movies</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('about') }}">About</a>
+                </li>
+            </ul>
+            </div>
+        </nav>
+    <!-- End Navbar Code -->
+        <div>
+            <p class="model-title">LICENSE</p>
+        </div>
+        <div id="center-block-content">
+            <p id="instance-content">
+                THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS CREATIVE COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). 
+                THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW. 
+                ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE OR COPYRIGHT LAW IS PROHIBITED.
+                BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. 
+                TO THE EXTENT THIS LICENSE MAY BE CONSIDERED TO BE A CONTRACT, 
+                THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND CONDITIONS. 
+
+                See the full terms of the Wikipedia Creative Commons license utilized <a id="other-content-link" href="https://en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License">here.</a>
+            </p>
+        </div>
+
+    </body>
+</html>

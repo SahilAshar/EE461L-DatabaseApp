@@ -4,6 +4,7 @@ from urllib.error import HTTPError
 
 import requests
 import wikipedia
+import wptools
 
 from .database_controller import db, upload_blob
 
@@ -14,6 +15,7 @@ from .database_controller import db, upload_blob
 """
 
 LOGGER = logging.getLogger(__name__)
+WOLFRAM_API_KEY = "RQV64G-3A2ALKAP6A"
 
 
 class Nominee(db.Document):
@@ -30,10 +32,33 @@ class YearAward(db.Document):
 class Year(db.Document):
     ceremony_name = db.StringField()
     query_ceremony = db.StringField()
-    year = db.StringField()
+    movies_year = db.StringField()
+    hosted_year = db.StringField()
+    host = db.StringField()
+    site = db.StringField()
     ceremony_summary = db.StringField()
     image_link = db.StringField()
     awards = db.ListField(db.ReferenceField(YearAward))
+
+    meta = {
+        "indexes": [
+            {
+                "fields": [
+                    "$ceremony_name",
+                    "$movies_year",
+                    "$hosted_year",
+                    "$ceremony_summary",
+                ],
+                "default_language": "english",
+                "weights": {
+                    "ceremony_name": 10,
+                    "movies_year": 2,
+                    "hosted_year": 2,
+                    "ceremony_summary": 5,
+                },
+            }
+        ]
+    }
 
 
 class YearController:
@@ -45,10 +70,11 @@ class YearController:
     # TODO: Make POST uneccesary by abstracting Award logic elsewhere
     def post(self, ceremony_name, year):
 
-        year_num = str(year)
+        hosted_year = str(int(year) + 1)
+        movies_year = str(year)
 
         # Return a string, delimited by \n, that gives actor name and DOB
-        all_year_awards_str = self.__get_all_year_awards_str(year_num)
+        all_year_awards_str = self.__get_all_year_awards_str(hosted_year)
 
         # Return a list of all award strings from the all_year_awards_str
         all_year_awards_str_list = self.__get_all_year_awards_str_list(
@@ -64,6 +90,10 @@ class YearController:
 
         wkpage = self.__set_wiki_page(ceremony_name)
 
+        host, site = self.__get_host_and_site(wkpage)
+        host = self.__parse_host(host)
+        site = self.__parse_site(site)
+
         ceremony_summary_str = self.__get_ceremony_summary_str(wkpage)
         image_link_str = self.__get_image_link_str(wkpage)
 
@@ -75,7 +105,10 @@ class YearController:
         year = Year(
             ceremony_name=ceremony_name,
             query_ceremony=query_ceremony,
-            year=year,
+            movies_year=movies_year,
+            hosted_year=hosted_year,
+            host=host,
+            site=site,
             ceremony_summary=ceremony_summary_str,
             image_link=wiki_image_link,
             awards=year_award_list,
@@ -93,10 +126,61 @@ class YearController:
 
         return matching_years
 
-    def get_paginated_years(self, page):
-        paginated_years = Year.objects.order_by("year").paginate(page=page, per_page=9)
+    def get_ceremony_name_by_year(self, query_year):
+
+        query_year = str(int(query_year) + 1)
+
+        matching_years = Year.objects(hosted_year__iexact=query_year).get()
+        return matching_years.query_ceremony
+
+    def get_paginated_years(self, page, view):
+
+        if view == "descending":
+            paginated_years = Year.objects.order_by("-hosted_year").paginate(
+                page=page, per_page=9
+            )
+        elif view == "ascending":
+            paginated_years = Year.objects.order_by("+hosted_year").paginate(
+                page=page, per_page=9
+            )
 
         return paginated_years
+
+    def get_paginated_years_search(self, page, search):
+
+        paginated_years = (
+            Year.objects.search_text(search)
+            .order_by("$text_score")
+            .paginate(page=page, per_page=9)
+        )
+
+        return paginated_years
+
+    def update_attributes_for_all_years(self):
+
+        for year in Year.objects():
+            # query_name = person.query_name
+            # wkpage = self.__set_wiki_page(query_name)
+
+            # occupation = self.__get_occupation_from_infobox(wkpage)
+            # years_active = self.__get_years_active_from_infobox(wkpage)
+
+            wkpage = self.__set_wiki_page(year.ceremony_name)
+
+            host, site = self.__get_host_and_site(wkpage)
+
+            host = self.__parse_host(host)
+            site = self.__parse_site(site)
+
+            # person = Person(occupation=occupation, years_active=years_active)
+            year.update(host=host, site=site)
+            year.reload()
+
+            try:
+                print(year.host + " | " + year.site)
+            except Exception as e:
+                message = f"Error: {e}"
+                LOGGER.exception(message)
 
     # Makes initial API call and returns a str of all awards
     # associated with a specific year
@@ -112,7 +196,8 @@ class YearController:
             + "&format=plaintext"
             + "&output=JSON"
             + "&scantimeout=30.0"
-            + "&appid=9U487H-VALXT3HLLQ"
+            + "&appid="
+            + WOLFRAM_API_KEY
         ).json()
 
         all_year_awards_str = all_year_awards_json["queryresult"]["pods"][0]["subpods"][
@@ -215,20 +300,70 @@ class YearController:
 
         return wkpage
 
+    def __get_host_and_site(self, wkpage):
+
+        host = "n/a"
+        site = ""
+
+        try:
+            awards_page = wptools.page(wkpage.title).get_parse()
+            infobox = awards_page.data["infobox"]
+            site = infobox["site"]
+            host = infobox["host"]
+        except Exception as e:
+            message = f"Error: {e}"
+            LOGGER.exception(message)
+
+        return host, site
+
+    def __parse_host(self, host):
+        try:
+            host = host.replace("{{", "")
+            host = host.replace("}}", "")
+            host = host.replace("[[", "")
+            host = host.replace("]]", "")
+            host = host.replace("<small>", "")
+            host = host.replace("</small>", "")
+            host = host.replace("small", "")
+            host = host.replace("|", "")
+            host = host.replace("<br />", " ")
+            host = host.replace("<br>", " ")
+            host = host.replace("&nbsp;", " ")
+            host = host.replace("{{nbsp}}", "")
+
+            return host
+        except Exception as e:
+            message = f"Error: {e}"
+            LOGGER.exception(message)
+
+    def __parse_site(self, site):
+        try:
+            site = site.replace("{{", "")
+            site = site.replace("}}", "")
+            site = site.replace("[[", "")
+            site = site.replace("]]", "")
+            site = site.replace("<small>", "")
+            site = site.replace("</small>", "")
+            site = site.replace("small", "")
+            site = site.replace("|", " ")
+            site = site.replace("<br />", " ")
+            site = site.replace("<br/>", " ")
+            site = site.replace("<br>", " ")
+            site = site.replace("{{Sfn|Cowie|1990|p|=|132}}", "")
+            site = site.replace("&nbsp;", " ")
+            site = site.replace("{{nbsp}}", "")
+            site = site.replace("{{sfn|Box Office Mojo staff}}", "")
+
+            return site
+        except Exception as e:
+            message = f"Error: {e}"
+            LOGGER.exception(message)
+
     def __get_ceremony_summary_str(self, wkpage):
 
         return wkpage.summary
 
-    def __build_ceremony_summary(self, ceremony_summary_str):
-        return None
-
     def __get_image_link_str(self, wkpage):
-
-        # ordinal_num = wkpage.title.split(" ")[0]
-
-        # for image in wkpage.images:
-        #     if ordinal_num in image:
-        #         return image
 
         image_info_json = requests.get(
             "https://en.wikipedia.org/w/api.php?action=query"
@@ -258,44 +393,46 @@ class YearController:
             return ""
 
     def __get_and_store_image(self, query_ceremony, wiki_image_name, image_link_str):
-        print(wiki_image_name)
 
         try:
-            if wiki_image_name == "":
-                raise KeyError
-
-            file_name = wiki_image_name
-
-            print(file_name)
-
-            # os.system(
-            #     "download_from_Wikimedia_Commons "
-            #     + "'"
-            #     + file_name
-            #     + "'"
-            #     + " --output ./temp/years/ --width 300"
-            # )
-
-            r = requests.get(image_link_str, allow_redirects=True)
-            open("./temp/years/" + file_name, "wb").write(r.content)
-
-            file_name = file_name.replace(".JPG", ".jpg")
-
-            upload_blob(
-                "ceremony-images-databaseengine",
-                "./temp/years/" + file_name + "",
-                query_ceremony,
-            )
-
-            return (
-                "https://storage.googleapis.com/ceremony-images-databaseengine/"
-                + query_ceremony
-            )
+            print(image_link_str)
+            return image_link_str
 
         except Exception as e:
             message = f"Error: {e}"
             LOGGER.exception(message)
             return ""
+
+        # print(wiki_image_name)
+
+        # try:
+        #     if wiki_image_name == "":
+        #         raise KeyError
+
+        #     file_name = wiki_image_name
+
+        #     print(file_name)
+
+        #     r = requests.get(image_link_str, allow_redirects=True)
+        #     open("./temp/years/" + file_name, "wb").write(r.content)
+
+        #     file_name = file_name.replace(".JPG", ".jpg")
+
+        #     upload_blob(
+        #         "ceremony-images-databaseengine",
+        #         "./temp/years/" + file_name + "",
+        #         query_ceremony,
+        #     )
+
+        #     return (
+        #         "https://storage.googleapis.com/ceremony-images-databaseengine/"
+        #         + query_ceremony
+        #     )
+
+        # except Exception as e:
+        #     message = f"Error: {e}"
+        #     LOGGER.exception(message)
+        #     return ""
 
 
 if __name__ == "__main__":

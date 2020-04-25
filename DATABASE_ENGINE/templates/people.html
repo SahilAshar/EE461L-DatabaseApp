@@ -38,10 +38,7 @@
           <a class="nav-link" href="{{ url_for('root') }}">Splash<span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('year_root') }}">Years</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('award_root') }}">Awards</a>
+          <a class="nav-link" href="{{ url_for('year_root') }}">Ceremonies</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('people_root') }}">People</a>
@@ -53,6 +50,67 @@
           <a class="nav-link" href="{{ url_for('about') }}">About</a>
         </li>
       </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Filter
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <form action="{{ url_for('people_filter_helper') }}" method="POST">
+              <fieldset>
+                <label id="filter-label" class="container">Ascending
+                  <input type="radio" checked="checked" name="radio" value="ascending">
+                  <span class="checkmark"></span>
+                </label>
+                <label id="filter-label" class="container">Descending
+                  <input type="radio" name="radio" value="descending">
+                  <span class="checkmark"></span>
+                </label>
+                <br>
+                <div class="custom-select" multiple="multiple" style="width:200px;">
+                  <select id="select-filter">
+                    <option value="0">Select Letter:</option>
+                    <option value="1">A</option>
+                    <option value="2">B</option>
+                    <option value="3">C</option>
+                    <option value="4">D</option>
+                    <option value="5">E</option>
+                    <option value="6">F</option>
+                    <option value="7">G</option>
+                    <option value="8">H</option>
+                    <option value="9">I</option>
+                    <option value="10">J</option>
+                    <option value="11">K</option>
+                    <option value="13">L</option>
+                    <option value="14">M</option>
+                    <option value="15">N</option>
+                    <option value="16">O</option>
+                    <option value="17">P</option>
+                    <option value="18">Q</option>
+                    <option value="19">R</option>
+                    <option value="20">S</option>
+                    <option value="21">T</option>
+                    <option value="22">U</option>
+                    <option value="23">V</option>
+                    <option value="24">W</option>
+                    <option value="25">X</option>
+                    <option value="26">Y</option>
+                    <option value="27">Z</option>
+                  </select>
+                </div>
+                <br>
+                <br>
+                <input id="filter-button" type="submit" value="Filter">
+                <br>
+              </fieldset>
+            </form>
+          </div>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0" action = "{{ url_for('people_search_helper') }}" method = "POST">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search People" aria-label="Search" name="search_text">
+        <button class="button" type="submit">Search</button>
+      </form>
     </div>
   </nav>
   <!-- End Navbar Code -->
@@ -70,14 +128,19 @@
         <div class="grid-item">
           <div class="card" >
             <!-- We will replace image below with image of each actor -->
-            <a class="card-title" href="{{'/people/%s'%person.query_name }}">{{ person.name }}</a>
+            <a class="card-title" href="{{ url_for('people_instance', person=person.query_name) }}">{{ person.name }}</a>
             <div id="center-block">
-              <img class="card-img-top" src="{{ person.image_link }}" alt="Actor Pic">
+              {% if person.image_link == ""%}
+                <img class="card-img-top" src="{{ url_for('static', filename='default-pic.jpg') }}" alt="Actor pic"/>
+              {% else %}
+                <img class="card-img-top" src="{{ person.image_link }}" alt="Actor Pic">
+              {% endif %}
             </div>
             
             <ul class="list-group list-group-flush">
               <li class="list-group-item bg-transparent">Date of Birth: {{person.dob.split("(")[0]}}</li>
-              <li class="list-group-item bg-transparent">person position (actor, director, etc.)</li>
+              <li class="list-group-item bg-transparent">Occupation: {{ person.occupation }}</li>
+              <li class="list-group-item bg-transparent">Years Active: {{ person.years_active }}</li>
             </ul>
           </div>
         </div>
@@ -91,12 +154,12 @@
   {% macro render_navigation(pagination, endpoint) %}
   <div class=pagination id="center-block">
     {% if pagination.page != 1%}
-      <a id="page-numbers" href="{{ url_for(endpoint, page=pagination.page-1) }}">previous</a>
+      <a id="page-numbers" href="{{ url_for(endpoint, page=pagination.page-1, view=view) }}">previous</a>
     {% endif%}
       {% for page in pagination.iter_pages() %}
         {% if page %}
           {% if page != pagination.page %}
-            <a id="page-numbers" href="{{ url_for(endpoint, page=page) }}">{{ page }}</a>
+            <a id="page-numbers" href="{{ url_for(endpoint, page=page, view=view) }}">{{ page }}</a>
           {% else %}
             <strong id="selected-page">{{ page }}</strong>
           {% endif %}
@@ -105,7 +168,7 @@
         {% endif %} 
       {% endfor %}
       {% if pagination.page != pagination.pages %}
-        <a id="page-numbers" href="{{ url_for(endpoint, page=pagination.page+1) }}">next</a>
+        <a id="page-numbers" href="{{ url_for(endpoint, page=pagination.page+1, view=view) }}">next</a>
       {% endif %}
   </div>
   {% endmacro %}
