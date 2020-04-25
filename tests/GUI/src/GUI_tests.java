@@ -265,3 +265,139 @@ public class GUI_tests {
         wd.quit(); // close the browser window
     }
 }
+
+/* Add new tests starting here
+*
+*/
+
+    @Test
+    public void ceremonies_people() throws InterruptedException {
+        System.setProperty("webdriver.gecko.driver", "tests/GUI/geckodriver.exe");
+        WebDriver wd = new FirefoxDriver(); // launch the browser
+        wd.get("https://databaseengine.appspot.com/");
+        WebElement we = wd.findElement(By.xpath("//*[contains(text(),'Splash')]"));
+        we.click(); //click the button
+        TimeUnit.SECONDS.sleep(2);
+        we = wd.findElement(By.xpath("//*[contains(text(),'Ceremonies')]"));
+        we.click(); //click the button
+        TimeUnit.SECONDS.sleep(2);
+        we = wd.findElement(By.xpath("//*[contains(text(),'92nd Academy Awards')]"));
+        we.click(); //click the button
+        TimeUnit.SECONDS.sleep(2);
+        we = wd.findElement(By.xpath("//*[contains(text(),'People')]"));
+        we.click(); //click the button
+        TimeUnit.SECONDS.sleep(2);
+        we = wd.findElement(By.xpath("//*[contains(text(),'Abem Finkle')]"));
+        we.click(); //click the button
+        TimeUnit.SECONDS.sleep(2);
+        we = wd.findElement(By.xpath("//*[contains(text(),'About')]"));
+        we.click(); //click the button
+        TimeUnit.SECONDS.sleep(2);
+        wd.quit(); // close the browser window
+    }
+
+    @Test
+      public void people_ceremonies() throws InterruptedException {
+        System.setProperty("webdriver.gecko.driver", "tests/GUI/geckodriver.exe");
+        WebDriver wd = new FirefoxDriver(); // launch the browser
+        wd.get("https://databaseengine.appspot.com/");
+        WebElement we = wd.findElement(By.xpath("//*[contains(text(),'Splash')]"));
+        we.click(); //click the button
+        TimeUnit.SECONDS.sleep(2);
+        we = wd.findElement(By.xpath("//*[contains(text(),'People')]"));
+        we.click(); //click the button
+        TimeUnit.SECONDS.sleep(2);
+        we = wd.findElement(By.xpath("//*[contains(text(),'Abem Finkle')]"));
+        we.click(); //click the button
+        TimeUnit.SECONDS.sleep(2);
+        we = wd.findElement(By.xpath("//*[contains(text(),'Ceremonies')]"));
+        we.click(); //click the button
+        TimeUnit.SECONDS.sleep(2);
+        we = wd.findElement(By.xpath("//*[contains(text(),'92nd Academy Awards')]"));
+        we.click(); //click the button
+        TimeUnit.SECONDS.sleep(2);
+        we = wd.findElement(By.xpath("//*[contains(text(),'About')]"));
+        we.click(); //click the button
+        TimeUnit.SECONDS.sleep(2);
+        wd.quit(); // close the browser window
+    }
+
+        @Test
+      public void ceremonies_people() throws InterruptedException {
+        System.setProperty("webdriver.gecko.driver", "tests/GUI/geckodriver.exe");
+        WebDriver wd = new FirefoxDriver(); // launch the browser
+        wd.get("https://databaseengine.appspot.com/");
+        WebElement we = wd.findElement(By.xpath("//*[contains(text(),'Splash')]"));
+        we.click(); //click the button
+        TimeUnit.SECONDS.sleep(2);
+        we = wd.findElement(By.xpath("//*[contains(text(),'People')]"));
+        we.click(); //click the button
+        TimeUnit.SECONDS.sleep(2);
+        we = wd.findElement(By.xpath("//*[contains(text(),'Abem Finkle')]"));
+        we.click(); //click the button
+        TimeUnit.SECONDS.sleep(2);
+        we = wd.findElement(By.xpath("//*[contains(text(),'Ceremonies')]"));
+        we.click(); //click the button
+        TimeUnit.SECONDS.sleep(2);
+        we = wd.findElement(By.xpath("//*[contains(text(),'92nd Academy Awards')]"));
+        we.click(); //click the button
+        TimeUnit.SECONDS.sleep(2);
+        we = wd.findElement(By.xpath("//*[contains(text(),'About')]"));
+        we.click(); //click the button
+        TimeUnit.SECONDS.sleep(2);
+        wd.quit(); // close the browser window
+    }
+
+            @Test
+      public void movies_ceremonies() throws InterruptedException {
+        System.setProperty("webdriver.gecko.driver", "tests/GUI/geckodriver.exe");
+        WebDriver wd = new FirefoxDriver(); // launch the browser
+        wd.get("https://databaseengine.appspot.com/");
+        WebElement we = wd.findElement(By.xpath("//*[contains(text(),'Splash')]"));
+        we.click(); //click the button
+        TimeUnit.SECONDS.sleep(2);
+        we = wd.findElement(By.xpath("//*[contains(text(),'Ceremonies')]"));
+        we.click(); //click the button
+        TimeUnit.SECONDS.sleep(2);
+        we = wd.findElement(By.xpath("//*[contains(text(),'1st Academy Awards')]"));
+        we.click(); //click the button
+        TimeUnit.SECONDS.sleep(2);
+        we = wd.findElement(By.xpath("//*[contains(text(),'Movies')]"));
+        we.click(); //click the button
+        TimeUnit.SECONDS.sleep(2);
+        we = wd.findElement(By.xpath("//*[contains(text(),'Wonder Boys')]"));
+        we.click(); //click the button
+        TimeUnit.SECONDS.sleep(2);
+        we = wd.findElement(By.xpath("//*[contains(text(),'About')]"));
+        we.click(); //click the button
+        TimeUnit.SECONDS.sleep(2);
+        wd.quit(); // close the browser window
+    }
+
+                @Test
+      public void ceremonies_movies throws InterruptedException {
+        System.setProperty("webdriver.gecko.driver", "tests/GUI/geckodriver.exe");
+        WebDriver wd = new FirefoxDriver(); // launch the browser
+        wd.get("https://databaseengine.appspot.com/");
+        WebElement we = wd.findElement(By.xpath("//*[contains(text(),'Splash')]"));
+        we.click(); //click the button
+        TimeUnit.SECONDS.sleep(2);
+        we = wd.findElement(By.xpath("//*[contains(text(),'Movies')]"));
+        we.click(); //click the button
+        TimeUnit.SECONDS.sleep(2);
+        we = wd.findElement(By.xpath("//*[contains(text(),'Wonder Boys')]"));
+        we.click(); //click the button
+        TimeUnit.SECONDS.sleep(2);
+        we = wd.findElement(By.xpath("//*[contains(text(),'Ceremonies')]"));
+        we.click(); //click the button
+        TimeUnit.SECONDS.sleep(2);
+        we = wd.findElement(By.xpath("//*[contains(text(),'1st Academy Awards')]"));
+        we.click(); //click the button
+        TimeUnit.SECONDS.sleep(2);
+        we = wd.findElement(By.xpath("//*[contains(text(),'About')]"));
+        we.click(); //click the button
+        TimeUnit.SECONDS.sleep(2);
+        wd.quit(); // close the browser window
+    }
+
+
