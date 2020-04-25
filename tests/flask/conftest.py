@@ -15,6 +15,9 @@ from DATABASE_ENGINE.controllers.awards_controller import AwardController
 from DATABASE_ENGINE.controllers.people_access_controller import PeopleAccessController
 from DATABASE_ENGINE.controllers.people_access_controller import Person
 
+from DATABASE_ENGINE.controllers.movie_controller import MovieController
+from DATABASE_ENGINE.controllers.movie_controller import Movie
+
 #python -m pytest tests/    --- to run test from root folder.2..
 
 
@@ -84,3 +87,8 @@ def make_awards_controller():
     test_awardcontroller = AwardController()
     return test_awardcontroller
 
+# make movies controller
+@pytest.fixture()
+def make_movies_controller():
+    test_movcontroller = MovieController()
+    return test_movcontroller
