@@ -29,21 +29,21 @@ https://databaseengine.appspot.com/
 * ### Sahil Ashar
   (hours : 15)
 * ### Austin Blanchard
-  (hours : 10)
+  (hours : 15)
 * ### Noah Lisk
-  (hours : 10)
+  (hours : 5)
 * ### Natasha Long
   (hours : 10)
 * ### Carolyn Sheehy
-  (hours : 10)
+  (hours : 15)
 ## Actual Completion Time
 * ### Sahil Ashar
-  (hours : 23)
+  (hours : 30)
 * ### Austin Blanchard
-  (hours : 15)
+  (hours : 20)
 * ### Noah Lisk
   (hours : 5)
 * ### Natasha Long
   (hours : 7)
 * ### Carolyn Sheehy
-  (hours : 7)
+  (hours : 23)
