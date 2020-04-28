@@ -1,12 +1,13 @@
 import logging
-import os
-from urllib.error import HTTPError
 
 import requests
 import wikipedia
 import wptools
 
-from .database_controller import db, upload_blob
+from documents.people_documents import Award, Person
+
+LOGGER = logging.getLogger(__name__)
+WOLFRAM_API_KEY = "RQV64G-3A2ALKAP6A"
 
 """
     Design Choices
@@ -14,42 +15,10 @@ from .database_controller import db, upload_blob
         strings for specifc values within a string
 """
 
-LOGGER = logging.getLogger(__name__)
-WOLFRAM_API_KEY = "RQV64G-3A2ALKAP6A"
 
+class PeopleParser:
+    def parse(self, name):
 
-class Award(db.Document):
-    title = db.StringField()
-    winner = db.StringField()
-    movie = db.StringField()
-    year = db.StringField()
-
-
-class Person(db.Document):
-    query_name = db.StringField(required=True)
-    name = db.StringField()
-    dob = db.StringField()
-    bio = db.StringField()
-    occupation = db.StringField()
-    years_active = db.StringField()
-    image_link = db.StringField()
-    awards = db.ListField(db.ReferenceField(Award))
-
-    meta = {
-        "indexes": [
-            {
-                "fields": ["$name", "$bio"],
-                "default_language": "english",
-                "weights": {"name": 10, "bio": 2},
-            }
-        ]
-    }
-
-
-class PeopleAccessController:
-    # POST Request (Update Request)
-    # Update the database
-    def post(self, name):
         # Make it a queryable string for the WolframAlpha API
         query_name = name.replace("-", "+")
 
@@ -66,8 +35,6 @@ class PeopleAccessController:
 
         # Return a link to an actor's image
         actor_image_link = self.__get_image_link_str(wkpage)
-
-        wiki_image_name = self.__get_wiki_image_name(actor_image_link)
 
         actor_wikimedia_link = self.__get_and_store_image(query_name, actor_image_link)
 
@@ -87,9 +54,6 @@ class PeopleAccessController:
         # Assign bio to actor through API call
         actor.bio = self.__get_actor_bio_str(query_name)
 
-        # Save before implementing adding awards portion
-        actor.save()
-
         # Return a string, delimited by \n, that gives all awards won by an actor
         actor_awards_str = self.__get_actor_awards_str(query_name)
 
@@ -102,65 +66,16 @@ class PeopleAccessController:
         # Append list of Award documents to Actor document
         actor.awards = awards_list
 
-        actor.save()
-
-        # ! USED ONLY FOR TESTING
         return actor
-
-    def get(self, query_name):
-
-        # Query all Person documents for names that contain our
-        # query_name string. Case insensive.
-        query_name = query_name.replace("-", "+")
-
-        # You can only query one value at a time against fields, so you need
-        # to query each part of the person's name and slowly narrow down options
-
-        matching_persons = Person.objects(query_name__icontains=query_name)
-
-        if len(matching_persons) > 0:
-            return matching_persons
-        else:
-            return False
-
-    def get_paginated_people(self, page, view):
-
-        if view == "descending":
-            paginated_people = Person.objects.order_by("-name").paginate(
-                page=page, per_page=9
-            )
-        elif view == "ascending":
-            paginated_people = Person.objects.order_by("+name").paginate(
-                page=page, per_page=9
-            )
-
-        return paginated_people
-
-    def get_paginated_people_search(self, page, search):
-        paginated_people = (
-            Person.objects.search_text(search)
-            .order_by("$text_score")
-            .paginate(page=page, per_page=9)
-        )
-
-        return paginated_people
-
-    def check_if_in_db(self, query_name):
-        pass
-
-    def delete_blank_people(self):
-        blank_people = Person.objects(name__iexact="")
-        for person in blank_people:
-            person.delete()
 
     def update_attributes_for_all_people(self):
 
         for person in Person.objects():
             query_name = person.query_name
-            # wkpage = self.__set_wiki_page(query_name)
+            wkpage = self.__set_wiki_page(query_name)
 
-            # occupation = self.__get_occupation_from_infobox(wkpage)
-            # years_active = self.__get_years_active_from_infobox(wkpage)
+            occupation = self.__get_occupation_from_infobox(wkpage)
+            years_active = self.__get_years_active_from_infobox(wkpage)
 
             occupation = self.__parse_occupation(person.occupation)
             years_active = self.__parse_years_active(person.years_active)
@@ -300,7 +215,6 @@ class PeopleAccessController:
         for award_str in actor_awards_list:
             award_list.append(self.__build_award_doc(award_str))
 
-        # print(str(award_list[0]))
         return award_list
 
     def __build_award_doc(self, award_str):
@@ -432,14 +346,6 @@ class PeopleAccessController:
             LOGGER.exception(message)
             return ""
 
-    def __get_wiki_image_name(self, image_link_str):
-        try:
-            return image_link_str.split("/")[-1]
-        except Exception as e:
-            message = f"Error: {e}"
-            LOGGER.exception(message)
-            return ""
-
     def __get_and_store_image(self, query_name, image_link_str):
 
         try:
@@ -450,8 +356,3 @@ class PeopleAccessController:
             message = f"Error: {e}"
             LOGGER.exception(message)
             return ""
-
-
-if __name__ == "__main__":
-    pa_controller = PeopleAccessController()
-    people = pa_controller.get("rami-malek")

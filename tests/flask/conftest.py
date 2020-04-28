@@ -6,19 +6,19 @@ from DATABASE_ENGINE.controllers.about_controller import issues
 from DATABASE_ENGINE.controllers.about_controller import commits
 from DATABASE_ENGINE.controllers.about_controller import AboutController
 
-from DATABASE_ENGINE.controllers.years_controller import YearController
+from DATABASE_ENGINE.controllers.ceremonies_controller import CeremoniesController
 
 from DATABASE_ENGINE.controllers.database_controller import initialize_db
 
 from DATABASE_ENGINE.controllers.awards_controller import AwardController
 
-from DATABASE_ENGINE.controllers.people_access_controller import PeopleAccessController
+from DATABASE_ENGINE.controllers.people_controller import PeopleController
 from DATABASE_ENGINE.controllers.people_access_controller import Person
 
-from DATABASE_ENGINE.controllers.movie_controller import MovieController
-from DATABASE_ENGINE.controllers.movie_controller import Movie
+from DATABASE_ENGINE.controllers.movies_controller import MoviesController
+from DATABASE_ENGINE.documents.movies_documents import Movie
 
-#python -m pytest tests/    --- to run test from root folder.2..
+# python -m pytest tests/    --- to run test from root folder.2..
 
 
 """
@@ -37,11 +37,13 @@ def app():
     initialize_db(app)
     return app
 
+
 # make people controller
 @pytest.fixture
-def make_pa_controller():
-    test_pacontroller = PeopleAccessController()
+def make_p_controller():
+    test_pacontroller = PeopleController()
     return test_pacontroller
+
 
 # rami malek Person object for testing
 @pytest.fixture
@@ -51,11 +53,12 @@ def make_person_inst():
         name="rami malek",
         dob="Tuesday, May 12, 1981 (age: 38 years)",
         bio="RAMI SAID MALEK (EGYPTIAN BORN MAY 12, 1981) IS AN AMERICAN ACTOR AND PRODUCER. HIS BREAKTHROUGH ROLE WAS AS COMPUTER HACKER ELLIOT ALDERSON IN THE USA NETWORK TELEVISION SERIES MR. ROBOT (2015-2019), FOR WHICH HE RECEIVED SEVERAL ACCOLADES, INCLUDING THE 2016 PRIMETIME EMMY AWARD FOR OUTSTANDING LEAD ACTOR IN A DRAMA SERIES. IN 2018, HE PORTRAYED ROCK SINGER AND SONGWRITER ...",
-        awards=["not yet"]
+        awards=["not yet"],
     )
     return me
 
-#make stuff to test about
+
+# make stuff to test about
 @pytest.fixture()
 def new_issues():
     test_issues = issues()
@@ -77,7 +80,7 @@ def make_about_controller():
 # make years controller
 @pytest.fixture()
 def make_years_controller():
-    test_yrcontroller = YearController()
+    test_yrcontroller = CeremoniesController()
     return test_yrcontroller
 
 
@@ -87,8 +90,9 @@ def make_awards_controller():
     test_awardcontroller = AwardController()
     return test_awardcontroller
 
+
 # make movies controller
 @pytest.fixture()
 def make_movies_controller():
-    test_movcontroller = MovieController()
+    test_movcontroller = MoviesController()
     return test_movcontroller

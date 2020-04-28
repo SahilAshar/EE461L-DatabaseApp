@@ -1,18 +1,18 @@
 import wikipedia
-import os
-import requests
 import logging
 import time
-from controllers.movie_controller import MovieController
+from controllers.movies_controller import MoviesController
 
 LOGGER = logging.getLogger(__name__)
 
 
 class PopulateMovies:
+    def __init__(self):
+        self.mov_controller = MoviesController()
+
     def populate_movies(self):
         self.get_movie_list()
 
-        mov_controller = MovieController()
         movie_file = open("movies.txt", "r")
         movie_list = movie_file.readlines()
 
@@ -26,7 +26,7 @@ class PopulateMovies:
                 movie = movie.replace(" ", "+")
                 movie = movie.replace(",", "")
                 print("Posting movie: ", movie)
-                mov_controller.post(movie)
+                self.mov_controller.post(movie)
 
             low += 300
             if high >= len(movie_list):
@@ -44,8 +44,8 @@ class PopulateMovies:
         print("\n\nError File:\n" + contents)
 
     def update_attributes(self):
-        mov_controller = MovieController()
-        mov_controller.update_attributes_for_all_movies()
+
+        self.mov_controller.update_attributes_for_all_movies()
 
     # will get list of movies from wikipedia and populate txt file with titles
     def get_movie_list(self):

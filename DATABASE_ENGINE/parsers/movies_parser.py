@@ -1,52 +1,23 @@
 import logging
+
 import requests
 import wikipedia
 import wptools
 
-from .database_controller import db
-
-# from DATABASE_ENGINE.controllers.database_controller import db
+from documents.movies_documents import Movie, Nomination
 
 LOGGER = logging.getLogger(__name__)
 
 
-# each award nominated for or won - says winner/nominee in title
-class Nomination(db.Document):
-    award_title = db.StringField()
-    names = db.ListField(db.StringField())
-
-
-# query name is just name + " movie" to make sure api returns the movie and not just definition of word
-class Movie(db.Document):
-    query_title = db.StringField()
-    link_title = db.StringField()
-    title = db.StringField()
-    director = db.StringField()
-    year = db.StringField()
-    gross = db.StringField()
-    image_link = db.StringField()
-    nominations = db.ListField(db.ReferenceField(Nomination))
-
-    meta = {
-        "indexes": [
-            {
-                "fields": ["$title", "$director"],
-                "default_language": "english",
-                "weights": {"title": 10, "director": 3},
-            }
-        ]
-    }
-
-
-class MovieController:
+class MoviesParser:
     # clear movie_checker.txt when controller made. will write during post calls
-    # ! Comment this chunk out for production
-    # def __init__(self):
-    #     checker = open("movie_checker.txt", "w")
-    #     checker.truncate(0)
-    #     checker.close()
 
-    def post(self, title):
+    def __init__(self):
+        checker = open("DATABASE_ENGINE/populate/movie_checker.txt", "w")
+        checker.truncate(0)
+        checker.close()
+
+    def parse(self, title):
         checker = self.__get_checker_file()
 
         query_title = title.replace("-", "+")
@@ -71,11 +42,9 @@ class MovieController:
 
         wiki_img_link_str = self.__get_wiki_img_link(wkpage_title_str, checker)
 
-        link_str = movie_info_dict["title"]
-        link_str = link_str.lower()
-        link_str = link_str.replace(" ", "+")
+        link_str = movie_info_dict["title"].lower().replace(" ", "+")
 
-        mov = Movie(
+        movie = Movie(
             query_title=query_title,
             link_title=link_str,
             title=movie_info_dict["title"],
@@ -84,8 +53,6 @@ class MovieController:
             gross=gross,
             image_link=wiki_img_link_str,
         )
-
-        mov.save()
 
         # get string with all awards nominations
         mov_noms_str = self.__get_movie_noms_str(
@@ -96,58 +63,11 @@ class MovieController:
         mov_noms_list = self.__make_nom_list(mov_noms_str)
 
         # turn mov_noms_list into list of nomination objects and place into movie
-        mov.nominations = self.__make_nom_list_of_objs(mov_noms_list)
+        movie.nominations = self.__make_nom_list_of_objs(mov_noms_list)
 
-        mov.save()
-
-        print(Movie.objects.count())
         checker.close()
 
-        return mov
-
-    def get(self, query_title):
-        # format title to be same as query title in post
-        # query_title = title.replace("-", "+")
-
-        # now find movies in db that have same query_title as movie you want to get
-        try:
-            movies_found = Movie.objects(link_title__iexact=query_title).get()
-            return movies_found
-        except Exception as e:
-            message = f"Error: {e}"
-            LOGGER.exception(message)
-            return False
-
-        # movies_found should only have length 1 if populated correctly so will just return 1 movie
-
-    def get_paginated_movies(self, page, view):
-
-        if view == "descending":
-            paginated_movies = Movie.objects.order_by("-title").paginate(
-                page=page, per_page=9
-            )
-        elif view == "ascending":
-            paginated_movies = Movie.objects.order_by("+title").paginate(
-                page=page, per_page=9
-            )
-
-        return paginated_movies
-
-    def get_paginated_movies_search(self, page, search):
-
-        paginated_movies = (
-            Movie.objects.search_text(search)
-            .order_by("$text_score")
-            .paginate(page=page, per_page=9)
-        )
-
-        return paginated_movies
-
-    # ! Temp function for instance population
-    def get_all_nominations(self):
-        all_nomination_objects = Nomination.objects()
-
-        return all_nomination_objects
+        return movie
 
     def update_attributes_for_all_movies(self):
 
@@ -157,9 +77,9 @@ class MovieController:
 
             try:
                 query_title = movie.query_title
-                # wkpage_title_str = self.__find_wiki_page_title(query_title, checker)
+                wkpage_title_str = self.__find_wiki_page_title(query_title, checker)
 
-                # gross = self.__get_gross_from_infobox(wkpage_title_str)
+                gross = self.__get_gross_from_infobox(wkpage_title_str)
                 gross = self.__parse_gross(movie.gross)
 
                 movie.update(gross=gross)
@@ -171,7 +91,7 @@ class MovieController:
                 LOGGER.exception(message)
 
     def __get_checker_file(self):
-        return open("movie_checker.txt", "a+")
+        return open("DATABASE_ENGINE/populate/movie_checker.txt", "a+")
 
     def __get_movie_info_str(self, query_title, checker):
         try:
@@ -215,8 +135,8 @@ class MovieController:
                 print("Wolfram Movie Data Error: ", query_title)
                 checker.write("Wolfram Movie Data Error: " + query_title + "\n")
                 checker.flush()
-                # message = f"Error: {e}"
-                # LOGGER.exception(message)
+                message = f"Error: {e}"
+                LOGGER.exception(message)
                 return ""
 
     def __put_info_in_dict(self, movie_info_str):
@@ -297,8 +217,8 @@ class MovieController:
                 print("Wolfram Award Data Error: ", query_title)
                 checker.write("Wolfram Award Data Error: " + query_title + "\n")
                 checker.flush()
-                # message = f"Error: {e}"
-                # LOGGER.exception(message)
+                message = f"Error: {e}"
+                LOGGER.exception(message)
                 return ""
 
     def __make_nom_list(self, nom_list_str):
@@ -545,8 +465,3 @@ class MovieController:
             query_title = "la+ciociara"
 
         return query_title
-
-
-if __name__ == "__main__":
-    mov_controller = MovieController()
-    mov_controller.post("parasite")
