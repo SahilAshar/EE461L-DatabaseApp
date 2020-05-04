@@ -1,16 +1,16 @@
 import csv
-import json
 
-import requests
 import wikipedia
 
-from controllers.years_controller import YearController
+from controllers.ceremonies_controller import CeremoniesController
 
 
-class PopulateYears:
+class PopulateCeremonies:
+    def __init__(self):
+        self.c_controller = CeremoniesController()
+
     def update_attributes(self):
-        y_controller = YearController()
-        y_controller.update_attributes_for_all_years()
+        self.c_controller.update_attributes_for_all_years()
 
     def get_wiki_image_parser(self, search_term, ordinal_num):
 
@@ -50,7 +50,6 @@ class PopulateYears:
         return str(i) + suffix
 
     def populate_wiki_images(self):
-        y_controller = YearController()
 
         with open(
             "DATABASE_ENGINE/populate/ceremonies_copy.csv", newline=""
@@ -58,17 +57,16 @@ class PopulateYears:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 print(row["Ceremony"], row["Year"])
-                y_controller.post(row["Ceremony"], row["Year"])
+                self.c_controller.post(row["Ceremony"], row["Year"])
 
     def populate(self):
-        y_controller = YearController()
 
         # TODO: error with 2006, will debug later
         for year in range(2007, 2017):
-            y_controller.post(str(year))
+            self.c_controller.post(str(year))
             print("Completed : " + str(year))
 
 
 if __name__ == "__main__":
-    y = PopulateYears()
+    y = PopulateCeremonies()
     y.populate()

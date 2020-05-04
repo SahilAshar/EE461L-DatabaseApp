@@ -1,75 +1,17 @@
 import logging
-import os
-from urllib.error import HTTPError
 
 import requests
 import wikipedia
 import wptools
 
-from .database_controller import db, upload_blob
-
-"""
-    Design Choices
-        - Seperates functions that make API calls and functions that parse
-        strings for specifc values within a string
-"""
+from documents.ceremonies_documents import Year, YearAward, Nominee
 
 LOGGER = logging.getLogger(__name__)
 WOLFRAM_API_KEY = "RQV64G-3A2ALKAP6A"
 
 
-class Nominee(db.Document):
-    song = db.StringField()
-    name = db.StringField()
-    movie = db.StringField()
-
-
-class YearAward(db.Document):
-    title = db.StringField()
-    nominees = db.ListField(db.ReferenceField(Nominee))
-
-
-class Year(db.Document):
-    ceremony_name = db.StringField()
-    query_ceremony = db.StringField()
-    movies_year = db.StringField()
-    hosted_year = db.StringField()
-    host = db.StringField()
-    site = db.StringField()
-    ceremony_summary = db.StringField()
-    image_link = db.StringField()
-    awards = db.ListField(db.ReferenceField(YearAward))
-
-    meta = {
-        "indexes": [
-            {
-                "fields": [
-                    "$ceremony_name",
-                    "$movies_year",
-                    "$hosted_year",
-                    "$ceremony_summary",
-                ],
-                "default_language": "english",
-                "weights": {
-                    "ceremony_name": 10,
-                    "movies_year": 2,
-                    "hosted_year": 2,
-                    "ceremony_summary": 5,
-                },
-            }
-        ]
-    }
-
-
-class YearController:
-
-    # GET Request only for years
-    # No need for POST, no updating done
-    # Initial POST used for building DB
-
-    # TODO: Make POST uneccesary by abstracting Award logic elsewhere
-    def post(self, ceremony_name, year):
-
+class CeremoniesParser:
+    def parse(self, ceremony_name, year):
         hosted_year = str(int(year) + 1)
         movies_year = str(year)
 
@@ -97,10 +39,7 @@ class YearController:
         ceremony_summary_str = self.__get_ceremony_summary_str(wkpage)
         image_link_str = self.__get_image_link_str(wkpage)
 
-        wiki_image_name = self.__get_wiki_image_name(image_link_str)
-        wiki_image_link = self.__get_and_store_image(
-            query_ceremony, wiki_image_name, image_link_str
-        )
+        wiki_image_link = self.__get_and_store_image(query_ceremony, image_link_str)
 
         year = Year(
             ceremony_name=ceremony_name,
@@ -114,56 +53,11 @@ class YearController:
             awards=year_award_list,
         )
 
-        year.save()
-
         return year
-
-    # TODO: Change all of this to be DB query of all Award objects
-    # Query by year instead, and get all awards associated with that year
-    def get(self, query_ceremony):
-
-        matching_years = Year.objects(query_ceremony__iexact=query_ceremony).get()
-
-        return matching_years
-
-    def get_ceremony_name_by_year(self, query_year):
-
-        query_year = str(int(query_year) + 1)
-
-        matching_years = Year.objects(hosted_year__iexact=query_year).get()
-        return matching_years.query_ceremony
-
-    def get_paginated_years(self, page, view):
-
-        if view == "descending":
-            paginated_years = Year.objects.order_by("-hosted_year").paginate(
-                page=page, per_page=9
-            )
-        elif view == "ascending":
-            paginated_years = Year.objects.order_by("+hosted_year").paginate(
-                page=page, per_page=9
-            )
-
-        return paginated_years
-
-    def get_paginated_years_search(self, page, search):
-
-        paginated_years = (
-            Year.objects.search_text(search)
-            .order_by("$text_score")
-            .paginate(page=page, per_page=9)
-        )
-
-        return paginated_years
 
     def update_attributes_for_all_years(self):
 
         for year in Year.objects():
-            # query_name = person.query_name
-            # wkpage = self.__set_wiki_page(query_name)
-
-            # occupation = self.__get_occupation_from_infobox(wkpage)
-            # years_active = self.__get_years_active_from_infobox(wkpage)
 
             wkpage = self.__set_wiki_page(year.ceremony_name)
 
@@ -172,7 +66,6 @@ class YearController:
             host = self.__parse_host(host)
             site = self.__parse_site(site)
 
-            # person = Person(occupation=occupation, years_active=years_active)
             year.update(host=host, site=site)
             year.reload()
 
@@ -384,15 +277,7 @@ class YearController:
             LOGGER.exception(message)
             return ""
 
-    def __get_wiki_image_name(self, image_link_str):
-        try:
-            return image_link_str.split("/")[-1]
-        except Exception as e:
-            message = f"Error: {e}"
-            LOGGER.exception(message)
-            return ""
-
-    def __get_and_store_image(self, query_ceremony, wiki_image_name, image_link_str):
+    def __get_and_store_image(self, query_ceremony, image_link_str):
 
         try:
             print(image_link_str)
@@ -402,40 +287,3 @@ class YearController:
             message = f"Error: {e}"
             LOGGER.exception(message)
             return ""
-
-        # print(wiki_image_name)
-
-        # try:
-        #     if wiki_image_name == "":
-        #         raise KeyError
-
-        #     file_name = wiki_image_name
-
-        #     print(file_name)
-
-        #     r = requests.get(image_link_str, allow_redirects=True)
-        #     open("./temp/years/" + file_name, "wb").write(r.content)
-
-        #     file_name = file_name.replace(".JPG", ".jpg")
-
-        #     upload_blob(
-        #         "ceremony-images-databaseengine",
-        #         "./temp/years/" + file_name + "",
-        #         query_ceremony,
-        #     )
-
-        #     return (
-        #         "https://storage.googleapis.com/ceremony-images-databaseengine/"
-        #         + query_ceremony
-        #     )
-
-        # except Exception as e:
-        #     message = f"Error: {e}"
-        #     LOGGER.exception(message)
-        #     return ""
-
-
-if __name__ == "__main__":
-    y_controller = YearController()
-    y_controller.post(1995)
-    # year = y_controller.get(1995)

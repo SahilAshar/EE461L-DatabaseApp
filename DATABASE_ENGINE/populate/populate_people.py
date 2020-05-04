@@ -1,13 +1,15 @@
-from controllers.people_access_controller import PeopleAccessController
-from controllers.movie_controller import MovieController
-
-import os
+from controllers.people_controller import PeopleController
+from controllers.movies_controller import MoviesController
 
 
 class PopulatePeople:
+    def __init__(self):
+        self.m_controller = MoviesController()
+        self.p_controller = PeopleController()
+
     def print_names(self):
-        m_controller = MovieController()
-        all_nomination_objects = m_controller.get_all_nominations()
+
+        all_nomination_objects = self.m_controller.get_all_nominations()
 
         people_f = open("DATABASE_ENGINE/populate/people.txt", "w")
 
@@ -18,15 +20,15 @@ class PopulatePeople:
         people_f.close()
 
     def update_attributes(self):
-        pa_controller = PeopleAccessController()
-        pa_controller.update_attributes_for_all_people()
+
+        self.p_controller.update_attributes_for_all_people()
 
     def delete(self):
-        pa_controller = PeopleAccessController()
-        pa_controller.delete_blank_people()
+        self.p_controller = PeopleController()
+        self.p_controller.delete_blank_people()
 
     def populate(self):
-        pa_controller = PeopleAccessController()
+        self.pa_controller = PeopleController()
 
         # people_file_list = [
         #     "people_a.txt",
@@ -60,13 +62,6 @@ class PopulatePeople:
 
         for people_file_name in people_file_list:
 
-            # os.system("pwd")
-            # people_f = open("DATABASE_ENGINE/populate/people_txt/people_a.txt", "r")
-
-            # people_f = open(
-            #     "DATABASE_ENGINE/populate/people_txt/" + people_file_name, "r"
-            # )
-
             people_f = open("populate/people_txt/" + people_file_name, "r")
 
             people_list = people_f.readlines()
@@ -76,8 +71,8 @@ class PopulatePeople:
                 person = person.lower()
                 person = person.replace(" ", "+")
 
-                if pa_controller.get(person) is False:
-                    pa_controller.post(person)
+                if self.p_controller.get(person) is False:
+                    self.p_controller.post(person)
                     print(person)
                 else:
                     print(person + "already exists")
